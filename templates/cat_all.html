@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+{include file='head.html'}
+</head>
+
+<header id="header">
+  <div class="header_l header_return">
+    <a class="ico_10" onclick="history.back()"> 返回 </a>
+  </div>
+  <h1> 所有分类页 </h1>
+  <div class="header_r header_search">
+    <a class="ico_03"  onClick="showSearch()"> 搜索 </a>
+  </div>
+</header>
+
+<div class="clist">
+  <ul>
+    {foreach from=$pcat_array item=pcat_data}
+    <li class="crow level1">
+      <a class="crow_row" href="category.php?c_id={$pcat_data.id}">
+        <!-- <div class="crow_icon">
+          <img src="data/cat_ico/1403460448353647218.png" />
+        </div> -->
+        <div class="crow_title">
+          <span>{$pcat_data.name}</span>
+        </div>
+        {if count($pcat_data['cat_id'])}
+        <div class="crow_arrow">
+          <img src="css/images/ico_11.png">
+        </div>
+        {/if}
+        <div>&nbsp;</div>
+      </a>
+      {if count($pcat_data['cat_id'])}
+      <ul class="clist clist_sub clearfix" style="opacity: 1; display: none;">
+        <li class="crow"> 
+          {foreach from=$pcat_data['cat_id'] item=cat_data}
+          <a href="category.php?c_id={$cat_data.id}" class="crow_item crow_item_clear"> 
+            {$cat_data.name}
+          </a>
+          {/foreach}
+        </li>
+      </ul>
+      {/if}
+    </li>
+    {/foreach}
+  </ul>
+</div>
+
+{include file='foot.html'}
+
+<script type="text/javascript" src="http://static.chihuoyizu.cn/mobile/themes/default/js/zepto.min.js"></script> 
+<script type="text/javascript">
+/*头部搜索点击关闭或者弹出搜索框*/  
+function showSearch( ){
+  //document.getElementById("search_box").style.display="block";
+  $('#keywordfoot').focus();
+}
+
+/* 搜索验证 */
+function check(Id){
+  var strings = document.getElementById(Id).value;
+  if(strings.replace(/(^\s*)|(\s*$)/g, "").length == 0){
+    return false;
+  }
+  return true;
+}
+
+(function($) {
+  var btn_up = new Image(), btn_down = new Image();
+  btn_up.src = "http://static.chihuoyizu.cn/mobile/themes/default/images/ico_12.png";
+  btn_down.src = "http://static.chihuoyizu.cn/mobile/themes/default/images/ico_11.png";
+  var Menu = {
+    // 初始化事件
+    initEvent : function() {
+      $().ready(
+          function() {
+            $("div.clist").click(function(e) {
+              Menu.router(e);
+            });
+            $("#allClass").click(function(e) {
+              Menu.showMenu1();
+            });
+            $(window).on(
+                "hashchange",
+                function(e) {
+                  var name = decodeURIComponent(location.hash
+                      .replace(/^#/, ""));
+                  if (name != "") {
+                    Menu.showMenu3(name);
+                  }else{
+                    Menu.showMenu1();
+                  }
+                });
+          });
+    },
+    // 事件分发路油
+    router : function(_event) {
+      var target = $(_event.target || _event.srcElement);
+      var _tar = target.closest(".crow_row");
+
+      // 显示二级菜单
+      if (_tar.length > 0 &&
+          _tar.next('ul').length > 0) {
+        Menu.showMenu2(_tar);
+        /*var _gp = target.closest(".crow_row");// 点击事件对应此行的祖父级节点
+        var _top = _gp.offset().top;
+        setTimeout(function(){
+          if (_top > 100) {
+            window.scroll(0, _gp.offset().top);
+          } else {
+            window.scroll(0, _gp.offset().top - 50);
+          }         
+        },15)*/
+        _event.preventDefault();
+      }
+    },
+    // 显示一级菜单
+    showMenu1 : function() {
+      $("#contentsub").hide();
+      $("#content").show();
+    },
+    // 显示二级菜单
+    showMenu2 : function($curMenuDom) {
+      var next = $curMenuDom.next("ul");
+      if (next.css("display") == "none") {
+        //$("ul.clist_sub").hide();
+        //$("div.crow_arrow").each(function(i, dom) {
+        //  $(dom).html(btn_down.cloneNode(true));
+        //});
+        next.css("opacity", "0").show().animate({
+          opacity : 1
+        }, 500);
+        //next.show();
+        $("div.crow_arrow", $curMenuDom).html(btn_up.cloneNode(true));
+      } else {
+        next.hide();
+        $("div.crow_arrow", $curMenuDom).html(btn_down.cloneNode(true));
+      }
+    },
+    
+  }
+  window.Menu = Menu;
+  Menu.initEvent();// 初始化事件
+})($);
+</script>
+</body>
+</html>
