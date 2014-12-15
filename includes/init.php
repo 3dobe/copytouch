@@ -200,4 +200,14 @@ if (empty($_CFG['wap_config']))
     exit();
 }
 
+
+
+
+/* 必要语言包 */
+require_once(ROOT_PATH. 'languages/'. $_CFG['lang'] .'/common.php');
+
+/* 店名 版权 */
+$smarty->assign('shop_name', $GLOBALS['_CFG']['shop_name']);
+$smarty->assign('copyright', sprintf($GLOBALS['_LANG']['copyright'], date('Y'), $GLOBALS['_CFG']['shop_name']));
+
 ?>

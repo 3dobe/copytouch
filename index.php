@@ -17,17 +17,11 @@ define('IN_ECS', true);
 define('ECS_ADMIN', true);
 
 require(dirname(__FILE__) . '/includes/init.php');
-require(ROOT_PATH. 'languages/'. $_CFG['lang'] .'/common.php');
-
-
-/* 店名 版权 */
-$smarty->assign('shop_name', $GLOBALS['_CFG']['shop_name']);
-$smarty->assign('copyright', sprintf($GLOBALS['_LANG']['copyright'], date('Y'), $GLOBALS['_CFG']['shop_name']));
 
 /* 广告 */
-$flash_ads_xml = file_get_contents('../data/flash_data.xml');
-$flash_ads = simplexml_load_string($flash_ads_xml);
-$smarty->assign('flash_ads' , $flash_ads);
+$index_ads_xml = file_get_contents('../data/flash_data.xml');
+$index_ads = simplexml_load_string($index_ads_xml);
+$smarty->assign('index_ads' , $index_ads);
 
 /* 精品 */
 $best_goods = get_recommend_goods('best');
@@ -103,6 +97,7 @@ $smarty->assign('searchkeywords', $searchkeywords);
 
 $smarty->assign('wap_logo', $_CFG['wap_logo']);
 $smarty->assign('footer', get_footer());
+
 $smarty->display("index.html");
 
 ?>
