@@ -1,19 +1,5 @@
+{include file='header.html'}
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="Generator" content="ECSHOP v2.7.3" />
-<meta charset="utf-8" />
-<title>{$shop_name}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<meta name="format-detection" content="telephone=no" />
-<link href="http://www.okayworks.com/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<link href="css/ectouch.css?v=2014" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/TouchSlide.js"></script>
-</head>
-<body>
 <div id="page">
   <header id="header" >
     <div class="header_l"> <a class="ico_02" href="#menu"> 菜单栏 </a> </div>
@@ -237,8 +223,27 @@ TouchSlide({
     </div>
 </div>
 
-<script src="js/jquery-2.1.1.min.js"></script>
-<script>var Zepto = jQuery</script>
+
+<nav id="menu" style="display:None">
+  <ul>
+    {foreach from=$pcat_array item=pcat_data}
+    <li>
+      <a href="category.php?c_id={$pcat_data.id}">{$pcat_data.name}</a>
+      {if count($pcat_data['cat_id'])}
+        <ul>
+        {foreach from=$pcat_data['cat_id'] item=cat_data name=foo}
+          <li>
+            <a href='category.php?c_id={$cat_data.id}'>{$cat_data.name}</a>
+          </li>
+        {/foreach}
+        </ul>
+      {/if}
+    </li>
+    {/foreach}
+  </ul>
+</nav>
+
+<script src="js/jquery.mmenu.js"></script>
 <script type="text/javascript">
 Zepto(function($){
    var $nav = $('.global-nav'), $btnLogo = $('.global-nav__operate-wrap');
@@ -271,29 +276,6 @@ function get_search_box(){
   }
 }
 </script>
-
-<nav id="menu" style="display:None">
-  <ul>
-    {foreach from=$pcat_array item=pcat_data}
-    <li>
-      <a href="category.php?c_id={$pcat_data.id}">{$pcat_data.name}</a>
-      {if count($pcat_data['cat_id'])}
-        <ul>
-        {foreach from=$pcat_data['cat_id'] item=cat_data name=foo}
-          <li>
-            <a href='category.php?c_id={$cat_data.id}'>{$cat_data.name}</a>
-          </li>
-        {/foreach}
-        </ul>
-      {/if}
-    </li>
-    {/foreach}
-  </ul>
-</nav>
-
-
-<script type="text/javascript" src="js/jquery.mmenu.js"></script>
-<script type="text/javascript" src="js/ectouch.js"></script>
 <script type="text/javascript">
 window.onload = function(){
   $('#menu').css('display','');
@@ -312,5 +294,4 @@ $(function() {
   //})
 });
 </script>
-</body>
-</html>
+{include file='footer.html'}
