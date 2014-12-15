@@ -1,0 +1,31 @@
+<style>
+  header .fakeInput input {
+    background: none;
+    font-size: 14px;
+    height: 2.5rem;
+    width: 100%;
+    border: none;
+    text-align: left;
+    padding-left: 5%;
+  }
+</style>
+<script>
+  $(function(){
+    $('#search-form').on('submit', function(){
+      if (!$('#search-box').val()) {
+        return false
+      }
+    })
+    $('#search-form .search').on('click', function(){
+      $('#search-form').submit()
+    })
+  })
+</script>
+<header class="region">
+  <form id="search-form" action="search.php">
+    <div class="fakeInput box1 radius15">
+      <input type="text" placeholder="搜本站商品" name="keywords" id="search-box">
+      <div class="search ico_03"> </div>
+    </div>
+  </form>
+</header>

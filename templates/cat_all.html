@@ -8,12 +8,23 @@
   <div class="header_l header_return">
     <a class="ico_10" onclick="history.back()"> 返回 </a>
   </div>
-  <h1> 所有分类页 </h1>
-  <div class="header_r header_search">
-    <a class="ico_03"  onClick="showSearch()"> 搜索 </a>
+  <h1> 全部分类 </h1>
+  <div class="header_r">
+    <!-- <a class="ico_03"  onClick="showSearch()"> 搜索 </a> -->
+    <a class="ico_01" href="flow.php"> 购物车 </a>
   </div>
 </header>
 
+<div class="blank2"></div>
+{include file='search_box.html'}
+<div class="blank2"></div>
+
+<style>
+  .crow_row { display: block; line-height: 2.5rem; }
+  .crow_title {  line-height: 2.5rem; }
+  .crow_item { width: 49%; margin: 0; }
+  .crow_item_clear { font-size: 0.7rem; }
+</style>
 <div class="clist">
   <ul>
     {foreach from=$pcat_array item=pcat_data}
@@ -33,7 +44,7 @@
         <div>&nbsp;</div>
       </a>
       {if count($pcat_data['cat_id'])}
-      <ul class="clist clist_sub clearfix" style="opacity: 1; display: none;">
+      <ul class="clist clist_sub clearfix" style="opacity: 1;">
         <li class="crow"> 
           {foreach from=$pcat_data['cat_id'] item=cat_data}
           <a href="category.php?c_id={$cat_data.id}" class="crow_item crow_item_clear"> 

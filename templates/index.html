@@ -6,9 +6,13 @@
 
 <div id="page">
   <header id="header" >
-    <div class="header_l"> <a class="ico_02" href="#menu"> 菜单栏 </a> </div>
+    <div class="header_l">
+      <a class="ico_02" href="#menu"> 菜单栏 </a>
+    </div>
     <h1>{$shop_name}</h1>
-    <div class="header_r"> <a class="ico_01" href="flow.php"> 购物车 </a> </div>
+    <div class="header_r">
+      <a class="ico_01" href="flow.php"> 购物车 </a>
+    </div>
   </header>
 </div>
  
@@ -45,16 +49,7 @@ TouchSlide({
 <div class="blank2"> </div>
 <div id=content class="wrap">
   
-  <header class=region>
-    <div class=content>
-      <div id=fake-search>
-        <div class="fakeInput box1 radius15">
-          <button class="text" id="get_search_box" style="color:silver;">搜本站商品</button>
-          <div class="search ico_03"> </div>
-        </div>
-      </div>
-    </div>
-  </header>
+{include file='search_box.html'}
   
   <!-- <div class="region row row_category">
     <ul class="flex flex-f-row">
@@ -164,6 +159,9 @@ TouchSlide({
 {include file='foot.html'}
 
 <link href="css/global_nav.css?v=20140408" type="text/css" rel="stylesheet"/>
+<style>
+  .global-nav__nav-link { margin: 0 auto; }
+</style>
 <div class="global-nav">
     <div class="global-nav__nav-wrap">
         <div class="global-nav__nav-item">
@@ -175,7 +173,7 @@ TouchSlide({
         <div class="global-nav__nav-item">
             <a href="cat_all.php" class="global-nav__nav-link">
                 <i class="global-nav__iconfont global-nav__icon-category">&#xf0002;</i>
-                <span class="global-nav__nav-tit">分类</span>
+                <span class="global-nav__nav-tit">全部分类</span>
             </a>
         </div>
         <div class="global-nav__nav-item">
@@ -250,11 +248,7 @@ Zepto(function($){
   });
 })
 function get_search_box(){
-  try{
-    document.getElementById('get_search_box').click();
-  }catch(err){
-    document.getElementById('keywordfoot').focus();
-  }
+  $('#search-box').focus();
 }
 </script>
 <script type="text/javascript">
@@ -263,16 +257,6 @@ window.onload = function(){
 }
 $(function() {
   $('nav#menu').mmenu();
-  $('#get_search_box').click(function(){
-    //$(".mm-page").children('div').hide();
-    //$("#main-search").css('position','fixed').css('top','0px').css('width','100%').css('z-index','999').show();
-    //$('#keywordBox').focus();
-    $('#keywordfoot').focus();
-  })
-  //$("#main-search .close").click(function(){
-  //  $(".mm-page").children('div').show();
-  //  $("#main-search").hide();
-  //})
 });
 </script>
 </body>
