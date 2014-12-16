@@ -369,6 +369,27 @@ else
         $page = $max_page;
     }
 
+
+    //$sort = empty($_GET['sort']) ? '' : $_GET['sort'];
+    $sort = empty($_REQUEST['sort']) ? '' : $_REQUEST['sort'];
+    if ($sort == 'click') {
+      $sort = 'click';
+    } else if ($sort == 'price') {
+      $sort = 'price';
+    }
+    $smarty->assign('sort', $sort);
+
+    $order_rule = 'ORDER BY ';
+    if ($sort == '') {
+      $order_rule .= 'g.sort_order, g.goods_id DESC';
+    } else if ($sort == 'click') {
+      $order_rule .= 'g.click_count DESC, g.sort_order';
+    } else if ($sort == 'price') {
+      $order_rule .= 'g.shop_price, g.sort_order';
+    }
+    $smarty->assign('url_prefix', 'search.php?keywords='. $_REQUEST['keywords']);
+
+
     /* 查询商品 */
     $sql = "SELECT g.goods_id, g.goods_name, g.market_price, g.is_new, g.is_best, g.is_hot, g.shop_price AS org_price, ".
                 "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price, ".
@@ -378,30 +399,27 @@ else
                     "ON mp.goods_id = g.goods_id AND mp.user_rank = '$_SESSION[user_rank]' ".
             "WHERE g.is_delete = 0 AND g.is_on_sale = 1 AND g.is_alone_sale = 1 $attr_in ".
                 "AND (( 1 " . $categories . $keywords . $brand . $min_price . $max_price . $intro . $outstock . " ) ".$tag_where." ) " .
-            "ORDER BY $sort $order";
+            
+            //"ORDER BY $sort $order";
+            "$order_rule";
+
+
     $res = $db->SelectLimit($sql, $size, ($page - 1) * $size);
 
-    $arr = array();
+
+    $goods_list = array();
     while ($row = $db->FetchRow($res))
     {
-        if ($row['promote_price'] > 0)
-        {
-            $promote_price = bargain_price($row['promote_price'], $row['promote_start_date'], $row['promote_end_date']);
-        }
-        else
-        {
-            $promote_price = 0;
-        }
-
-        $arr[] = array(
-          'thumb' => get_image_path($row['goods_id'], $row['goods_thumb'], true),
-          'price' => price_format($row['shop_price']),
-          'id' => $row['goods_id'],
-          'name' => encode_output($row['goods_name'])
+        $price = empty($row['promote_price_org']) ? $row['shop_price'] : $row['promote_price'];
+        $goods_list[] = array(
+            'thumb' => $row['goods_thumb'],
+            'price' => price_format($price),
+            'id' => $row['goods_id'],
+            'name' => encode_output($row['goods_name'])
         );
     }
 
-    $smarty->assign('goods_data', $arr);
+    $smarty->assign('goods_list', $goods_list);
     $smarty->assign('keywords',   htmlspecialchars(stripslashes($_REQUEST['keywords'])));
     $smarty->assign('heading', htmlspecialchars(stripslashes('<'. $_REQUEST['keywords'] .'>')));
     $smarty->assign('search_keywords',   stripslashes($_REQUEST['keywords']));

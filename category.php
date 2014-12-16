@@ -71,6 +71,7 @@ else
     } else if ($sort == 'price') {
       $order_rule .= 'g.shop_price, g.sort_order';
     }
+    $smarty->assign('url_prefix', 'category.php?c_id='. $c_id);
 
 
     $cat_goods = assign_cat_goods($c_id, 0, 'wap', $order_rule);
@@ -92,24 +93,22 @@ else
         {
             $page = $pages;
         }
-        $i = 1;
-        foreach ($cat_goods['goods'] as $goods_data)
+        
+        $goods_list = array();
+        foreach ($cat_goods['goods'] as $goods)
         {
             //if (($i > ($page_num * ($page - 1 ))) && ($i <= ($page_num * $page)))
             //{
-                $price = empty($goods_info['promote_price_org']) ? $goods_data['shop_price'] : $goods_data['promote_price'];
-                //$wml_data .= "<a href='goods.php?id={$goods_data['id']}'>".encode_output($goods_data['name'])."</a>[".encode_output($price)."]<br/>";
-                $data[] = array(
-                    'thumb' => $goods_data['thumb'],
-                    'i' => $i ,
+                $price = empty($goods['promote_price_org']) ? $goods['shop_price'] : $goods['promote_price'];
+                $goods_list[] = array(
+                    'thumb' => $goods['thumb'],
                     'price' => encode_output($price) ,
-                    'id' => $goods_data['id'] ,
-                    'name' => encode_output($goods_data['name'])
+                    'id' => $goods['id'] ,
+                    'name' => encode_output($goods['name'])
                 );
             //}
-            $i++;
         }
-        $smarty->assign('goods_data', $data);
+        $smarty->assign('goods_list', $goods_list);
         $pagebar = get_wap_pager($num, $page_num, $page, 'category.php?c_id='.$c_id.'&order_price='.(empty($order_price)?0:$order_price), 'page');
         $smarty->assign('pagebar', $pagebar);
     }
