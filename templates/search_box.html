@@ -3,16 +3,28 @@
     background: none;
     font-size: 14px;
     height: 2.5rem;
-    width: 100%;
+    width: 70%;
     border: none;
     text-align: left;
-    padding-left: 5%;
+    margin-left: 8%;
   }
 </style>
 <script>
+  function get_search_box(){
+    $('#search-box').focus();
+  }
+
+  /* 搜索验证 */
+  function check(Id){
+    var strings = document.getElementById(Id).value;
+    if(strings.replace(/(^\s*)|(\s*$)/g, "").length == 0){
+      return false;
+    }
+    return true;
+  }
   $(function(){
     $('#search-form').on('submit', function(){
-      if (!$('#search-box').val()) {
+      if (!check('search-box')) {
         return false
       }
     })

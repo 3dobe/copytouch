@@ -3,6 +3,7 @@
 <head>
 {include file='head.html'}
 </head>
+<body>
 
 <div id="page">
   <header id="header" >
@@ -47,10 +48,10 @@ TouchSlide({
 });
 </script>
 <div class="blank2"> </div>
-<div id=content class="wrap">
-  
+<div id="content" class="wrap">
+
 {include file='search_box.html'}
-  
+
   <!-- <div class="region row row_category">
     <ul class="flex flex-f-row">
     
@@ -158,53 +159,11 @@ TouchSlide({
  
 {include file='foot.html'}
 
-<link href="css/global_nav.css?v=20140408" type="text/css" rel="stylesheet"/>
-<style>
-  .global-nav__nav-link { margin: 0 auto; }
-</style>
-<div class="global-nav">
-    <div class="global-nav__nav-wrap">
-        <div class="global-nav__nav-item">
-            <a href="./" class="global-nav__nav-link">
-                <i class="global-nav__iconfont global-nav__icon-index">&#xf0001;</i>
-                <span class="global-nav__nav-tit">首页</span>
-            </a>
-        </div>
-        <div class="global-nav__nav-item">
-            <a href="cat_all.php" class="global-nav__nav-link">
-                <i class="global-nav__iconfont global-nav__icon-category">&#xf0002;</i>
-                <span class="global-nav__nav-tit">全部分类</span>
-            </a>
-        </div>
-        <div class="global-nav__nav-item">
-            <a href="javascript:get_search_box();" class="global-nav__nav-link">
-                <i class="global-nav__iconfont global-nav__icon-search">&#xf0003;</i>
-                <span class="global-nav__nav-tit">搜索</span>
-            </a>
-        </div>
-        <div class="global-nav__nav-item">
-            <a href="flow.php?step=cart" class="global-nav__nav-link">
-                <i class="global-nav__iconfont global-nav__icon-shop-cart">&#xf0004;</i>
-                <span class="global-nav__nav-tit">购物车</span>
-                <span class="global-nav__nav-shop-cart-num" id="carId">0</span>
-            </a>
-        </div>
-        <div class="global-nav__nav-item">
-            <a href="user.php?act=order_list" class="global-nav__nav-link">
-                <i class="global-nav__iconfont global-nav__icon-my-yhd">&#xf0005;</i>
-                <span class="global-nav__nav-tit">我的订单</span>
-            </a>
-        </div>
-    </div>
-    <div class="global-nav__operate-wrap">
-        <span class="global-nav__yhd-logo"></span>
-        <span class="global-nav__operate-cart-num" id="globalId">0</span>
-    </div>
-</div>
-
-
 <nav id="menu" style="display:None">
   <ul>
+    <li>
+      <a href="cat_all.php">全部分类</a>
+    </li>
     {foreach from=$pcat_array item=pcat_data}
     <li>
       <a href="category.php?c_id={$pcat_data.id}">{$pcat_data.name}</a>
@@ -224,39 +183,9 @@ TouchSlide({
 
 <script src="js/jquery.mmenu.js"></script>
 <script type="text/javascript">
-Zepto(function($){
-   var $nav = $('.global-nav'), $btnLogo = $('.global-nav__operate-wrap');
-   //点击箭头，显示隐藏导航
-   $btnLogo.on('click',function(){
-     if($btnLogo.parent().hasClass('global-nav--current')){
-       navHide();
-     }else{
-       navShow();
-     }
-   });
-   var navShow = function(){
-     $nav.addClass('global-nav--current');
-   }
-   var navHide = function(){
-     $nav.removeClass('global-nav--current');
-   }
-   
-   $(window).on("scroll", function() {
-    if($nav.hasClass('global-nav--current')){
-      navHide();
-    }
-  });
-})
-function get_search_box(){
-  $('#search-box').focus();
-}
-</script>
-<script type="text/javascript">
-window.onload = function(){
-  $('#menu').css('display','');
-}
 $(function() {
   $('nav#menu').mmenu();
+  $('#menu').css('display','');
 });
 </script>
 </body>

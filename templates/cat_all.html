@@ -3,6 +3,7 @@
 <head>
 {include file='head.html'}
 </head>
+<body>
 
 <header id="header">
   <div class="header_l header_return">
@@ -15,15 +16,18 @@
   </div>
 </header>
 
+<div class="wrap">
 <div class="blank2"></div>
 {include file='search_box.html'}
-<div class="blank2"></div>
+</div>
 
+<div class="blank2"></div>
 <style>
   .crow_row { display: block; line-height: 2.5rem; }
-  .crow_title {  line-height: 2.5rem; }
-  .crow_item { width: 49%; margin: 0; }
+  .crow_title { margin-left: 1.2rem; line-height: 2.5rem; }
+  .crow_item { width: 50%; margin: 0; }
   .crow_item_clear { font-size: 0.7rem; }
+  .crow_item div { padding: 0 0.6rem; height: 2rem; overflow: hidden; }
 </style>
 <div class="clist">
   <ul>
@@ -48,7 +52,7 @@
         <li class="crow"> 
           {foreach from=$pcat_data['cat_id'] item=cat_data}
           <a href="category.php?c_id={$cat_data.id}" class="crow_item crow_item_clear"> 
-            {$cat_data.name}
+            <div>{$cat_data.name}</div>
           </a>
           {/foreach}
         </li>
@@ -63,21 +67,6 @@
 
 <script type="text/javascript" src="http://static.chihuoyizu.cn/mobile/themes/default/js/zepto.min.js"></script> 
 <script type="text/javascript">
-/*头部搜索点击关闭或者弹出搜索框*/  
-function showSearch( ){
-  //document.getElementById("search_box").style.display="block";
-  $('#keywordfoot').focus();
-}
-
-/* 搜索验证 */
-function check(Id){
-  var strings = document.getElementById(Id).value;
-  if(strings.replace(/(^\s*)|(\s*$)/g, "").length == 0){
-    return false;
-  }
-  return true;
-}
-
 (function($) {
   var btn_up = new Image(), btn_down = new Image();
   btn_up.src = "http://static.chihuoyizu.cn/mobile/themes/default/images/ico_12.png";
