@@ -43,6 +43,8 @@ else
     $smarty->assign('c_id', $c_id);
     $cat_name = $db->getOne('SELECT cat_name FROM ' . $ecs->table('category') . ' WHERE cat_id=' . $c_id);
     $smarty->assign('cat_name', encode_output($cat_name));
+    $smarty->assign('heading', encode_output($cat_name));
+
     if (!empty($cat_array[$c_id]['cat_id']))
     {
         foreach ($cat_array[$c_id]['cat_id'] as $key => $child_data)
@@ -123,6 +125,6 @@ else
 }
 
 $smarty->assign('footer', get_footer());
-$smarty->display('category.html');
+$smarty->display('goods_list.html');
 
 ?>

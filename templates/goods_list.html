@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+{include file='head.html'}
+</head>
+<body>
+
+<div id="page" style="right: 0px; left: 0px; display: block;">
+  <header id="header" style="z-index:1">
+    <div class="header_l">
+      <div class="header_l"> <a class="ico_10" href="cat_all.php"> 返回 </a> </div>
+      <!-- <a class="ico_02" href="#menu"> 菜单栏 </a> -->
+    </div>
+    <h1>{$heading}</h1>
+    <div class="header_r">
+      <!-- <a class="switchBtn switchBtn-album" href="javascript:void(0);"  onclick="changeCl(this)" style="opacity: 1;"> 切换 </a> -->
+      <a class="ico_01" href="flow.php"> 购物车 </a>
+    </div>
+  </header>
+  <div class="filter" style="position:static; top:0px; width:100%;">
+  <!-- <form method="GET" class="sort" name="listform"> -->
+    <style>
+    .filter .f-ico-arrow-d.up {
+      background-image: url(css/images/filter_up.png);
+    }
+    .filter li.filter-cur .f-ico-arrow-d.up {
+      background-image: url(css/images/filter_b_up.png);
+    }
+    </style>
+    <ul>
+      <li class="{if $sort eq ''}filter-cur{/if}">
+        <a href="category.php?c_id=3">综合<i class="f-ico-arrow-d"></i></a>
+      </li>
+      <li class="{if $sort eq 'click'}filter-cur{/if}">
+        <a href="category.php?c_id=3&sort=click">人气<i class="f-ico-arrow-d"></i></a>
+      </li>
+      <!-- <li class=""> <a href="category.php?category=3&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=sales_count&order=DESC#goods_list">销量</a></li> -->
+      <li class="{if $sort eq 'price'}filter-cur{/if}">
+        <a href="category.php?c_id=3&sort=price">价格<i class="f-ico-arrow-d up"></i> <!-- <span> <i class="f-ico-triangle-mt "></i> <i class="f-ico-triangle-mb "></i> </span> --> </a>
+      </li>
+      <!-- <li class="filter-navBtn"><a href="javascript:;" class="j_filterBtn disabled" onclick="mtShowMenu()">筛选</a></li> -->
+    </ul>
+    <!-- <input type="hidden" name="category" value="3" />
+    <input type="hidden" name="display" value="grid" id="display" />
+    <input type="hidden" name="brand" value="0" />
+    <input type="hidden" name="price_min" value="0" />
+    <input type="hidden" name="price_max" value="0" />
+    <input type="hidden" name="filter_attr" value="0" />
+    <input type="hidden" name="page" value="1" />
+    <input type="hidden" name="sort" value="goods_id" />
+    <input type="hidden" name="order" value="DESC" />
+  </form> -->
+</div>
+
+<style>
+  .srp { padding-bottom: 0; }
+  .srp.album .pro-inner { padding: 6px 0 42px; }
+  .srp.album .proInfo-wrap { height: 42px; }
+</style>
+<div class="srp album flex-f-row" id="J_ItemList" style="opacity:1;">
+  {foreach from=$goods_data item=goods}
+  <div class="product flex_in single_item" id="more_element_1">
+    <a href="goods.php?id={$goods.id}">
+      <div class="pro-inner">
+        <div class="proImg-wrap">
+          <img src="../../{$goods.thumb}" alt="{$goods.name}">
+        </div>
+        <div class="proInfo-wrap">
+          <div class="proTitle">
+            <a href="goods-1461.html">{$goods.name}</a>
+          </div>
+          <div class="proSKU"></div>
+          <div class="proPrice">
+            <em>{$goods.price}</em> 
+          </div>
+          <div class="proService">
+            <del>{$goods.market_price}</del>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  {/foreach}
+</div>
+
+{include file='foot.html'}
+
+<!-- <a href="javascript:;" class="get_more"></a>
+<script type="text/javascript" src="js/jquery.more.js"></script>
+<script type="text/javascript">
+jQuery(function($){
+  $('#J_ItemList').more({
+    'address': 'category.php?act=asynclist&category=3&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=goods_id&order=DESC',
+    'spinner_code':'<div style="text-align:center; margin:10px;"><img src="http://static.chihuoyizu.cn/mobile/themes/default/images/loader.gif" /></div>'
+  })
+  $(window).scroll(function () {
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+      $('.get_more').click();
+    }
+  });
+});
+</script> -->
+</body>
+</html>
