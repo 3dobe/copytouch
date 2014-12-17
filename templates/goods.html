@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+{include file='head.html'}
+</head>
+<body>
+
+<header id="header" >
+  <div class="header_l">
+    <a class="ico_10" href="javascript:history.back()"> 返回 </a>
+  </div>
+  <h1>{$goods.goods_name}</h1>
+  <div class="header_r">
+    <a class="ico_01" href="flow.php"> 购物车 </a>
+  </div>
+</header>
+
+<style>
+  .goods_slider .scroller ul li { padding: 0 4px; }
+  .goods_slider .scroller img { height: 100%; }
+</style>
+<section class="goods_slider">
+  <div class="blank2"></div>
+  <div id="slideBox" class="slideBox">
+    <div class="scroller">
+      <ul>
+        {foreach from=$goods.pictures item=pic}
+        <li>
+          <img alt="{$pic.img_desc}" src="../../{$pic.img_url}"/>
+        </li>
+        {/foreach}
+      </ul>
+    </div>
+
+    {if count($goods.pictures) lt 2}
+    <style>
+    .goods_slider .slideBox .icons { display: none; }
+    </style>
+    {/if}
+    <div class="icons">
+      <ul></ul>
+    </div>
+  </div>
+</section>
+<script type="text/javascript">
+TouchSlide({ 
+  slideCell:"#slideBox",
+  titCell:".icons ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+  mainCell:".scroller ul", 
+  effect:"leftLoop", 
+  autoPage:true,//自动分页
+  autoPlay:false //自动播放
+});
+function showPic(){
+  var data = document.getElementById("slideBox").className;
+  var reCat = /ui-gallery/;
+  //str1.indexOf(str2);
+  if( reCat.test(data) ){
+    document.getElementById("slideBox").className = 'slideBox';
+  }else{
+    document.getElementById("slideBox").className = 'slideBox ui-gallery';
+    //document.getElementById("slideBox").style.position = 'fixed';
+  }
+}
+</script> 
+ 
+<style>
+  .goodsInfo h1 { padding: 0 0 0.3rem; }
+  .goodsInfo a { text-decoration: underline; }
+</style>
+<section class="goodsInfo">
+  <!-- <a class="collect" id="collect_box" href="javascript:collect(1102)" style="display: inline;"></a> -->
+  <div class="title">
+    <h1> {$goods.goods_name} </h1>
+  </div>
+  <ul>
+    <li>本店售价：
+      <b class="price">{$goods.shop_price_formated}</b>
+    </li>
+    <li>市场价格：
+      <del>{$goods.market_price}</del>
+    </li>
+    <li>商品品牌：
+      <a href='brands.php?b_id={$goods_info.brand_id}'>{$brand_name}</a>
+    </li>
+    <li>商品分类：
+      {foreach from=$cat_array item=cat_data}
+        <a href='category.php?c_id={$cat_data.cat_id}'>{$cat_data.cat_name}</a>-&gt;
+      {/foreach}
+      {$goods.goods_name}
+    </li>
+  </ul>
+  <ul>
+    <!-- <li>月销量：0件</li> -->
+  </ul>
+</section>
+
+<div class="wrap">
+  <section class="goodsBuy radius5">
+    <input id="goodsBuy-open" type="checkbox">
+    <label class="info" for="goodsBuy-open">
+    <div>请选择<span></span><i></i></div>
+    <div class="selected"> </div>
+    </label>
+    <form>
+      <div class="fields" style="display:block">
+        <ul class="ul1">
+          <li>总价：<font id="ECS_GOODS_AMOUNT" class="price">{$goods.shop_price_formated}</font></li>
+          <li>库存：{$goods.goods_number} </li>
+        </ul>
+        <ul class="quantity">
+          <li>数量：
+            <span class="ui-number radius5"> 
+              <button type="button" class="decrease radius5" onclick="changenum(-1)">-</button>
+              <input class="num" name="number" id="goods_number" autocomplete="off" value="1" min="1" type="number" />
+              <button type="button" class="increase radius5" onclick="changenum(1)">+</button>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="option">
+        <button class="btn buy radius5" onClick="addToCart(true)">
+          立即购买
+        </button>
+        <button class="btn cart radius5" onclick="addToCart();">
+          <div class="ico_01"></div>加入购物车
+        </button>
+      </div>
+    </form>
+  </section>
+</div>
+
+<style>
+  .s-detail .desc { padding: 0.7rem; }
+  .s-detail .desc p {
+    -webkit-margin-before: 0;
+  }
+  .s-detail .desc table {
+    border-spacing: 1px;
+    border-collapse: separate;
+  }
+</style>
+
+{if $goods.goods_desc}
+<section class="s-detail">
+  <!-- <header>
+    <ul style="position: static;" id="detail_nav">
+      <li id="tabs1" onClick="tab(1)" class="current"> 详情 </li>
+      <li id="tabs2" onClick="tab(2)" class=""> 评价 <span class="review-count">(4)</span> </li>
+      <li id="tabs3" onClick="tab(3)" class=""> 热销 </li>
+    </ul>
+  </header> -->
+  <div id="tab1">
+    <div class="desc wrap">
+      {$goods.goods_desc}
+    </div>
+  </div>
+</section>
+{/if}
+
+{include file='foot.html'}
+
+<script type="text/javascript">
+var goods_id = {$goods_id};
+var goods_price = {$goods.shop_price};
+
+function addToCart(quick){
+
+}
+
+function changePrice(){
+  var $amount = $('#ECS_GOODS_AMOUNT')
+  var text = $amount.text()
+  var count = parseInt($('#goods_number').val())
+  var amount = count * goods_price
+  text = text.replace(/[\d\.]+/, amount)
+  $('#ECS_GOODS_AMOUNT').text(text)
+}
+
+// 筛选商品属性
+jQuery(function($) {
+  $(".info").click(function(){
+    $('.goodsBuy .fields').slideToggle("fast");
+  });
+})
+function changenum(diff) {
+  var num = parseInt(document.getElementById('goods_number').value);
+  var goods_number = num + Number(diff);
+  if( goods_number >= 1){
+    document.getElementById('goods_number').value = goods_number;//更新数量
+    changePrice();
+  }
+}
+</script>
+</body>
+</html>
