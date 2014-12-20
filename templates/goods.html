@@ -65,7 +65,7 @@ function showPic(){
 </script> 
  
 <style>
-  .goodsInfo h1 { padding: 0 0 0.3rem; }
+  .goodsInfo h1 { padding: 0; font-size: 1.2rem; }
   .goodsInfo a { text-decoration: underline; }
 </style>
 <section class="goodsInfo">
@@ -80,9 +80,11 @@ function showPic(){
     <li>市场价格：
       <del>{$goods.market_price}</del>
     </li>
+    {if $brand_name}
     <li>商品品牌：
       <a href='brands.php?b_id={$goods_info.brand_id}'>{$brand_name}</a>
     </li>
+    {/if}
     <li>商品分类：
       {foreach from=$cat_array item=cat_data}
         <a href='category.php?c_id={$cat_data.cat_id}'>{$cat_data.cat_name}</a>-&gt;
