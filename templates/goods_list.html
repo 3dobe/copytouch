@@ -9,17 +9,18 @@
   <header id="header" style="z-index:1">
     <div class="header_l">
       <div class="header_l">
-        <a class="ico_10" href="javascript:history.back()"> 返回 </a>
+        <a class="ico_10" href="javascript:history.back()"></a>
       </div>
     </div>
     <h1>{$heading}</h1>
     <div class="header_r">
-      <a class="ico_01" href="flow.php"> 购物车 </a>
+      <a class="ico_01" href="flow.php"></a>
     </div>
   </header>
   <div class="filter" style="position:static; top:0px; width:100%;">
   <!-- <form method="GET" class="sort" name="listform"> -->
     <style>
+    .filter i { margin-left: 0.33rem; }
     .filter .f-ico-arrow-d.up {
       background-image: url(css/images/filter_up.png);
     }
@@ -29,14 +30,14 @@
     </style>
     <ul>
       <li class="{if $sort eq ''}filter-cur{/if}">
-        <a href="{$url_prefix}">日期<i class="f-ico-arrow-d"></i></a>
+        <a href="{$url_prefix}">{$lang.new}<i class="f-ico-arrow-d"></i></a>
       </li>
       <li class="{if $sort eq 'click'}filter-cur{/if}">
-        <a href="{$url_prefix}&sort=click">人气<i class="f-ico-arrow-d"></i></a>
+        <a href="{$url_prefix}&sort=click">{$lang.hot}<i class="f-ico-arrow-d"></i></a>
       </li>
       <!-- <li class=""> <a href="category.php?category=3&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=sales_count&order=DESC#goods_list">销量</a></li> -->
       <li class="{if $sort eq 'price'}filter-cur{/if}">
-        <a href="{$url_prefix}&sort=price">价格<i class="f-ico-arrow-d up"></i> <!-- <span> <i class="f-ico-triangle-mt "></i> <i class="f-ico-triangle-mb "></i> </span> --> </a>
+        <a href="{$url_prefix}&sort=price">{$lang.price}<i class="f-ico-arrow-d up"></i> <!-- <span> <i class="f-ico-triangle-mt "></i> <i class="f-ico-triangle-mb "></i> </span> --> </a>
       </li>
       <!-- <li class="filter-navBtn"><a href="javascript:;" class="j_filterBtn disabled" onclick="mtShowMenu()">筛选</a></li> -->
     </ul>

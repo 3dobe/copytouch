@@ -106,9 +106,9 @@ if ($num > 0)
     $smarty->assign('goods_list', $goods_list);
 
     $headings = array(
-      'hot' => '热门商品',
-      'best' => '精品推荐',
-      'new' => '最新上架'
+      'hot' => $GLOBALS['_LANG']['hot_goods'],
+      'best' => $GLOBALS['_LANG']['best_goods'],
+      'new' => $GLOBALS['_LANG']['new_goods']
     );
     $smarty->assign('heading', $headings[$type]);
 

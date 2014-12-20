@@ -1,19 +1,35 @@
 <link href="css/global_nav.css?v=20140408" type="text/css" rel="stylesheet"/>
 <style>
   .global-nav__nav-link { margin: 0 auto; }
+  .global-nav__yhd-text {
+    color: white;
+    font-weight: bold;
+    font-size: 0.95rem;
+    text-align: center;
+    line-height: 57px;
+  }
+  .global-nav__operate-wrap:after {
+    content: none
+  }
+  .global-nav--current .global-nav__operate-wrap:after {
+    content: '';
+  }
+  .global-nav--current .global-nav__yhd-text {
+    display: none;
+  }
 </style>
 <div class="global-nav">
     <div class="global-nav__nav-wrap">
         <div class="global-nav__nav-item">
             <a href="./" class="global-nav__nav-link">
                 <i class="global-nav__iconfont global-nav__icon-index">&#xf0001;</i>
-                <span class="global-nav__nav-tit">首页</span>
+                <span class="global-nav__nav-tit">{$lang.home}</span>
             </a>
         </div>
         <div class="global-nav__nav-item">
             <a href="cat_all.php" class="global-nav__nav-link">
                 <i class="global-nav__iconfont global-nav__icon-category">&#xf0002;</i>
-                <span class="global-nav__nav-tit">全部分类</span>
+                <span class="global-nav__nav-tit">{$lang.cat_all}</span>
             </a>
         </div>
         <!-- <div class="global-nav__nav-item">
@@ -25,19 +41,20 @@
         <div class="global-nav__nav-item">
             <a href="flow.php?step=cart" class="global-nav__nav-link">
                 <i class="global-nav__iconfont global-nav__icon-shop-cart">&#xf0004;</i>
-                <span class="global-nav__nav-tit">购物车</span>
+                <span class="global-nav__nav-tit">{$lang.cart}</span>
                 <span class="global-nav__nav-shop-cart-num" id="carId">0</span>
             </a>
         </div>
         <div class="global-nav__nav-item">
             <a href="user.php?act=order_list" class="global-nav__nav-link">
                 <i class="global-nav__iconfont global-nav__icon-my-yhd">&#xf0005;</i>
-                <span class="global-nav__nav-tit">我的订单</span>
+                <span class="global-nav__nav-tit">{$lang.my_orders}</span>
             </a>
         </div>
     </div>
     <div class="global-nav__operate-wrap">
-        <span class="global-nav__yhd-logo"></span>
+        <!-- <span class="global-nav__yhd-logo">{$lang.menu}</span> -->
+        <div class="global-nav__yhd-text">{$lang.menu}</div>
         <span class="global-nav__operate-cart-num" id="globalId">0</span>
     </div>
 </div>

@@ -7,11 +7,11 @@
 
 <header id="header" >
   <div class="header_l">
-    <a class="ico_10" href="javascript:history.back()"> 返回 </a>
+    <a class="ico_10" href="javascript:history.back()"></a>
   </div>
   <h1>{$goods.goods_name}</h1>
   <div class="header_r">
-    <a class="ico_01" href="flow.php"> 购物车 </a>
+    <a class="ico_01" href="flow.php"></a>
   </div>
 </header>
 
@@ -71,23 +71,25 @@ function showPic(){
 <section class="goodsInfo">
   <!-- <a class="collect" id="collect_box" href="javascript:collect(1102)" style="display: inline;"></a> -->
   <div class="title">
-    <h1> {$goods.goods_name} </h1>
+    <h1>{$goods.goods_name}</h1>
   </div>
   <ul>
-    <li>本店售价：
+    <li>
+      {$lang.shop_price}{$lang.colon}
       <b class="price">{$goods.shop_price_formated}</b>
     </li>
-    <li>市场价格：
+    <li>
+      {$lang.market_price}{$lang.colon}
       <del>{$goods.market_price}</del>
     </li>
     {if $brand_name}
-    <li>商品品牌：
+    <li>{$lang.brand}{$lang.colon}
       <a href='brands.php?b_id={$goods_info.brand_id}'>{$brand_name}</a>
     </li>
     {/if}
-    <li>商品分类：
+    <li>{$lang.category}{$lang.colon}
       {foreach from=$cat_array item=cat_data}
-        <a href='category.php?c_id={$cat_data.cat_id}'>{$cat_data.cat_name}</a>-&gt;
+        <a href='category.php?c_id={$cat_data.cat_id}'>{$cat_data.cat_name}</a>&nbsp;&nbsp;&gt;
       {/foreach}
       {$goods.goods_name}
     </li>
@@ -101,17 +103,23 @@ function showPic(){
   <section class="goodsBuy radius5">
     <input id="goodsBuy-open" type="checkbox">
     <label class="info" for="goodsBuy-open">
-    <div>请选择<span></span><i></i></div>
+    <div>{$lang.please}<span></span><i></i></div>
     <div class="selected"> </div>
     </label>
     <form>
       <div class="fields" style="display:block">
         <ul class="ul1">
-          <li>总价：<font id="ECS_GOODS_AMOUNT" class="price">{$goods.shop_price_formated}</font></li>
-          <li>库存：{$goods.goods_number} </li>
+          <li>
+            {$lang.total_price}{$lang.colon}
+            <font id="ECS_GOODS_AMOUNT" class="price">{$goods.shop_price_formated}</font>
+          </li>
+          <li>
+            {$lang.number}{$lang.colon}{$goods.goods_number}
+          </li>
         </ul>
         <ul class="quantity">
-          <li>数量：
+          <li>
+            {$lang.quantity}{$lang.colon}
             <span class="ui-number radius5"> 
               <button type="button" class="decrease radius5" onclick="changenum(-1)">-</button>
               <input class="num" name="number" id="goods_number" autocomplete="off" value="1" min="1" type="number" />
@@ -122,10 +130,11 @@ function showPic(){
       </div>
       <div class="option">
         <button class="btn buy radius5" onClick="addToCart(true)">
-          立即购买
+          {$lang.buy_now}
         </button>
         <button class="btn cart radius5" onclick="addToCart();">
-          <div class="ico_01"></div>加入购物车
+          <div class="ico_01"></div>
+          {$lang.add_to_cart}
         </button>
       </div>
     </form>

@@ -8,11 +8,11 @@
 <div id="page">
   <header id="header" >
     <div class="header_l">
-      <a class="ico_02" href="#menu"> 菜单栏 </a>
+      <a class="ico_02" href="#menu"></a>
     </div>
     <h1>{$shop_name}</h1>
     <div class="header_r">
-      <a class="ico_01" href="flow.php"> 购物车 </a>
+      <a class="ico_01" href="flow.php"></a>
     </div>
   </header>
 </div>
@@ -99,7 +99,7 @@ TouchSlide({
 <div class="blank2"></div>
 <section class="item_show_box1 box1 region">
   <header>
-      <span>热门商品</span>
+      <span>{$lang.hot_goods}</span>
       <a href="goods_list.php?type=hot" class="ico_04 more">
       </a>
   </header>
@@ -123,7 +123,7 @@ TouchSlide({
 <div class="blank2"></div>
 <section class="item_show_box1 box1 region">
   <header>
-      <span>精品推荐</span>
+      <span>{$lang.best_goods}</span>
       <a href="goods_list.php?type=best" class="ico_04 more">
       </a>
   </header>
@@ -147,7 +147,7 @@ TouchSlide({
 <div class="blank2"></div>
 <section class="item_show_box1 box1 region">
   <header>
-      <span>最新上架</span>
+      <span>{$lang.new_goods}</span>
       <a href="goods_list.php?type=new" class="ico_04 more">
       </a>
   </header>
@@ -173,7 +173,7 @@ TouchSlide({
 <nav id="menu" style="display:None">
   <ul>
     <li>
-      <a href="cat_all.php">全部分类</a>
+      <a href="cat_all.php">{$lang.cat_all}</a>
     </li>
     {foreach from=$pcat_array item=pcat_data}
     <li>

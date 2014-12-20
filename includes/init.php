@@ -203,11 +203,13 @@ if (empty($_CFG['wap_config']))
 
 
 
-/* 必要语言包 */
-require_once(ROOT_PATH. 'languages/'. $_CFG['lang'] .'/common.php');
+/* 移动版 语言包 */
+//$_CFG['lang'] = 'en_us';
+require(ROOT_PATH. 'm/lang/'. $_CFG['lang'] .'.php');
+$smarty->assign('lang', $GLOBALS['_LANG']);
 
 /* 店名 版权 */
 $smarty->assign('shop_name', $GLOBALS['_CFG']['shop_name']);
-$smarty->assign('copyright', sprintf($GLOBALS['_LANG']['copyright'], date('Y'), $GLOBALS['_CFG']['shop_name']));
+$smarty->assign('year', date('Y'));
 
 ?>
