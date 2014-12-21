@@ -99,6 +99,21 @@ function showPic(){
   </ul>
 </section>
 
+<style>
+  .goodsBuy .fields .ul1 {
+    padding: 0 0 0.7rem;
+  }
+  .goodsBuy .fields .quantity {
+    padding: 0 0 0.1rem;
+  }
+  .fields .spec {
+    padding: 0.8rem 0;
+  }
+  .fields .spec input {
+    vertical-align: middle;
+    zoom: 140%;
+  }
+</style>
 <div class="wrap">
   <section class="goodsBuy radius5">
     <input id="goodsBuy-open" type="checkbox">
@@ -106,8 +121,43 @@ function showPic(){
     <div>{$lang.please}<span></span><i></i></div>
     <div class="selected"> </div>
     </label>
-    <form>
+    <form onsubmit="return false" onchange="changePrice()">
       <div class="fields" style="display:block">
+        <ul class="spec">
+          {foreach from=$specification item=spec key=spec_key}
+          <li>
+            {$spec.name}:<br />
+            {if $spec.attr_type eq 1}
+              {foreach from=$spec.values item=value key=key}
+              <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if}/>
+              <label for="spec_value_{$value.id}">
+                {$value.label}
+                {if $value.price}
+                [{if $value.price gt 0}+
+                {elseif $value.price lt 0}-{/if} {$value.format_price|abs}]
+                {/if}
+              </label>
+              <br />
+              {/foreach}
+              <input type="hidden" name="spec_list" value="{$key}" />
+            {else}
+              {foreach from=$spec.values item=value key=key}
+              <input type="checkbox"
+              {if $value.price}data-price="{$value.price}"{/if}
+              name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if}/>
+              <label for="spec_value_{$value.id}">
+                {$value.label}
+                {if $value.price}
+                [{if $value.price gt 0}+{elseif $value.price lt 0}-{/if}{$value.format_price|abs}]
+                {/if}
+              </label>
+              <br />
+              {/foreach}
+              <input type="hidden" name="spec_list" value="{$key}" />
+            {/if}
+          </li>
+          {/foreach}
+        </ul>
         <ul class="ul1">
           <li>
             {$lang.total_price}{$lang.colon}
@@ -172,11 +222,14 @@ function showPic(){
 {include file='foot.html'}
 
 <script type="text/javascript">
+// 必须有分号 smarty坑
 var goods_id = {$goods_id};
 var goods_price = {$goods.shop_price};
+changePrice();
 
 function addToCart(quick){
-
+  var $form = $('.goodsBuy form')
+  console.log($form.serializeArray())
 }
 
 function changePrice(){
@@ -184,6 +237,12 @@ function changePrice(){
   var text = $amount.text()
   var count = parseInt($('#goods_number').val())
   var amount = count * goods_price
+
+  $('.fields .spec input[data-price]:checked')
+    .each(function(i, el){
+      amount += Number($(el).attr('data-price'))
+    })
+
   text = text.replace(/[\d\.]+/, amount)
   $('#ECS_GOODS_AMOUNT').text(text)
 }
