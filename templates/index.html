@@ -169,35 +169,7 @@ TouchSlide({
 </div>
  
 {include file='foot.html'}
+{include file='cat_menu.html'}
 
-<nav id="menu" style="display:None">
-  <ul>
-    <li>
-      <a href="cat_all.php">{$lang.cat_all}</a>
-    </li>
-    {foreach from=$pcat_array item=pcat_data}
-    <li>
-      <a href="category.php?c_id={$pcat_data.id}">{$pcat_data.name}</a>
-      {if count($pcat_data['cat_id'])}
-        <ul>
-        {foreach from=$pcat_data['cat_id'] item=cat_data name=foo}
-          <li>
-            <a href='category.php?c_id={$cat_data.id}'>{$cat_data.name}</a>
-          </li>
-        {/foreach}
-        </ul>
-      {/if}
-    </li>
-    {/foreach}
-  </ul>
-</nav>
-
-<script src="js/jquery.mmenu.js"></script>
-<script type="text/javascript">
-$(function() {
-  $('nav#menu').mmenu();
-  $('#menu').css('display','');
-});
-</script>
 </body>
 </html>

@@ -225,6 +225,7 @@ function showPic(){
 // 必须有分号 smarty坑
 var goods_id = {$goods_id};
 var goods_price = {$goods.shop_price};
+var stock_number = {$goods.goods_number};
 changePrice();
 
 function addToCart(quick){
@@ -238,7 +239,7 @@ function changePrice(){
   var count = parseInt($('#goods_number').val())
   var amount = count * goods_price
 
-  $('.fields .spec input[data-price]:checked')
+  $('.spec input[data-price]:checked')
     .each(function(i, el){
       amount += Number($(el).attr('data-price'))
     })
@@ -254,10 +255,10 @@ jQuery(function($) {
   });
 })
 function changenum(diff) {
-  var num = parseInt(document.getElementById('goods_number').value);
-  var goods_number = num + Number(diff);
-  if( goods_number >= 1){
-    document.getElementById('goods_number').value = goods_number;//更新数量
+  var num = parseInt($('#goods_number').val());
+  var next_num = num + Number(diff);
+  if( next_num >= 1 && next_num <= stock_number){
+    $('#goods_number').val(next_num);//更新数量
     changePrice();
   }
 }

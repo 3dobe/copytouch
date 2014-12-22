@@ -10,7 +10,7 @@ $_LANG = array(
   'copytail' => '版权所有，并保留所有权利。',
 
   // search_box.html
-  'search' => '搜索本站商品'
+  'search' => '搜索本站商品',
 
   // goods_list.html
   'new' => '新品',
@@ -23,7 +23,7 @@ $_LANG = array(
   'new_goods' => '新品上架',
 
   // goods.html
-  'colon': => '：',
+  'colon' => '：',
   'shop_price' => '本店售价',
   'market_price' => '本店售价',
   'brand' => '商品品牌',
