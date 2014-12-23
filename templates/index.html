@@ -98,11 +98,13 @@ TouchSlide({
 {if count($hot_goods) > 0}
 <div class="blank2"></div>
 <section class="item_show_box1 box1 region">
-  <header>
+  <a href="goods_list.php?type=hot">
+    <header>
       <span>{$lang.hot_goods}</span>
-      <a href="goods_list.php?type=hot" class="ico_04 more">
-      </a>
-  </header>
+      <span class="ico_04 more">
+      </span>
+    </header>
+  </a>
   <div class="flex flex-f-row">
     {foreach from=$hot_goods item=goods}
       <div class="goodsItem flex_in">
@@ -122,11 +124,13 @@ TouchSlide({
 {if count($best_goods) > 0}
 <div class="blank2"></div>
 <section class="item_show_box1 box1 region">
-  <header>
+  <a href="goods_list.php?type=best">
+    <header>
       <span>{$lang.best_goods}</span>
-      <a href="goods_list.php?type=best" class="ico_04 more">
-      </a>
-  </header>
+      <span class="ico_04 more">
+      </span>
+    </header>
+  </a>
   <div class="flex flex-f-row">
     {foreach from=$best_goods item=goods}
       <div class="goodsItem flex_in">
@@ -146,11 +150,13 @@ TouchSlide({
 {if count($new_goods) > 0}
 <div class="blank2"></div>
 <section class="item_show_box1 box1 region">
-  <header>
+  <a href="goods_list.php?type=new">
+    <header>
       <span>{$lang.new_goods}</span>
-      <a href="goods_list.php?type=new" class="ico_04 more">
-      </a>
-  </header>
+      <span class="ico_04 more">
+      </span>
+    </header>
+  </a>
   <div class="flex flex-f-row">
     {foreach from=$new_goods item=goods}
       <div class="goodsItem flex_in">

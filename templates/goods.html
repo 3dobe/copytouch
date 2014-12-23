@@ -17,7 +17,7 @@
 
 <style>
   .goods_slider .scroller ul li { padding: 0 4px; }
-  .goods_slider .scroller img { height: 100%; }
+  /*.goods_slider .scroller img { height: 100%; }*/
 </style>
 <section class="goods_slider">
   <div class="blank2"></div>
@@ -65,14 +65,13 @@ function showPic(){
 </script> 
  
 <style>
+  .goodsInfo { padding-top: 1rem; }
   .goodsInfo h1 { padding: 0; font-size: 1.2rem; }
   .goodsInfo a { text-decoration: underline; }
 </style>
 <section class="goodsInfo">
   <!-- <a class="collect" id="collect_box" href="javascript:collect(1102)" style="display: inline;"></a> -->
-  <div class="title">
-    <h1>{$goods.goods_name}</h1>
-  </div>
+  <h1>{$goods.goods_name}</h1>
   <ul>
     <li>
       {$lang.shop_price}{$lang.colon}
@@ -107,11 +106,14 @@ function showPic(){
     padding: 0 0 0.1rem;
   }
   .fields .spec {
-    padding: 0.8rem 0;
+    padding: 0.4rem 0 0.8rem;
   }
+  .fields .spec > li { padding: 6px 0; }
+  .fields .spec > li > div { padding-bottom: 4px; }
   .fields .spec input {
     vertical-align: middle;
     zoom: 140%;
+    margin-left: 6px;
   }
 </style>
 <div class="wrap">
@@ -126,7 +128,7 @@ function showPic(){
         <ul class="spec">
           {foreach from=$specification item=spec key=spec_key}
           <li>
-            {$spec.name}:<br />
+            <div>{$spec.name}{$lang.colon}</div>
             {if $spec.attr_type eq 1}
               {foreach from=$spec.values item=value key=key}
               <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if}/>
@@ -137,7 +139,6 @@ function showPic(){
                 {elseif $value.price lt 0}-{/if} {$value.format_price|abs}]
                 {/if}
               </label>
-              <br />
               {/foreach}
               <input type="hidden" name="spec_list" value="{$key}" />
             {else}
@@ -151,7 +152,6 @@ function showPic(){
                 [{if $value.price gt 0}+{elseif $value.price lt 0}-{/if}{$value.format_price|abs}]
                 {/if}
               </label>
-              <br />
               {/foreach}
               <input type="hidden" name="spec_list" value="{$key}" />
             {/if}
@@ -172,7 +172,7 @@ function showPic(){
             {$lang.quantity}{$lang.colon}
             <span class="ui-number radius5"> 
               <button type="button" class="decrease radius5" onclick="changenum(-1)">-</button>
-              <input class="num" name="number" id="goods_number" autocomplete="off" value="1" min="1" type="number" />
+              <input class="num" name="number" id="goods_number" autocomplete="off" value="1" type="number" onchange="changenum(0)" />
               <button type="button" class="increase radius5" onclick="changenum(1)">+</button>
             </span>
           </li>
@@ -255,12 +255,15 @@ jQuery(function($) {
   });
 })
 function changenum(diff) {
-  var num = parseInt($('#goods_number').val());
-  var next_num = num + Number(diff);
-  if( next_num >= 1 && next_num <= stock_number){
-    $('#goods_number').val(next_num);//更新数量
-    changePrice();
+  var num = parseInt($('#goods_number').val())
+  var next_num = num + Number(diff)
+  if (next_num < 1){
+    next_num = 1
+  } else if (next_num > stock_number) {
+    next_num = stock_number
   }
+  $('#goods_number').val(next_num)
+  changePrice()
 }
 </script>
 </body>
