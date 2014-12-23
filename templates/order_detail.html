@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+{include file='head.html'}
+</head>
+<body>
+
+<header id="header" >
+  <div class="header_l">
+    <a class="ico_10" href="javascript:history.back()"></a>
+  </div>
+  <h1>订单详情</h1>
+  <div class="header_r">
+    <a class="ico_01" href="flow.php"></a>
+  </div>
+</header>
+
+<section class="wrap">
+
+  <style>
+    .pay_box br {
+      display: none;
+    }
+  </style>
+  <section class="order_box padd1 radius10">
+    <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
+      <tr>
+        <td>订单编号：{$order.order_sn}</td>
+      </tr>
+      <tr>
+        <td>下单时间：{$order.formated_add_time}</td>
+      </tr>
+      <tr>
+        <td>订单金额：{$order.formated_total_fee}</td>
+      </tr>
+      <tr>
+        <td>支付方式：{$order.pay_name}</td>
+      </tr>
+      <tr>
+        <td>支付状态：{$order.pay_status}</td>
+      </tr>
+      {if $order.pay_online}
+      <tr class="pay_box">
+        <td>{$order.pay_online}</td>
+      </tr>
+      {/if}
+      <tr>
+        <td>订单状态：{$order.order_status}</td>
+      </tr>
+      <tr>
+        <td>运送状态：{$order.shipping_status}</td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="order_box padd1 radius10">
+    <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
+      <tr>
+        <td align="right">配送方式：</td>
+        <td align="left">{$order.shipping_name}</td>
+      </tr>
+      <tr>
+        <td width="45%" align="right">收货人：</td>
+        <td width="55%" align="left">{$order.consignee}</td>
+      </tr>
+      {if $order.tel}
+      <tr>
+        <td align="right">电话号码：</td>
+        <td align="left">{$order.tel}</td>
+      </tr>
+      {/if}
+      {if $order.email}
+      <tr>
+        <td align="right">电子邮件：</td>
+        <td align="left">{$order.email}</td>
+      </tr>
+      {/if}
+    </table>
+  </section>
+  
+  <section class="order_box padd1 radius10">
+    <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
+      {foreach from=$goods_list item=goods}
+      <tr>
+        <!-- <td rowspan="2" width="60" align="center" valign="middle" style="border-bottom:1px #CCCCCC dashed">
+          <a href="goods.php?id=1161" target="_blank"><img src="http://img.chihuoyizu.cn/images/201411/13/1415814056211628918.jpg@1e_175w_175h_1c_0i_1o_90Q_1x.jpg" width="60" height="60" /></a>
+        </td> -->
+        <td>{$goods.goods_name}</td>
+      </tr>
+      <tr>
+        <td style="border-bottom:1px #CCCCCC dashed">售价：{$goods.goods_price} 数量：{$goods.goods_number}<br>小计：{$goods.subtotal}</td>
+      </tr>
+      {/foreach}
+    </table>
+    <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
+      <tr>
+        <td align="right"> 商品总价: {$order.formated_goods_amount} + 配送费用: {$order.formated_shipping_fee}</td>
+      </tr>
+      <tr>
+        <td align="right">应付款金额: {$order.formated_order_amount}</td>
+      </tr>
+      {if $order.how_oos_name}
+      <tr>
+        <td width="15%" align="right" bgcolor="#ffffff">缺货处理：</td>
+        <td colspan="3" align="left" bgcolor="#ffffff">{$order.how_oos_name}</td>
+      </tr>
+      {/if}
+    </table>
+  </section>
+</section>
+
+{include file='foot.html'}
+
+<script type="text/javascript">
+var msg_title_empty = "留言标题为空";
+var msg_content_empty = "留言内容为空";
+var msg_title_limit = "留言标题不能超过200个字";
+</script>
+</html>
