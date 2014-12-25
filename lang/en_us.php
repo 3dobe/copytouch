@@ -8,6 +8,9 @@ $_LANG = array(
   'my_orders' => 'Orders',
   'copytail' => 'Copyright, All Rights Reserved.',
 
+  'login' => 'User Login',
+  'logout' => 'User Logout',
+
   'search' => 'Search goods in site',
 
   'new' => 'New',

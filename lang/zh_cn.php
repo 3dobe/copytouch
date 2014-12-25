@@ -9,6 +9,10 @@ $_LANG = array(
   'my_orders' => '我的订单',
   'copytail' => '版权所有，并保留所有权利。',
 
+  // cat_menu.html
+  'login' => '用户登录'，
+  'logout' => '退出登录',
+
   // search_box.html
   'search' => '搜索本站商品',
 

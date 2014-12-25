@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+{include file='head.html'}
+</head>
+<body>
+
+<header id="header" >
+  <div class="header_l">
+    <a class="ico_10" href="javascript:history.back()"></a>
+  </div>
+  <h1>用户注册</h1>
+  <div class="header_r">
+    <a class="ico_01" href="flow.php"></a>
+  </div>
+</header>
+
+<section class="wrap">
+  <div id="leftTabBox" class="loginBox">
+    <div class="hd">
+      <span>欢迎光临，登录后体验更多服务</span>
+      <ul>
+        <li><a href="user.php">登录</a></li>
+        <li class="on"><a href="javascript:void(0)">注册</a></li>
+      </ul>
+    </div>
+    <div class="bd">
+      <div class="table_box">
+        <form action="user.php?act=act_register" method="post">
+          <input type="hidden" name="flag" id="flag" value="register" />
+          <dl>
+            <dd>
+              <input placeholder="请输入用户名" class="inputBg" name="username" id="username" type="text" />
+            </dd>
+          </dl>
+          <dl>
+            <dd>
+              <input placeholder="请输入电子邮箱" class="inputBg" name="email" id="email" type="email" />
+            </dd>
+          </dl>
+          <dl>
+            <dd>
+              <input placeholder="请输入登录密码" class="inputBg" name="password" id="password1" type="password" />
+            </dd>
+          </dl>
+          <dl>
+            <dd>
+              <input placeholder="请重新输入一遍密码" class="inputBg" name="confirm_password" id="confirm_password" type="password" />
+            </dd>
+          </dl>
+          <dl>
+            <dd>
+              <input name="Submit" type="submit" value="立即注册" class="c-btn3" />
+            </dd>
+          </dl>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{include file='foot.html'}
+</body>
+</html>

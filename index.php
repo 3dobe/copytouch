@@ -98,6 +98,7 @@ $smarty->assign('searchkeywords', $searchkeywords);
 $smarty->assign('wap_logo', $_CFG['wap_logo']);
 $smarty->assign('footer', get_footer());
 
+$smarty->assign('login', $_SESSION['user_id'] > 0);
 $smarty->display("index.html");
 
 ?>

@@ -8,6 +8,13 @@ $(function() {
 <nav id="menu" style="display:None">
   <ul>
     <li>
+      {if $login}
+      <a href="user.php?act=logout">{$lang.logout}</a>
+      {else}
+      <a href="user.php">{$lang.login}</a>
+      {/if}
+    </li>
+    <li>
       <a href="cat_all.php">{$lang.cat_all}</a>
     </li>
     {foreach from=$pcat_array item=pcat_data}

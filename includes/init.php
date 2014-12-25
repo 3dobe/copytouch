@@ -202,6 +202,15 @@ if (empty($_CFG['wap_config']))
 
 
 
+if (!isset($_SESSION['user_id']))
+{
+    $_SESSION['user_id'] = 0;
+}
+if (empty($_SESSION['cartList']))
+{
+    $_SESSION['cartList'] = array();
+}
+
 
 /* 移动版 语言包 */
 //$_CFG['lang'] = 'en_us';

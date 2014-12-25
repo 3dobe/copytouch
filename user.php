@@ -44,10 +44,22 @@ if ($act == 'do_login')
             $login_faild = 1;
         }
     }
+
+    if ($login_faild)
+    {
+        ecs_header("Location: user.php\n");
+        exit();
+    }
 }
 
 elseif ($act == 'order_list')
 {
+    if (empty($_SESSION['user_id']))
+    {
+        ecs_header("Location: user.php\n");
+        exit();
+    }
+
     $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('order_info'). " WHERE user_id = {$_SESSION['user_id']}");
     if ($record_count > 0)
     {
@@ -235,33 +247,7 @@ elseif ($act == 'logout')
     ecs_header("Location: $Loaction\n");
 
 }
-/* 显示会员注册界面 */
-elseif ($act == 'register')
-{
-    if (!isset($back_act) && isset($GLOBALS['_SERVER']['HTTP_REFERER']))
-    {
-        $back_act = strpos($GLOBALS['_SERVER']['HTTP_REFERER'], 'user.php') ? './index.php' : $GLOBALS['_SERVER']['HTTP_REFERER'];
-    }
 
-    /* 取出注册扩展字段 */
-    $sql = 'SELECT * FROM ' . $ecs->table('reg_fields') . ' WHERE type < 2 AND display = 1 ORDER BY dis_order, id';
-    $extend_info_list = $db->getAll($sql);
-    $smarty->assign('extend_info_list', $extend_info_list);
-    /* 密码找回问题 */
-    $_LANG['passwd_questions']['friend_birthday'] = '我最好朋友的生日？';
-    $_LANG['passwd_questions']['old_address']     = '我儿时居住地的地址？';
-    $_LANG['passwd_questions']['motto']           = '我的座右铭是？';
-    $_LANG['passwd_questions']['favorite_movie']  = '我最喜爱的电影？';
-    $_LANG['passwd_questions']['favorite_song']   = '我最喜爱的歌曲？';
-    $_LANG['passwd_questions']['favorite_food']   = '我最喜爱的食物？';
-    $_LANG['passwd_questions']['interest']        = '我最大的爱好？';
-    $_LANG['passwd_questions']['favorite_novel']  = '我最喜欢的小说？';
-    $_LANG['passwd_questions']['favorite_equipe'] = '我最喜欢的运动队？';
-    /* 密码提示问题 */
-    $smarty->assign('passwd_questions', $_LANG['passwd_questions']);
-    $smarty->assign('footer', get_footer());
-    $smarty->display('user_passport.html');
-}
 /* 注册会员的处理 */
 elseif ($act == 'act_register')
 {
@@ -270,13 +256,13 @@ elseif ($act == 'act_register')
         $username = isset($_POST['username']) ? trim($_POST['username']) : '';
         $password = isset($_POST['password']) ? trim($_POST['password']) : '';
         $email    = isset($_POST['email']) ? trim($_POST['email']) : '';
-        $other['msn'] = isset($_POST['extend_field1']) ? $_POST['extend_field1'] : '';
-        $other['qq'] = isset($_POST['extend_field2']) ? $_POST['extend_field2'] : '';
-        $other['office_phone'] = isset($_POST['extend_field3']) ? $_POST['extend_field3'] : '';
-        $other['home_phone'] = isset($_POST['extend_field4']) ? $_POST['extend_field4'] : '';
-        $other['mobile_phone'] = isset($_POST['extend_field5']) ? $_POST['extend_field5'] : '';
-        $sel_question = empty($_POST['sel_question']) ? '' : compile_str($_POST['sel_question']);
-        $passwd_answer = isset($_POST['passwd_answer']) ? compile_str(trim($_POST['passwd_answer'])) : '';
+        //$other['msn'] = isset($_POST['extend_field1']) ? $_POST['extend_field1'] : '';
+        //$other['qq'] = isset($_POST['extend_field2']) ? $_POST['extend_field2'] : '';
+        //$other['office_phone'] = isset($_POST['extend_field3']) ? $_POST['extend_field3'] : '';
+        //$other['home_phone'] = isset($_POST['extend_field4']) ? $_POST['extend_field4'] : '';
+        //$other['mobile_phone'] = isset($_POST['extend_field5']) ? $_POST['extend_field5'] : '';
+        //$sel_question = empty($_POST['sel_question']) ? '' : compile_str($_POST['sel_question']);
+        //$passwd_answer = isset($_POST['passwd_answer']) ? compile_str(trim($_POST['passwd_answer'])) : '';
 
         $back_act = isset($_POST['back_act']) ? trim($_POST['back_act']) : '';
 
@@ -315,6 +301,130 @@ elseif ($act == 'act_register')
             $Loaction = 'index.php';
             ecs_header("Location: $Loaction\n");
         }
+        else {
+            $Loaction = 'user.php?act=register';
+            ecs_header("Location: $Loaction\n");
+        }
+}
+
+/* 显示会员注册界面 */
+elseif ($act == 'register')
+{
+    $smarty->display('user_register.html');
+}
+
+/* 用户中心 */
+else
+{
+    if ($_SESSION['user_id'] > 0)
+    {
+        show_user_center();
+    }
+    else
+    {
+        $smarty->display('user_login.html');
+    }
+}
+
+/**
+ * 用户中心显示
+ */
+function show_user_center()
+{
+    ecs_header("Location: index.php");
+    exit();
+
+    $best_goods = get_recommend_goods('best');
+    if (count($best_goods) > 0)
+    {
+        foreach  ($best_goods as $key => $best_data)
+        {
+            $best_goods[$key]['shop_price'] = encode_output($best_data['shop_price']);
+            $best_goods[$key]['name'] = encode_output($best_data['name']);
+        }
+    }
+    $GLOBALS['smarty']->assign('best_goods' , $best_goods);
+    //$GLOBALS['smarty']->assign('footer', get_footer());
+    $GLOBALS['smarty']->display('user.html');
+}
+
+/**
+ * 手机注册
+ */
+function m_register($username, $password, $email, $other = array())
+{
+    /* 检查username */
+    if (empty($username))
+    {
+        echo '用户名不能为空';
+        return false;
+    }
+    if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', $username))
+    {
+        echo '用户名错误';
+        return false;
+    }
+
+    /* 检查email */
+    if (empty($email))
+    {
+        echo 'email不能为空';
+        return false;
+    }
+    if(!is_email($email))
+    {
+        echo 'email错误';
+        return false;
+    }
+
+    /* 检查是否和管理员重名 */
+    if (admin_registered($username))
+    {
+        echo '此用户已存在！';
+        return false;
+    }
+
+    if (!$GLOBALS['user']->add_user($username, $password, $email))
+    {
+        echo '注册失败！';
+        //注册失败
+        return false;
+    }
+    else
+    {
+        //注册成功
+
+        /* 设置成登录状态 */
+        $GLOBALS['user']->set_session($username);
+        $GLOBALS['user']->set_cookie($username);
+
+     }
+
+        //定义other合法的变量数组
+        $other_key_array = array('msn', 'qq', 'office_phone', 'home_phone', 'mobile_phone');
+        $update_data['reg_time'] = local_strtotime(local_date('Y-m-d H:i:s'));
+        if ($other)
+        {
+            foreach ($other as $key=>$val)
+            {
+                //删除非法key值
+                if (!in_array($key, $other_key_array))
+                {
+                    unset($other[$key]);
+                }
+                else
+                {
+                    $other[$key] =  htmlspecialchars(trim($val)); //防止用户输入javascript代码
+                }
+            }
+            $update_data = array_merge($update_data, $other);
+        }
+        $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('users'), $update_data, 'UPDATE', 'user_id = ' . $_SESSION['user_id']);
+
+        update_user_info();      // 更新用户信息
+
+        return true;
+
 }
 
 ?>
