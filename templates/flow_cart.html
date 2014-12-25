@@ -1,0 +1,250 @@
+<head>
+    {include file='head.html'}
+</head>
+
+
+<body>
+<script type="text/javascript">
+
+//        var CartList = JSON.parse(localStorage.getItem("goodsInfo"));
+//        console.log(CartList);
+//
+////        var goods = new object();
+////        goods.goods_id = 0;
+////        goods.goods_price = 0;
+//
+//        for(var i = 0; i < CartList.length; i++) {
+//            var goods = CartList[i];
+//            for(var goods_price in goods){
+//                console.log(goods[goods_price]);
+//            }
+//        }
+
+    var selAll = document.getElementById("selAll");
+    function selectAll_guan()
+    {
+        var obj = document.getElementsByName("checkAll[]");
+        if(document.getElementById("selAll").checked == false)
+        {
+            for(var i=0; i<obj.length; i++)
+            {
+                obj[i].checked=false;
+            }
+        }else
+        {
+            for(var i=0; i<obj.length; i++)
+            {
+                obj[i].checked=true;
+            }
+        }
+
+    }
+
+    //当选中所有的时候，全选按钮会勾上
+    function setSelectAll_guan()
+    {
+        var obj=document.getElementsByName("checkAll[]");
+        var count = obj.length;
+        var selectCount = 0;
+
+        for(var i = 0; i < count; i++)
+        {
+            if(obj[i].checked == true)
+            {
+                selectCount++;
+            }
+        }
+        if(count == selectCount)
+        {
+            document.all.selAll.checked = true;
+        }
+        else
+        {
+            document.all.selAll.checked = false;
+        }
+    }
+
+    //反选按钮
+    function inverse_guan() {
+        var checkboxs=document.getElementsByName("checkAll[]");
+        for (var i=0;i<checkboxs.length;i++) {
+            var e=checkboxs[i];
+            e.checked=!e.checked;
+            setSelectAll_guan();
+        }
+    }
+
+    function cartsubmit_click()
+    {
+        document.getElementById('formCart').submit();
+    }
+
+</script>
+<div id="page">
+    <header id="header">
+        <div class="header_l"> <a class="ico_10" href="./"> 返回 </a> </div>
+        <h1>购物车</h1>
+        <div class="header_r"></div>
+    </header>
+</div>
+
+
+<!--<script type="text/javascript" src="http://static.chihuoyizu.cn/mobile/data/static/js/showdiv.js"></script>-->
+<script type="text/javascript">
+    var user_name_empty = "请输入您的用户名！";
+    var email_address_empty = "请输入您的电子邮件地址！";
+    var email_address_error = "您输入的电子邮件地址格式不正确！";
+    var new_password_empty = "请输入您的新密码！";
+    var confirm_password_empty = "请输入您的确认密码！";
+    var both_password_error = "您两次输入的密码不一致！";
+    var show_div_text = "请点击更新购物车按钮";
+    var show_div_exit = "关闭";
+</script>
+<div class="cart-step" id="J_cartTab">
+    <ul>
+        <li class="cur">1.购物车列表</li>
+        <li>2.确认订单</li>
+        <li>3.购买成功</li>
+    </ul>
+</div>
+<div class="blank3"></div>
+
+
+<div class="blank3"></div>
+<section class="wrap" style="padding-bottom:5rem">
+    <form id="formCart" name="formCart" method="post" action="flow.php?step=consignee">
+        <ul class="radius10 itemlist">
+            <li>
+                <p class="xuanzhes">
+
+                    <input checked="" id="selAll" onclick="selectAll_guan();" type="checkbox">全选</p>
+            </li>
+
+            {foreach from=$goods_list item=goods}
+                <li class="new-tbl-type">
+
+                    <div class="itemlist_l new-tbl-cell">
+                        <input checked="" name="checkAll[]" id="checkAll" onclick="setSelectAll_guan();" value="4248" class="quanxuan" type="checkbox">
+                        <a href="goods.php?id={$goods.id}" target="_blank"> <img class="lazy" src="../../{$goods.tumb}" title="{$goods.name}" border="0"> </a>
+                    </div>
+                    <div class="desc new-tbl-cell"> <a style="color:#333" href="goods.php?id={$goods.id}" target="_blank" class="fragment">
+                        <h4>{$goods.name}</h4>
+                    </a>
+                        <div style="clear:both"> </div>
+                        <p>  </p>
+                        <div class="b"> <em class="price">{$goods.price}</em> <span style="jianju">x </span> <span class="txt">
+                            <input class="inputBg" min="1" max="1000" name="goods_number[{$goods.id}]" id="goods_number_{$goods.id}" value="{$goods.number}" size="4" onclick="changenum({$goods.id})" type="number">
+
+                    </span> <a href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) location.href='flow.php?step=delGoods&amp;id={$goods.id}'; " class="ico_08 cha"> </a> </div>
+                </div>
+            </li>
+            <li>
+            </li>
+            {/foreach}
+        </ul>
+        <!--<input type="hidden" name="step" value="update_cart" />-->
+    </form>
+    <div class="flex" style="margin-top:5em;"> <a class="c-btn2  flex_in radius5" href="index.php" style=" background:#6bd0a2"> <i class="ico_04_b"></i> 继续购物 </a> </div>
+</section>
+<footer class="toolbar">
+    合计:<em class="price" id="goods_subtotal">￥15.00</em></p>
+    <a href="javascript:cartsubmit_click();">结算(<em class="num" id="total_number">1</em>)</a> </footer>
+
+
+<div class="blank3"></div>
+<div style="width:1px; height:1px; overflow:hidden"><a href="http://www.chihuoyizu.cn" target="_blank" style=" font-family:Verdana; font-size:11px;">Powered&nbsp;by&nbsp;<strong><span style="color: #3366FF">ECShop</span>&nbsp;<span style="color: #FF9966">v2.7.3</span></strong></a>&nbsp;</div>
+
+<script type="text/javascript">
+    var process_request = "正在处理您的请求...";
+    var username_empty = "用户名不能为空。";
+    var username_shorter = "用户名长度不能少于 3 个字符。";
+    var username_invalid = "用户名只能是由字母数字以及下划线组成。";
+    var password_empty = "登录密码不能为空。";
+    var password_shorter = "登录密码不能少于 6 个字符。";
+    var confirm_password_invalid = "两次输入密码不一致";
+    var email_empty = "Email 为空";
+    var email_invalid = "Email 不是合法的地址";
+    var agreement = "您没有接受协议";
+    var msn_invalid = "msn地址不是一个有效的邮件地址";
+    var qq_invalid = "QQ号码不是一个有效的号码";
+    var home_phone_invalid = "家庭电话不是一个有效号码";
+    var office_phone_invalid = "办公电话不是一个有效号码";
+    var mobile_phone_invalid = "手机号码不是一个有效号码";
+    var msg_un_blank = "* 用户名不能为空";
+    var msg_un_length = "* 用户名最长不得超过7个汉字";
+    var msg_un_format = "* 用户名含有非法字符";
+    var msg_un_registered = "* 用户名已经存在,请重新输入";
+    var msg_can_rg = "* 可以注册";
+    var msg_email_blank = "* 邮件地址不能为空";
+    var msg_email_registered = "* 邮箱已存在,请重新输入";
+    var msg_email_format = "* 邮件地址不合法";
+    var msg_blank = "不能为空";
+    var no_select_question = "您没有完成密码提示问题的操作";
+    var passwd_balnk = "密码中不能包含空格";
+    var username_exist = "用户名 %s 已经存在";
+    var compare_no_goods = "您没有选定任何需要比较的商品或者比较的商品数少于 2 个。";
+    var btn_buy = "购买";
+    var is_cancel = "取消";
+    var select_spe = "请选择商品属性";
+</script>
+
+<script>
+//    function getCartInfo(){
+//        var CartList = JSON.parse(localStorage.getItem("goodsInfo"));
+//        console.log(CartList);
+//
+//        for(goods in CartList){
+//            var goods_id = goods.goods_id;
+//            var goods_price = goods.good_price;
+//            console(goods_id);
+//        }
+//    }
+
+    function changenum(rec_id){
+        var goods_number = parseInt(document.getElementById('goods_number_'+rec_id).value);
+        change_goods_number(rec_id,goods_number);
+        console.log(goods_number);
+    }
+
+    function change_goods_number(rec_id, goods_number) {
+        //Ajax.call('flow.php?step=ajax_update_cart', 'rec_id=' + rec_id +'&goods_number=' + goods_number, change_goods_number_response, 'POST','JSON');
+        $.ajax({
+            type: 'POST',
+            //async: false,
+            url: 'flow.php?step=change_goodsNum',
+            data: {"goods_id":rec_id,"goods_number":goods_number},
+            success: function(response) {
+                // window.location.href = "flow.php?step=add_to_cart";
+            }
+        });
+    }
+
+    function change_total(){
+
+    }
+
+    function change_goods_number_response(result)
+    {
+        if (result.error == 0)
+        {
+            var rec_id = result.rec_id;
+            //更新赠品
+            if(result.gift_num != ''){
+                for(var i in result.gift_num){
+                    $('#gift_num_'+rec_id+'_'+result.gift_num[i].key).html(result.gift_num[i].gift_num);
+                }
+            }
+            document.getElementById('total_number').innerHTML = result.total_number;//更新数量
+            document.getElementById('goods_subtotal').innerHTML = result.total_desc;//更新小计
+            document.getElementById('goods_weight_add').innerHTML = result.goods_weight+'kg';//更新重量
+            if (document.getElementById('ECS_CARTINFO'))
+            {//更新购物车数量
+                document.getElementById('ECS_CARTINFO').innerHTML = result.cart_info;
+            }
+        }
+        else if (result.message != '')
+        {
+            alert(result.message);
+        }
+    }
+</script>

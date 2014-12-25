@@ -1,6 +1,9 @@
 <?php
 
-$_LANG = array(
+$_mLANG = array(
+  'kilogram' => 'kg',
+  'gram' => 'g',
+
   'menu' => 'Menu',
   'home' => 'Home',
   'cat_all' => 'Categories',

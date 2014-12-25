@@ -1,6 +1,10 @@
 <?php
 
-$_LANG = array(
+$_mLANG = array(
+  // commonm
+  'kilogram' => '千克',
+  'gram' => '克',
+
   // foot.html
   'menu' => '菜单',
   'home' => '首页',
@@ -10,7 +14,7 @@ $_LANG = array(
   'copytail' => '版权所有，并保留所有权利。',
 
   // cat_menu.html
-  'login' => '用户登录'，
+  'login' => '用户登录',
   'logout' => '退出登录',
 
   // search_box.html

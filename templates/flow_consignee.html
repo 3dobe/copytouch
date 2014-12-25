@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+{include file='head.html'}
+</head>
+<body>
+
+<header id="header" >
+  <div class="header_l">
+    <a class="ico_10" href="javascript:history.back()"></a>
+  </div>
+  <h1>收货人信息</h1>
+  <div class="header_r">
+    <a class="ico_01" href="flow.php"></a>
+  </div>
+</header>
+
+<div class="cart-step" id="J_cartTab">
+    <ul>
+        <li>1.购物车列表</li>
+        <li class="cur">2.确认订单</li>
+        <li>3.购买成功</li>
+    </ul>
+</div>
+<div class="blank3"></div>
+<div class="wrap">
+
+    {foreach from=$consignee_list item=consignee key=sn}
+    {if $consignee.address_id}
+    <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
+        <div class="table_box2 table_box">
+            <form style="padding:8px;" action="flow.php?step=consignee" method="post" name="theForm" id="theForm" onsubmit="return checkConsignee(this)">
+                <dl>
+                    <dd class="dd1">收货人</dd>
+                    <dd class="dd2">
+                        <input name="consignee" class="inputBg" id="consignee_0" value="{$consignee.consignee}" type="text">
+                        <span>*</span></dd>
+                </dl>
+                <dl>
+                    <dd class="dd1">联系电话</dd>
+                    <dd class="dd2">
+                        <input name="tel" class="inputBg" id="tel_0" value="{$consignee.tel}" type="text">
+                        <span>*</span></dd>
+                </dl>
+                <dl>
+                    <dd class="dd1">电子邮箱</dd>
+                    <dd class="dd2">
+                        <input name="email" class="inputBg" id="email_0" value="{$consignee.email}" type="text">
+                        <span>*</span></dd>
+                </dl>
+
+
+
+                <dl>
+                    <dd class="dd1">配送区域</dd>
+                    <dd class="dd2">
+                        <select name="country" id="selCountries_{$sn}" onchange="region.changed(this, 1, 'selProvinces_{$sn}')" style="border:1px solid #ccc;">
+                            <option value="0" {if $consignee.country eq 0}selected{/if}>请选择国家</option>
+                            <option value="3409" {if $consignee.country eq 3409}selected{/if}>United States</option>
+                            <option value="1" {if $consignee.country eq 1}selected{/if}>中国</option>
+                        </select>
+
+                        <select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')" style="border:1px solid #ccc;">
+                            <option value="0" {if $consignee.province eq 0}selected{/if}>请选择省份</option>
+                            {foreach from=$province_list.$sn item=province}
+                            <option value="{$province.region_id}" {if $province.region_id eq $consignee.province}selected{/if}>{$province.region_name}</option>
+                            {/foreach}
+                        </select>
+                        <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')" style="border: 1px solid rgb(204, 204, 204); padding: 2px;">
+                            <option value="0" {if $consignee.city eq 0}selected{/if}>请选择市</option>
+                            {foreach from=$city_list.$sn item=city}
+                            <option value="{$city.region_id}" {if $city.region_id eq $consignee.city}selected{/if}>{$city.region_name}</option>
+                            {/foreach}
+                        </select>
+                        <select name="district" id="selDistricts_{$sn}" style="display:none">
+                            <option value="0" {if $consignee.district eq 0}selected{/if}>请选择区</option>
+                            {foreach from=$district_list.$sn item=district}
+                            <option value="{$district.region_id}" {if $district.region_id eq $consignee.district}selected{/if}>{$district.region_name}</option>
+                            {/foreach}
+                        </select>
+                        <span>*</span> </dd>
+                </dl>
+
+
+
+
+                <dl>
+                    <dd class="dd1">详细地址</dd>
+                    <dd class="dd2">
+                        <input name="address" class="inputBg" id="address_0" value="{$consignee.address}" type="text">
+                        <span>*</span></dd>
+                </dl>
+                <dl>
+                    <dd class="dd1">邮政编码</dd>
+                    <dd class="dd2">
+                        <input name="zipcode" class="inputBg" id="zipcode_0" value="{$consignee.zipcode}" type="text">
+                    </dd>
+                </dl>
+
+
+                <dl style="border:none; padding-bottom:0">
+
+
+                    <dd class="w40">
+                        <button name="Submit" class="c-btn3" type="submit">配送至这个地址</button>
+                    </dd>
+                    <dd class="w10"></dd>
+                    <dd class="w40">
+                        <button onclick="if (confirm('您确定要删除该收货人信息吗？')) location.href='flow.php?step=drop_consignee&amp;id={$consignee.address_id}'" name="button" class="c-btn3" type="button">删除</button>
+                    </dd>
+                </dl>
+                <input name="act" value="checkout" type="hidden">
+                <input name="address_id" value="{$consignee.address_id}" type="hidden">
+            </form>
+        </div>
+    </section>
+    <div class="blank3"></div>
+    {/if}
+    {/foreach}
+
+    <section style="padding-top:0;padding-bottom:0;" class="order_box padd1 radius10">
+        <div class="table_box2 table_box">
+            <form onsubmit="return checkConsignee(this)" id="theForm" name="theForm" method="post" action="flow.php?step=consignee" style="padding:8px;">
+                <dl>
+                    <dd class="dd1">收货人</dd>
+                    <dd class="dd2">
+                        <input type="text" value="" id="consignee_2" class="inputBg" name="consignee">
+                        <span>*</span></dd>
+                </dl>
+                <dl>
+                    <dd class="dd1">联系电话</dd>
+                    <dd class="dd2">
+                        <input type="text" value="" id="tel_2" class="inputBg" name="tel">
+                        <span>*</span></dd>
+                </dl>
+                <dl>
+                    <dd class="dd1">电子邮箱</dd>
+                    <dd class="dd2">
+                        <input type="text" value="0" id="email_2" class="inputBg" name="email">
+                        <span>*</span></dd>
+                </dl>
+
+
+
+                <dl>
+                    <dd class="dd1">配送区域</dd>
+                    <dd class="dd2">
+                        <select style="border:1px solid #ccc; padding:2px; display:None" onchange="region.changed(this, 1, 'selProvinces_2')" id="selCountries_2" name="country">
+                            <option value="0">请选择国家</option>
+                            <option selected="" value="1">中国</option>
+                        </select>
+
+                        <select style="border:1px solid #ccc; padding:2px" onchange="region.changed(this, 2, 'selCities_2')" id="selProvinces_2" name="province">
+                            <option value="0">请选择省</option>
+                            <option value="2">北京</option>
+                            <option value="3">安徽</option>
+                            <option value="4">福建</option>
+                            <option value="5">甘肃</option>
+                            <option value="6">广东</option>
+                            <option value="7">广西</option>
+                            <option value="8">贵州</option>
+                            <option value="9">海南</option>
+                            <option value="10">河北</option>
+                            <option value="11">河南</option>
+                            <option value="12">黑龙江</option>
+                            <option value="13">湖北</option>
+                            <option value="14">湖南</option>
+                            <option value="15">吉林</option>
+                            <option value="16">江苏</option>
+                            <option value="17">江西</option>
+                            <option value="18">辽宁</option>
+                            <option value="19">内蒙古</option>
+                            <option value="20">宁夏</option>
+                            <option value="21">青海</option>
+                            <option value="22">山东</option>
+                            <option value="23">山西</option>
+                            <option value="24">陕西</option>
+                            <option value="25">上海</option>
+                            <option value="26">四川</option>
+                            <option value="27">天津</option>
+                            <option value="28">西藏</option>
+                            <option value="29">新疆</option>
+                            <option value="30">云南</option>
+                            <option value="31">浙江</option>
+                            <option value="32">重庆</option>
+                            <option value="33">香港</option>
+                            <option value="34">澳门</option>
+                            <option value="35">台湾</option>
+                        </select>
+                        <select style="border: 1px solid rgb(204, 204, 204); padding: 2px;" onchange="region.changed(this, 3, 'selDistricts_2')" id="selCities_2" name="city">
+                            <option value="0">请选择市</option>
+                            <option value="36">安庆</option><option value="37">蚌埠</option><option value="38">巢湖</option><option value="39">池州</option><option value="40">滁州</option><option value="41">阜阳</option><option value="42">淮北</option><option value="43">淮南</option><option value="44">黄山</option><option value="45">六安</option><option value="46">马鞍山</option><option value="47">宿州</option><option value="48">铜陵</option><option value="49">芜湖</option><option value="50">宣城</option><option value="51">亳州</option><option value="3401">合肥</option></select>
+                        <select style="display:none" id="selDistricts_2" name="district">
+                            <option value="0">请选择区</option>
+                        </select>
+                        <span>*</span> </dd>
+                </dl>
+
+
+
+
+                <dl>
+                    <dd class="dd1">详细地址</dd>
+                    <dd class="dd2">
+                        <input type="text" value="" id="address_2" class="inputBg" name="address">
+                        <span>*</span></dd>
+                </dl>
+                <dl>
+                    <dd class="dd1">邮政编码</dd>
+                    <dd class="dd2">
+                        <input type="text" value="" id="zipcode_2" class="inputBg" name="zipcode">
+                    </dd>
+                </dl>
+
+
+                <dl style="border:none; padding-bottom:0">
+                    <dd>
+                        <button name="Submit" class="c-btn3" type="submit">配送至这个地址</button>
+                    </dd>
+                </dl>
+                <input type="hidden" value="checkout" name="act">
+                <input type="hidden" value="" name="address_id">
+            </form>
+        </div>
+    </section>
+
+
+
+</div>
+
+
+
+<script type="text/javascript" src="js/transport.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="js/shopping_flow.js"></script>
+
+<script type="text/javascript">
+var selAll = document.getElementById("selAll");
+function selectAll_guan()
+{
+  var obj = document.getElementsByName("checkAll[]");
+  if(document.getElementById("selAll").checked == false)
+  {
+  for(var i=0; i<obj.length; i++)
+  {
+    obj[i].checked=false;
+  }
+  }else
+  {
+  for(var i=0; i<obj.length; i++)
+  {  
+    obj[i].checked=true;
+  }
+  }
+ 
+}
+
+//当选中所有的时候，全选按钮会勾上
+function setSelectAll_guan()
+{
+var obj=document.getElementsByName("checkAll[]");
+var count = obj.length;
+var selectCount = 0;
+
+for(var i = 0; i < count; i++)
+{
+if(obj[i].checked == true)
+{
+selectCount++;
+}
+}
+if(count == selectCount)
+{
+document.all.selAll.checked = true;
+}
+else
+{
+document.all.selAll.checked = false;
+}
+}
+
+//反选按钮
+function inverse_guan() {
+var checkboxs=document.getElementsByName("checkAll[]");
+for (var i=0;i<checkboxs.length;i++) {
+  var e=checkboxs[i];
+  e.checked=!e.checked;
+  setSelectAll_guan();
+}
+}
+
+function cartsubmit_click()
+{
+  document.getElementById('formCart').submit();
+}
+
+</script>
+
+<script type="text/javascript" src="js/region.js"></script>
+<script type="text/javascript">
+          region.isAdmin = false;
+                    var consignee_not_null = "收货人姓名不能为空！";
+                    var country_not_null = "请您选择收货人所在国家！";
+                    var province_not_null = "请您选择收货人所在省份！";
+                    var city_not_null = "请您选择收货人所在城市！";
+                    var district_not_null = "请您选择收货人所在区域！";
+                    var invalid_email = "您输入的邮件地址不是一个合法的邮件地址。";
+                    var address_not_null = "收货人的详细地址不能为空！";
+                    var tele_not_null = "电话不能为空！";
+                    var shipping_not_null = "请您选择配送方式！";
+                    var payment_not_null = "请您选择支付方式！";
+                    var goodsattr_style = "1";
+                    var tele_invaild = "电话号码不有效的号码";
+                    var zip_not_num = "邮政编码只能填写数字";
+                    var mobile_invaild = "手机号码不是合法号码";
+          
+          
+          onload = function() {
+            if (!document.all)
+            {
+              document.forms['theForm'].reset();
+            }
+          }
+          
+        </script>
+
+
+<script type="text/javascript">
+
+function select_com_address(obj)
+{
+  var com_address = document.getElementsByName('com_address');
+  var len = com_address.length;
+  for(var i=0; i<=len; i++)
+  {
+    if(com_address[i])
+    {
+      if(com_address[i].checked)
+      {
+        com_address[i].checked = false;
+      }
+    }
+  }
+
+  obj.checked = true;
+}
+</script>
+<script type="text/javascript">
+var process_request = "正在处理您的请求...";
+var username_empty = "用户名不能为空。";
+var username_shorter = "用户名长度不能少于 3 个字符。";
+var username_invalid = "用户名只能是由字母数字以及下划线组成。";
+var password_empty = "登录密码不能为空。";
+var password_shorter = "登录密码不能少于 6 个字符。";
+var confirm_password_invalid = "两次输入密码不一致";
+var email_empty = "Email 为空";
+var email_invalid = "Email 不是合法的地址";
+var agreement = "您没有接受协议";
+var msn_invalid = "msn地址不是一个有效的邮件地址";
+var qq_invalid = "QQ号码不是一个有效的号码";
+var home_phone_invalid = "家庭电话不是一个有效号码";
+var office_phone_invalid = "办公电话不是一个有效号码";
+var mobile_phone_invalid = "手机号码不是一个有效号码";
+var msg_un_blank = "* 用户名不能为空";
+var msg_un_length = "* 用户名最长不得超过7个汉字";
+var msg_un_format = "* 用户名含有非法字符";
+var msg_un_registered = "* 用户名已经存在,请重新输入";
+var msg_can_rg = "* 可以注册";
+var msg_email_blank = "* 邮件地址不能为空";
+var msg_email_registered = "* 邮箱已存在,请重新输入";
+var msg_email_format = "* 邮件地址不合法";
+var msg_blank = "不能为空";
+var no_select_question = "您没有完成密码提示问题的操作";
+var passwd_balnk = "密码中不能包含空格";
+var username_exist = "用户名 %s 已经存在";
+var compare_no_goods = "您没有选定任何需要比较的商品或者比较的商品数少于 2 个。";
+var btn_buy = "购买";
+var is_cancel = "取消";
+var select_spe = "请选择商品属性";
+
+$(function(){
+
+})
+</script>
+</body>
+</html>

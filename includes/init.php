@@ -114,6 +114,25 @@ $err = new ecs_error('message.html');
 /* 载入系统参数 */
 $_CFG = load_config();
 
+
+
+/* 移动版 语言包 */
+if (!isset($GLOBALS['_LANG']))
+{
+    $GLOBALS['_LANG'] = array();
+}
+//$_CFG['lang'] = 'en_us';
+require(ROOT_PATH. 'm/lang/'. $_CFG['lang'] .'.php');
+foreach ($GLOBALS['_mLANG'] as $key => $val)
+{
+    if (!isset($GLOBALS['_LANG'][$key]))
+    {
+        $GLOBALS['_LANG'][$key] = $GLOBALS['_mLANG'][$key];
+    }
+}
+
+
+
 /* 初始化session */
 require(ROOT_PATH . 'includes/cls_session.php');
 $sess = new cls_session($db, $ecs->table('sessions'), $ecs->table('sessions_data'), 'ecsid');
@@ -143,6 +162,12 @@ if (!defined('INIT_NO_SMARTY'))
         $smarty->direct_output = false;
         $smarty->force_compile = false;
     }
+
+
+    $smarty->assign('lang', $GLOBALS['_mLANG']);
+    /* 店名 版权 */
+    $smarty->assign('shop_name', $GLOBALS['_CFG']['shop_name']);
+    $smarty->assign('year', date('Y'));
 }
 
 if (!defined('INIT_NO_USERS'))
@@ -166,6 +191,8 @@ if (!defined('INIT_NO_USERS'))
             $_SESSION['email']       = '';
             $_SESSION['user_rank']   = 0;
             $_SESSION['discount']    = 1.00;
+
+            $_SESSION['cartList'] = array();
         }
     }
 }
@@ -199,26 +226,4 @@ if (empty($_CFG['wap_config']))
     echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8' /><title>ECShop_mobile</title></head><body><p align='left'>对不起,{$_CFG['shop_name']}暂时没有开启手机购物功能</p></body></html>";
     exit();
 }
-
-
-
-if (!isset($_SESSION['user_id']))
-{
-    $_SESSION['user_id'] = 0;
-}
-if (empty($_SESSION['cartList']))
-{
-    $_SESSION['cartList'] = array();
-}
-
-
-/* 移动版 语言包 */
-//$_CFG['lang'] = 'en_us';
-require(ROOT_PATH. 'm/lang/'. $_CFG['lang'] .'.php');
-$smarty->assign('lang', $GLOBALS['_LANG']);
-
-/* 店名 版权 */
-$smarty->assign('shop_name', $GLOBALS['_CFG']['shop_name']);
-$smarty->assign('year', date('Y'));
-
 ?>
