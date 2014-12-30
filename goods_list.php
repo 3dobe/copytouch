@@ -94,10 +94,12 @@ if ($num > 0)
         //if (($i > ($page_num * ($page - 1 ))) && ($i <= ($page_num * $page)))
         //{
             $item = $goods[$goods_key];
-            $price = empty($item['promote_price_org']) ? $item['shop_price'] : $item['promote_price'];
+            //$price = empty($item['promote_price_org']) ? $item['shop_price'] : $item['promote_price'];
+            $price_formated = $item['shop_price'];
+
             $goods_list[] = array(
                 'thumb' => $item['thumb'],
-                'price' => price_format($price),
+                'price_formated' => $price_formated,
                 'id' => $item['id'],
                 'name' => encode_output($item['name'])
             );
