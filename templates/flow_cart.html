@@ -1,25 +1,21 @@
+<!DOCTYPE html>
+<html>
 <head>
-    {include file='head.html'}
+{include file='head.html'}
 </head>
-
-
 <body>
+
+<header id="header" >
+  <div class="header_l">
+    <a class="ico_10" href="javascript:history.back()"></a>
+  </div>
+  <h1>购物车</h1>
+  <!-- <div class="header_r">
+    <a class="ico_01" href="flow.php"></a>
+  </div> -->
+</header>
+
 <script type="text/javascript">
-
-//        var CartList = JSON.parse(localStorage.getItem("goodsInfo"));
-//        console.log(CartList);
-//
-////        var goods = new object();
-////        goods.goods_id = 0;
-////        goods.goods_price = 0;
-//
-//        for(var i = 0; i < CartList.length; i++) {
-//            var goods = CartList[i];
-//            for(var goods_price in goods){
-//                console.log(goods[goods_price]);
-//            }
-//        }
-
     var selAll = document.getElementById("selAll");
     function selectAll_guan()
     {
@@ -80,13 +76,6 @@
     }
 
 </script>
-<div id="page">
-    <header id="header">
-        <div class="header_l"> <a class="ico_10" href="./"> 返回 </a> </div>
-        <h1>购物车</h1>
-        <div class="header_r"></div>
-    </header>
-</div>
 
 
 <!--<script type="text/javascript" src="http://static.chihuoyizu.cn/mobile/data/static/js/showdiv.js"></script>-->
@@ -110,8 +99,21 @@
 <div class="blank3"></div>
 
 
+<style>
+  .itemlist li .b .cha { right: 2.4rem; }
+  .inputBg { padding: 0; }
+  .empty-cart .cart-logo { margin: 1rem auto; }
+</style>
 <div class="blank3"></div>
-<section class="wrap" style="padding-bottom:5rem">
+<section class="wrap">
+
+  {if !count($goods_list)}
+  <div class="empty-cart">
+    <div class="ico_13 cart-logo"></div>
+    <p class="message">没有宝贝哦，不如去添加宝贝</p>
+  </div>
+  <div class="blank3"></div>
+  {else}
     <form id="formCart" name="formCart" method="post" action="flow.php?step=consignee">
         <ul class="radius10 itemlist">
             <li>
@@ -121,38 +123,46 @@
             </li>
 
             {foreach from=$goods_list item=goods}
-                <li class="new-tbl-type">
-
-                    <div class="itemlist_l new-tbl-cell">
-                        <input checked="" name="checkAll[]" id="checkAll" onclick="setSelectAll_guan();" value="4248" class="quanxuan" type="checkbox">
-                        <a href="goods.php?id={$goods.id}" target="_blank"> <img class="lazy" src="../../{$goods.tumb}" title="{$goods.name}" border="0"> </a>
-                    </div>
-                    <div class="desc new-tbl-cell"> <a style="color:#333" href="goods.php?id={$goods.id}" target="_blank" class="fragment">
-                        <h4>{$goods.name}</h4>
-                    </a>
-                        <div style="clear:both"> </div>
-                        <p>  </p>
-                        <div class="b"> <em class="price">{$goods.price}</em> <span style="jianju">x </span> <span class="txt">
-                            <input class="inputBg" min="1" max="1000" name="goods_number[{$goods.id}]" id="goods_number_{$goods.id}" value="{$goods.number}" size="4" onclick="changenum({$goods.id})" type="number">
-
-                    </span> <a href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) location.href='flow.php?step=delGoods&amp;id={$goods.id}'; " class="ico_08 cha"> </a> </div>
+            <li class="new-tbl-type">
+              <div class="itemlist_l new-tbl-cell">
+                <input checked="" name="checkAll[]" id="checkAll" onclick="setSelectAll_guan();" value="4248" class="quanxuan" type="checkbox">
+                <a href="goods.php?id={$goods.id}" target="_blank">
+                  <img class="lazy" src="../../{$goods.thumb}" title="{$goods.name}" border="0">
+                </a>
+              </div>
+              <div class="desc new-tbl-cell">
+                <a style="color:#333" href="goods.php?id={$goods.id}" target="_blank" class="fragment">
+                  <h4>{$goods.name}</h4>
+                </a>
+                <div style="clear:both"></div>
+                <div class="b">
+                  <em class="price">{$goods.price_formated}</em>
+                  <span style="jianju">x </span>
+                  <span class="txt">
+                    <input class="inputBg" min="1" name="goods_number[{$goods.id}]" id="goods_number_{$goods.id}" value="{$goods.number}" size="4" onchange="changenum({$goods.id})" type="number">
+                  </span>
+                  <a href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) location.href='flow.php?step=drop_goods&amp;id={$goods.id}'; " class="ico_08 cha"></a>
                 </div>
-            </li>
-            <li>
+              </div>
             </li>
             {/foreach}
         </ul>
-        <!--<input type="hidden" name="step" value="update_cart" />-->
     </form>
-    <div class="flex" style="margin-top:5em;"> <a class="c-btn2  flex_in radius5" href="index.php" style=" background:#6bd0a2"> <i class="ico_04_b"></i> 继续购物 </a> </div>
+  {/if}
 </section>
-<footer class="toolbar">
-    合计:<em class="price" id="goods_subtotal">￥15.00</em></p>
-    <a href="javascript:cartsubmit_click();">结算(<em class="num" id="total_number">1</em>)</a> </footer>
 
 
+{if count($goods_list)}
+<style>
+  .toolbar { position: relative; }
+</style>
 <div class="blank3"></div>
-<div style="width:1px; height:1px; overflow:hidden"><a href="http://www.chihuoyizu.cn" target="_blank" style=" font-family:Verdana; font-size:11px;">Powered&nbsp;by&nbsp;<strong><span style="color: #3366FF">ECShop</span>&nbsp;<span style="color: #FF9966">v2.7.3</span></strong></a>&nbsp;</div>
+<footer class="toolbar">
+  <p>合计:<em class="price" id="goods_subtotal">{$total_price_formated}</em></p>
+  <a href="javascript:cartsubmit_click();">结算(<em class="num" id="total_number">{$cart_count}</em>)</a> </footer>
+{/if}
+
+{include file='foot.html'}
 
 <script type="text/javascript">
     var process_request = "正在处理您的请求...";
@@ -189,44 +199,35 @@
 </script>
 
 <script>
-//    function getCartInfo(){
-//        var CartList = JSON.parse(localStorage.getItem("goodsInfo"));
-//        console.log(CartList);
-//
-//        for(goods in CartList){
-//            var goods_id = goods.goods_id;
-//            var goods_price = goods.good_price;
-//            console(goods_id);
-//        }
-//    }
-
-    function changenum(rec_id){
+    function changenum(rec_id)
+    {
         var goods_number = parseInt(document.getElementById('goods_number_'+rec_id).value);
-        change_goods_number(rec_id,goods_number);
-        console.log(goods_number);
+        change_goods_number(rec_id, goods_number);
     }
 
-    function change_goods_number(rec_id, goods_number) {
+    function change_goods_number(rec_id, goods_number)
+    {
         //Ajax.call('flow.php?step=ajax_update_cart', 'rec_id=' + rec_id +'&goods_number=' + goods_number, change_goods_number_response, 'POST','JSON');
         $.ajax({
             type: 'POST',
-            //async: false,
-            url: 'flow.php?step=change_goodsNum',
-            data: {"goods_id":rec_id,"goods_number":goods_number},
-            success: function(response) {
-                // window.location.href = "flow.php?step=add_to_cart";
-            }
+            async: false,
+            url: 'flow.php?step=ajax_update_cart',
+            data: {
+              "goods_id": rec_id,
+              "goods_number": goods_number
+            },
+            dataType: 'json',
+            success: change_goods_number_response
         });
-    }
-
-    function change_total(){
-
     }
 
     function change_goods_number_response(result)
     {
-        if (result.error == 0)
-        {
+        //if (result.error == 0)
+        //{
+
+          $('[class$=-cart-num]').text(result.total_number);
+
             var rec_id = result.rec_id;
             //更新赠品
             if(result.gift_num != ''){
@@ -241,10 +242,10 @@
             {//更新购物车数量
                 document.getElementById('ECS_CARTINFO').innerHTML = result.cart_info;
             }
-        }
-        else if (result.message != '')
-        {
-            alert(result.message);
-        }
+        //}
+        //else if (result.message != '')
+        //{
+        //    alert(result.message);
+        //}
     }
 </script>

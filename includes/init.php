@@ -138,6 +138,35 @@ require(ROOT_PATH . 'includes/cls_session.php');
 $sess = new cls_session($db, $ecs->table('sessions'), $ecs->table('sessions_data'), 'ecsid');
 define('SESS_ID', $sess->get_session_id());
 
+if (!defined('INIT_NO_USERS'))
+{
+    /* 会员信息 */
+    $user =& init_users();
+    if (empty($_SESSION['user_id']))
+    {
+        if ($user->get_cookie())
+        {
+            /* 如果会员已经登录并且还没有获得会员的帐户余额、积分以及优惠券 */
+            if ($_SESSION['user_id'] > 0 && !isset($_SESSION['user_money']))
+            {
+                update_user_info();
+            }
+        }
+        else
+        {
+            $_SESSION['user_id']     = 0;
+            $_SESSION['user_name']   = '';
+            $_SESSION['email']       = '';
+            $_SESSION['user_rank']   = 0;
+            $_SESSION['discount']    = 1.00;
+
+            if (!isset($_SESSION['cart_list'])) {
+                $_SESSION['cart_list'] = array();
+            }
+        }
+    }
+}
+
 if (!defined('INIT_NO_SMARTY'))
 {
     header('Cache-control: private');
@@ -165,36 +194,11 @@ if (!defined('INIT_NO_SMARTY'))
 
 
     $smarty->assign('lang', $GLOBALS['_mLANG']);
-    /* 店名 版权 */
     $smarty->assign('shop_name', $GLOBALS['_CFG']['shop_name']);
     $smarty->assign('year', date('Y'));
-}
 
-if (!defined('INIT_NO_USERS'))
-{
-    /* 会员信息 */
-    $user =& init_users();
-    if (empty($_SESSION['user_id']))
-    {
-        if ($user->get_cookie())
-        {
-            /* 如果会员已经登录并且还没有获得会员的帐户余额、积分以及优惠券 */
-            if ($_SESSION['user_id'] > 0 && !isset($_SESSION['user_money']))
-            {
-                update_user_info();
-            }
-        }
-        else
-        {
-            $_SESSION['user_id']     = 0;
-            $_SESSION['user_name']   = '';
-            $_SESSION['email']       = '';
-            $_SESSION['user_rank']   = 0;
-            $_SESSION['discount']    = 1.00;
-
-            $_SESSION['cartList'] = array();
-        }
-    }
+    $cart_stats = cart_stats();
+    $smarty->assign('cart_count', $cart_stats['count']);
 }
 
 if ((DEBUG_MODE & 1) == 1)
