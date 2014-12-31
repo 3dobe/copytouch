@@ -78,6 +78,8 @@ require(ROOT_PATH . 'includes/lib_goods.php');
 require(ROOT_PATH . 'includes/lib_base.php');
 require(ROOT_PATH . 'includes/lib_common.php');
 require(ROOT_PATH . 'includes/lib_time.php');
+require(ROOT_PATH . 'includes/lib_order.php');
+
 require(ROOT_PATH . 'includes/lib_main.php');
 require(ROOT_PATH . 'm/includes/lib_main.php');
 require(ROOT_PATH . 'includes/inc_constant.php');
@@ -159,13 +161,14 @@ if (!defined('INIT_NO_USERS'))
             $_SESSION['email']       = '';
             $_SESSION['user_rank']   = 0;
             $_SESSION['discount']    = 1.00;
-
-            if (!isset($_SESSION['cart_list'])) {
-                $_SESSION['cart_list'] = array();
-            }
         }
     }
 }
+if (!isset($_SESSION['cart_count']))
+{
+    update_cart_stats();
+}
+
 
 if (!defined('INIT_NO_SMARTY'))
 {
@@ -196,9 +199,7 @@ if (!defined('INIT_NO_SMARTY'))
     $smarty->assign('lang', $GLOBALS['_mLANG']);
     $smarty->assign('shop_name', $GLOBALS['_CFG']['shop_name']);
     $smarty->assign('year', date('Y'));
-
-    $cart_stats = cart_stats();
-    $smarty->assign('cart_count', $cart_stats['count']);
+    $smarty->assign('cart_count', $_SESSION['cart_count']);
 }
 
 if ((DEBUG_MODE & 1) == 1)

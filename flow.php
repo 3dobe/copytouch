@@ -16,11 +16,11 @@
 define('IN_ECS', true);
 
 require(dirname(__FILE__) . '/includes/init.php');
-require(ROOT_PATH . 'includes/lib_order.php');
 
 /* 载入语言文件 */
 require_once(ROOT_PATH . 'languages/' .$_CFG['lang']. '/user.php');
 require_once(ROOT_PATH . 'languages/' .$_CFG['lang']. '/shopping_flow.php');
+require_once(ROOT_PATH . 'languages/' .$_CFG['lang']. '/common.php');
 
 /*------------------------------------------------------ */
 //-- INPUT
@@ -35,6 +35,7 @@ if (!isset($_REQUEST['step']))
 //-- PROCESSOR
 /*------------------------------------------------------ */
 
+/*
 assign_template();
 assign_dynamic('flow');
 $position = assign_ur_here(0, $_LANG['shopping_flow']);
@@ -46,13 +47,16 @@ $smarty->assign('helps',            get_shop_help());       // 网店帮助
 $smarty->assign('lang',             $_LANG);
 $smarty->assign('show_marketprice', $_CFG['show_marketprice']);
 $smarty->assign('data_dir',    DATA_DIR);       // 数据目录
+*/
 
 /*------------------------------------------------------ */
 //-- 添加商品到购物车
 /*------------------------------------------------------ */
 if ($_REQUEST['step'] == 'add_to_cart')
 {
-    include_once('includes/cls_json.php');
+    include_once(ROOT_PATH . 'includes/cls_json.php');
+    include_once(ROOT_PATH . 'includes/lib_insert.php');
+
     $_POST['goods']=strip_tags(urldecode($_POST['goods']));
     $_POST['goods'] = json_str_iconv($_POST['goods']);
 
@@ -111,7 +115,7 @@ if ($_REQUEST['step'] == 'add_to_cart')
             }
             $result['error']   = ERR_NEED_SELECT_ATTR;
             $result['goods_id'] = $goods->goods_id;
-            $result['parent'] = $goods->parent;
+            //$result['parent'] = $goods->parent;
             $result['message'] = $spe_array;
 
             die($json->encode($result));
@@ -170,8 +174,11 @@ if ($_REQUEST['step'] == 'add_to_cart')
             }
         }
     }
+    update_cart_stats();
 
     $result['confirm_type'] = !empty($_CFG['cart_confirm']) ? $_CFG['cart_confirm'] : 2;
+    $result['quick'] = $goods->quick;
+    $result['cart_number'] = $_SESSION['cart_count'];
     die($json->encode($result));
 }
 elseif ($_REQUEST['step'] == 'link_buy')
@@ -1818,6 +1825,21 @@ elseif ($_REQUEST['step'] == 'update_cart')
 }
 
 /*------------------------------------------------------ */
+//-- ajax更新购物车
+/*------------------------------------------------------ */
+
+elseif ($_REQUEST['step'] == 'ajax_update_cart')
+{
+    if (isset($_POST['goods_number']) && is_array($_POST['goods_number']))
+    {
+        flow_update_cart($_POST['goods_number']);
+    }
+
+    show_message($_LANG['update_cart_notice'], $_LANG['back_to_cart'], 'flow.php');
+    exit;
+}
+
+/*------------------------------------------------------ */
 //-- 删除购物车中的商品
 /*------------------------------------------------------ */
 
@@ -1825,6 +1847,7 @@ elseif ($_REQUEST['step'] == 'drop_goods')
 {
     $rec_id = intval($_GET['id']);
     flow_drop_cart_goods($rec_id);
+    update_cart_stats();
 
     ecs_header("Location: flow.php\n");
     exit;
@@ -2154,7 +2177,8 @@ $smarty->assign('integral_scale',  $_CFG['integral_scale']);
 $smarty->assign('step',            $_REQUEST['step']);
 assign_dynamic('shopping_flow');
 
-$smarty->display('flow.dwt');
+//$smarty->display('flow.dwt');
+$smarty->display('flow_cart.html');
 
 /*------------------------------------------------------ */
 //-- PRIVATE FUNCTION
@@ -2388,6 +2412,7 @@ function flow_drop_cart_goods($id)
     /* 取得商品id */
     $sql = "SELECT * FROM " .$GLOBALS['ecs']->table('cart'). " WHERE rec_id = '$id'";
     $row = $GLOBALS['db']->getRow($sql);
+
     if ($row)
     {
         //如果是超值礼包

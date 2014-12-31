@@ -126,22 +126,22 @@
             <li class="new-tbl-type">
               <div class="itemlist_l new-tbl-cell">
                 <input checked="" name="checkAll[]" id="checkAll" onclick="setSelectAll_guan();" value="4248" class="quanxuan" type="checkbox">
-                <a href="goods.php?id={$goods.id}" target="_blank">
-                  <img class="lazy" src="../../{$goods.thumb}" title="{$goods.name}" border="0">
+                <a href="goods.php?id={$goods.goods_id}">
+                  <img class="lazy" src="../../{$goods.goods_thumb}" title="{$goods.name}" border="0">
                 </a>
               </div>
               <div class="desc new-tbl-cell">
-                <a style="color:#333" href="goods.php?id={$goods.id}" target="_blank" class="fragment">
-                  <h4>{$goods.name}</h4>
+                <a style="color:#333" href="goods.php?id={$goods.goods_id}" target="_blank" class="fragment">
+                  <h4>{$goods.goods_name}</h4>
                 </a>
                 <div style="clear:both"></div>
                 <div class="b">
-                  <em class="price">{$goods.price_formated}</em>
+                  <em class="price">{$goods.goods_price}</em>
                   <span style="jianju">x </span>
                   <span class="txt">
-                    <input class="inputBg" min="1" name="goods_number[{$goods.id}]" id="goods_number_{$goods.id}" value="{$goods.number}" size="4" onchange="changenum({$goods.id})" type="number">
+                    <input class="inputBg" min="1" name="goods_number[{$goods.rec_id}]" id="goods_number_{$goods.rec_id}" value="{$goods.goods_number}" size="4" onchange="changenum({$goods.rec_id})" type="number">
                   </span>
-                  <a href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) location.href='flow.php?step=drop_goods&amp;id={$goods.id}'; " class="ico_08 cha"></a>
+                  <a href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; " class="ico_08 cha"></a>
                 </div>
               </div>
             </li>
@@ -158,7 +158,7 @@
 </style>
 <div class="blank3"></div>
 <footer class="toolbar">
-  <p>合计:<em class="price" id="goods_subtotal">{$total_price_formated}</em></p>
+  <p>合计:<em class="price" id="goods_subtotal">{$total.goods_price}</em></p>
   <a href="javascript:cartsubmit_click();">结算(<em class="num" id="total_number">{$cart_count}</em>)</a> </footer>
 {/if}
 
@@ -213,7 +213,7 @@
             async: false,
             url: 'flow.php?step=ajax_update_cart',
             data: {
-              "goods_id": rec_id,
+              "rec_id": rec_id,
               "goods_number": goods_number
             },
             dataType: 'json',

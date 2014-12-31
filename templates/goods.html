@@ -123,9 +123,8 @@ function showPic(){
     <div>{$lang.please}<span></span><i></i></div>
     <div class="selected"> </div>
     </label>
-    <form onsubmit="return false" onchange="changePrice()">
+    <form name="ECS_FORMBUY" onsubmit="return false" onchange="changePrice()">
       <div class="fields" style="display:block">
-        <input type="hidden" name="goods_id" value="{$goods_id}">
         <ul class="spec">
           {foreach from=$specification item=spec key=spec_key}
           <li>
@@ -171,17 +170,17 @@ function showPic(){
             {$lang.quantity}{$lang.colon}
             <span class="ui-number radius5"> 
               <button type="button" class="decrease radius5" onclick="changenum(-1)">-</button>
-              <input class="num" name="goods_number" id="goods_number" autocomplete="off" value="1" type="number" onchange="changenum(0)" />
+              <input class="num" name="number" id="goods_number" autocomplete="off" value="1" type="number" onchange="changenum(0)" />
               <button type="button" class="increase radius5" onclick="changenum(1)">+</button>
             </span>
           </li>
         </ul>
       </div>
       <div class="option">
-        <button class="btn buy radius5" onClick="addToCart(true)">
+        <button class="btn buy radius5" onClick="addToCart({$goods_id}, true)">
           {$lang.buy_now}
         </button>
-        <button class="btn cart radius5" onclick="addToCart();">
+        <button class="btn cart radius5" onclick="addToCart({$goods_id});">
           <div class="ico_01"></div>
           {$lang.add_to_cart}
         </button>
@@ -220,36 +219,15 @@ function showPic(){
 
 {include file='foot.html'}
 
-<script type="text/javascript">
+
+<script src="js/transport.js"></script>
+<script src="js/common.js"></script>
+<script>
 // 必须有分号 smarty坑
 var goods_id = {$goods_id};
 var goods_price = {$goods.shop_price};
 var stock_number = {$goods.goods_number};
 changePrice();
-
-function addToCart(quick){
-  var $form = $('.goodsBuy form')
-  var formArray = $form.serializeArray()
-  var formData = formArray.reduce(function(memo, field){
-    memo[field.name] = field.value
-    return memo
-  }, {})
-  console.log(formData)
-
-  $.ajax({
-      type: 'POST',
-      async: false,
-      url: 'flow.php?step=add_to_cart',
-      data: formData,
-      success: function(response) {
-        if (quick) {
-          window.location.href = 'flow.php?step=cart'
-        } else {
-          alert('加入购物车成功')
-        }
-      }
-  })
-}
 
 function changePrice(){
   var $amount = $('#ECS_GOODS_AMOUNT')
