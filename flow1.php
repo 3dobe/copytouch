@@ -16,13 +16,12 @@ define('IN_ECS', true);
 
 require(dirname(__FILE__) . '/includes/init.php');
 include(ROOT_PATH . 'includes/lib_order.php');
-include(ROOT_PATH . 'includes/lib_transaction.php');
 
 /* 载入语言文件 */
 require_once(ROOT_PATH . 'languages/' .$_CFG['lang']. '/user.php');
 require_once(ROOT_PATH . 'languages/' .$_CFG['lang']. '/shopping_flow.php');
 
-if (empty($_REQUEST['step']))
+if (!isset($_REQUEST['step']))
 {
     $_REQUEST['step'] = 'cart';
 }
@@ -31,29 +30,127 @@ if (empty($_REQUEST['step']))
 //添加物品的购物车
 if ($_REQUEST['step'] == 'add_to_cart')
 {
-    $goods_id = intval($_POST['goods_id']);
-    $goods_number = intval($_POST['goods_number']);
-    $goods_list = array();
-    if (isset($_SESSION['cart_list'])) {
-        $goods_list = $_SESSION['cart_list'];
+    include_once('includes/cls_json.php');
+    $_POST['goods']=strip_tags(urldecode($_POST['goods']));
+    $_POST['goods'] = json_str_iconv($_POST['goods']);
+
+    if (!empty($_REQUEST['goods_id']) && empty($_POST['goods']))
+    {
+        if (!is_numeric($_REQUEST['goods_id']) || intval($_REQUEST['goods_id']) <= 0)
+        {
+            ecs_header("Location:./\n");
+        }
+        $goods_id = intval($_REQUEST['goods_id']);
+        exit;
     }
 
-    $has = false;
-    foreach ($goods_list as $key => $goods) {
-        if ($goods['id'] == $goods_id) {
-            $has = true;
-            $goods['number'] += $goods_number;
-            break;
+    $result = array('error' => 0, 'message' => '', 'content' => '', 'goods_id' => '');
+    $json  = new JSON;
+
+    if (empty($_POST['goods']))
+    {
+        $result['error'] = 1;
+        die($json->encode($result));
+    }
+
+    $goods = $json->decode($_POST['goods']);
+
+    /* 检查：如果商品有规格，而post的数据没有规格，把商品的规格属性通过JSON传到前台 */
+    if (empty($goods->spec) AND empty($goods->quick))
+    {
+        $sql = "SELECT a.attr_id, a.attr_name, a.attr_type, ".
+            "g.goods_attr_id, g.attr_value, g.attr_price " .
+        'FROM ' . $GLOBALS['ecs']->table('goods_attr') . ' AS g ' .
+        'LEFT JOIN ' . $GLOBALS['ecs']->table('attribute') . ' AS a ON a.attr_id = g.attr_id ' .
+        "WHERE a.attr_type != 0 AND g.goods_id = '" . $goods->goods_id . "' " .
+        'ORDER BY a.sort_order, g.attr_price, g.goods_attr_id';
+
+        $res = $GLOBALS['db']->getAll($sql);
+
+        if (!empty($res))
+        {
+            $spe_arr = array();
+            foreach ($res AS $row)
+            {
+                $spe_arr[$row['attr_id']]['attr_type'] = $row['attr_type'];
+                $spe_arr[$row['attr_id']]['name']     = $row['attr_name'];
+                $spe_arr[$row['attr_id']]['attr_id']     = $row['attr_id'];
+                $spe_arr[$row['attr_id']]['values'][] = array(
+                                                            'label'        => $row['attr_value'],
+                                                            'price'        => $row['attr_price'],
+                                                            'format_price' => price_format($row['attr_price'], false),
+                                                            'id'           => $row['goods_attr_id']);
+            }
+            $i = 0;
+            $spe_array = array();
+            foreach ($spe_arr AS $row)
+            {
+                $spe_array[]=$row;
+            }
+            $result['error']   = ERR_NEED_SELECT_ATTR;
+            $result['goods_id'] = $goods->goods_id;
+            $result['parent'] = $goods->parent;
+            $result['message'] = $spe_array;
+
+            die($json->encode($result));
         }
     }
 
-    if (!$has) {
-        $goods_list[] = array(
-            'id' => $goods_id,
-            'number' => $goods_number,
-        );
+    /* 更新：如果是一步购物，先清空购物车 */
+    if ($_CFG['one_step_buy'] == '1')
+    {
+        clear_cart();
     }
-    $_SESSION['cart_list'] = $goods_list;
+
+    /* 检查：商品数量是否合法 */
+    if (!is_numeric($goods->number) || intval($goods->number) <= 0)
+    {
+        $result['error']   = 1;
+        $result['message'] = $_LANG['invalid_number'];
+    }
+    /* 更新：购物车 */
+    else
+    {
+        if(!empty($goods->spec))
+        {
+            foreach ($goods->spec as  $key=>$val )
+            {
+                $goods->spec[$key]=intval($val);
+            }
+        }
+        // 更新：添加到购物车
+        if (addto_cart($goods->goods_id, $goods->number, $goods->spec, $goods->parent))
+        {
+            if ($_CFG['cart_confirm'] > 2)
+            {
+                $result['message'] = '';
+            }
+            else
+            {
+                $result['message'] = $_CFG['cart_confirm'] == 1 ? $_LANG['addto_cart_success_1'] : $_LANG['addto_cart_success_2'];
+            }
+
+            $result['content'] = insert_cart_info();
+            $result['one_step_buy'] = $_CFG['one_step_buy'];
+        }
+        else
+        {
+            $result['message']  = $err->last_message();
+            $result['error']    = $err->error_no;
+            $result['goods_id'] = stripslashes($goods->goods_id);
+            if (is_array($goods->spec))
+            {
+                $result['product_spec'] = implode(',', $goods->spec);
+            }
+            else
+            {
+                $result['product_spec'] = $goods->spec;
+            }
+        }
+    }
+
+    $result['confirm_type'] = !empty($_CFG['cart_confirm']) ? $_CFG['cart_confirm'] : 2;
+    die($json->encode($result));
 }
 
 elseif ($_REQUEST['step'] == 'drop_consignee')
