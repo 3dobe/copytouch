@@ -108,11 +108,12 @@ function get_footer()
 
 
 
+
 // 更新购物车统计
 function update_cart_stats()
 {
-  $stats = cart_stats();
-  $_SESSION['cart_count'] = $stats['count'];
+  $cart = cart_stats();
+  $_SESSION['cart_count'] = $cart['total']['number'];
 }
 
 // 统计购物车总数
@@ -120,12 +121,12 @@ function cart_stats()
 {
   $cart = get_cart_goods();
   $goods_list = $cart['goods_list'];
-  $stats = array();
-  $stats['count'] = 0;
+  $cart['total']['number'] = 0;
+  
   foreach ($goods_list as $key => $goods) {
-    $stats['count'] += $goods_list[$key]['goods_number'];
+    $cart['total']['number'] += $goods_list[$key]['goods_number'];
   }
-  return $stats;
+  return $cart;
 }
 
 ?>

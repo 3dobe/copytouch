@@ -1832,10 +1832,16 @@ elseif ($_REQUEST['step'] == 'ajax_update_cart')
 {
     if (isset($_POST['goods_number']) && is_array($_POST['goods_number']))
     {
-        flow_update_cart($_POST['goods_number']);
+        //flow_update_cart($_POST['goods_number']);
     }
 
-    show_message($_LANG['update_cart_notice'], $_LANG['back_to_cart'], 'flow.php');
+    $stats = cart_stats();
+    $res = array(
+        'error' => 0,
+        'total_number' => $stats['total']['number'],
+        'total_desc' => $stats['total']['goods_price']
+    );
+    die(json_encode($res));
     exit;
 }
 

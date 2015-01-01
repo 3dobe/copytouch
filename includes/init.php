@@ -137,7 +137,9 @@ foreach ($GLOBALS['_mLANG'] as $key => $val)
 
 /* 初始化session */
 require(ROOT_PATH . 'includes/cls_session.php');
-$sess = new cls_session($db, $ecs->table('sessions'), $ecs->table('sessions_data'), 'ecsid');
+//$sess_name = 'ecsid';
+$sess_name  = defined("SESS_NAME") ? SESS_NAME : 'ECS_ID';
+$sess = new cls_session($db, $ecs->table('sessions'), $ecs->table('sessions_data'), $sess_name);
 define('SESS_ID', $sess->get_session_id());
 
 if (!defined('INIT_NO_USERS'))
@@ -164,11 +166,6 @@ if (!defined('INIT_NO_USERS'))
         }
     }
 }
-if (!isset($_SESSION['cart_count']))
-{
-    update_cart_stats();
-}
-
 
 if (!defined('INIT_NO_SMARTY'))
 {
@@ -195,7 +192,7 @@ if (!defined('INIT_NO_SMARTY'))
         $smarty->force_compile = false;
     }
 
-
+    update_cart_stats();
     $smarty->assign('lang', $GLOBALS['_mLANG']);
     $smarty->assign('shop_name', $GLOBALS['_CFG']['shop_name']);
     $smarty->assign('year', date('Y'));

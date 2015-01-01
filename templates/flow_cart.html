@@ -114,7 +114,7 @@
   </div>
   <div class="blank3"></div>
   {else}
-    <form id="formCart" name="formCart" method="post" action="flow.php?step=consignee">
+    <form id="formCart" method="POST" action="flow.php?step=update_cart" onchange="update_cart()">
         <ul class="radius10 itemlist">
             <li>
                 <p class="xuanzhes">
@@ -139,7 +139,7 @@
                   <em class="price">{$goods.goods_price}</em>
                   <span style="jianju">x </span>
                   <span class="txt">
-                    <input class="inputBg" min="1" name="goods_number[{$goods.rec_id}]" id="goods_number_{$goods.rec_id}" value="{$goods.goods_number}" size="4" onchange="changenum({$goods.rec_id})" type="number">
+                    <input class="inputBg" min="1" name="goods_number[{$goods.rec_id}]" id="goods_number_{$goods.rec_id}" value="{$goods.goods_number}" type="number">
                   </span>
                   <a href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; " class="ico_08 cha"></a>
                 </div>
@@ -164,7 +164,8 @@
 
 {include file='foot.html'}
 
-<script type="text/javascript">
+
+<script>
     var process_request = "正在处理您的请求...";
     var username_empty = "用户名不能为空。";
     var username_shorter = "用户名长度不能少于 3 个字符。";
@@ -199,6 +200,7 @@
 </script>
 
 <script>
+    /*
     function changenum(rec_id)
     {
         var goods_number = parseInt(document.getElementById('goods_number_'+rec_id).value);
@@ -207,24 +209,24 @@
 
     function change_goods_number(rec_id, goods_number)
     {
-        //Ajax.call('flow.php?step=ajax_update_cart', 'rec_id=' + rec_id +'&goods_number=' + goods_number, change_goods_number_response, 'POST','JSON');
+        Ajax.call('flow.php?step=ajax_update_cart', 'rec_id=' + rec_id +'&goods_number=' + goods_number, change_goods_number_response, 'POST','JSON');
+    }
+    */
+    function update_cart()
+    {
         $.ajax({
-            type: 'POST',
-            async: false,
-            url: 'flow.php?step=ajax_update_cart',
-            data: {
-              "rec_id": rec_id,
-              "goods_number": goods_number
-            },
-            dataType: 'json',
-            success: change_goods_number_response
-        });
+          type: 'POST',
+          url: 'flow.php?step=ajax_update_cart',
+          data: $('#formCart').serialize(),
+          dataType: 'json',
+          success: change_goods_number_response
+        })
     }
 
     function change_goods_number_response(result)
     {
-        //if (result.error == 0)
-        //{
+        if (result.error == 0)
+        {
 
           $('[class$=-cart-num]').text(result.total_number);
 
@@ -237,15 +239,15 @@
             }
             document.getElementById('total_number').innerHTML = result.total_number;//更新数量
             document.getElementById('goods_subtotal').innerHTML = result.total_desc;//更新小计
-            document.getElementById('goods_weight_add').innerHTML = result.goods_weight+'kg';//更新重量
+            //document.getElementById('goods_weight_add').innerHTML = result.goods_weight+'kg';//更新重量
             if (document.getElementById('ECS_CARTINFO'))
             {//更新购物车数量
                 document.getElementById('ECS_CARTINFO').innerHTML = result.cart_info;
             }
-        //}
-        //else if (result.message != '')
-        //{
-        //    alert(result.message);
-        //}
+        }
+        else if (result.message != '')
+        {
+            alert(result.message);
+        }
     }
 </script>
