@@ -9,97 +9,23 @@
   <div class="header_l">
     <a class="ico_10" href="javascript:history.back()"></a>
   </div>
-  <h1>购物车</h1>
+  <h1>{$lang.cart}</h1>
   <!-- <div class="header_r">
     <a class="ico_01" href="flow.php"></a>
   </div> -->
 </header>
 
-<script type="text/javascript">
-    var selAll = document.getElementById("selAll");
-    function selectAll_guan()
-    {
-        var obj = document.getElementsByName("checkAll[]");
-        if(document.getElementById("selAll").checked == false)
-        {
-            for(var i=0; i<obj.length; i++)
-            {
-                obj[i].checked=false;
-            }
-        }else
-        {
-            for(var i=0; i<obj.length; i++)
-            {
-                obj[i].checked=true;
-            }
-        }
-
-    }
-
-    //当选中所有的时候，全选按钮会勾上
-    function setSelectAll_guan()
-    {
-        var obj=document.getElementsByName("checkAll[]");
-        var count = obj.length;
-        var selectCount = 0;
-
-        for(var i = 0; i < count; i++)
-        {
-            if(obj[i].checked == true)
-            {
-                selectCount++;
-            }
-        }
-        if(count == selectCount)
-        {
-            document.all.selAll.checked = true;
-        }
-        else
-        {
-            document.all.selAll.checked = false;
-        }
-    }
-
-    //反选按钮
-    function inverse_guan() {
-        var checkboxs=document.getElementsByName("checkAll[]");
-        for (var i=0;i<checkboxs.length;i++) {
-            var e=checkboxs[i];
-            e.checked=!e.checked;
-            setSelectAll_guan();
-        }
-    }
-
-    function cartsubmit_click()
-    {
-        document.getElementById('formCart').submit();
-    }
-
-</script>
-
-
-<!--<script type="text/javascript" src="http://static.chihuoyizu.cn/mobile/data/static/js/showdiv.js"></script>-->
-<script type="text/javascript">
-    var user_name_empty = "请输入您的用户名！";
-    var email_address_empty = "请输入您的电子邮件地址！";
-    var email_address_error = "您输入的电子邮件地址格式不正确！";
-    var new_password_empty = "请输入您的新密码！";
-    var confirm_password_empty = "请输入您的确认密码！";
-    var both_password_error = "您两次输入的密码不一致！";
-    var show_div_text = "请点击更新购物车按钮";
-    var show_div_exit = "关闭";
-</script>
 <div class="cart-step" id="J_cartTab">
     <ul>
-        <li class="cur">1.购物车列表</li>
-        <li>2.确认订单</li>
-        <li>3.购买成功</li>
+        <li class="cur">1. {$lang.checkout}</li>
+        <li>2. {$lang.confirm_order}</li>
+        <li>3. {$lang.buy_success}</li>
     </ul>
 </div>
-<div class="blank3"></div>
 
 
 <style>
+  .itemlist { overflow-x: hidden; }
   .itemlist li .b .cha { right: 2.4rem; }
   .inputBg { padding: 0; }
   .empty-cart .cart-logo { margin: 1rem auto; }
@@ -110,30 +36,28 @@
   {if !count($goods_list)}
   <div class="empty-cart">
     <div class="ico_13 cart-logo"></div>
-    <p class="message">没有宝贝哦，不如去添加宝贝</p>
+    <p class="message">{$lang.empty_cart_msg}</p>
   </div>
   <div class="blank3"></div>
   {else}
     <form id="formCart" method="POST" action="flow.php?step=update_cart" onchange="update_cart()">
         <ul class="radius10 itemlist">
-            <li>
+            <!-- <li>
                 <p class="xuanzhes">
 
-                    <input checked="" id="selAll" onclick="selectAll_guan();" type="checkbox">全选</p>
-            </li>
+                    <input checked="" id="selAll" onclick="selectAll_guan();" type="checkbox"> {$lang.select_all}</p>
+            </li> -->
 
             {foreach from=$goods_list item=goods}
             <li class="new-tbl-type">
               <div class="itemlist_l new-tbl-cell">
-                <input checked="" name="checkAll[]" id="checkAll" onclick="setSelectAll_guan();" value="4248" class="quanxuan" type="checkbox">
+                <!-- <input checked="" name="checkAll[]" id="checkAll" onclick="setSelectAll_guan();" value="4248" class="quanxuan" type="checkbox"> -->
                 <a href="goods.php?id={$goods.goods_id}">
                   <img class="lazy" src="../../{$goods.goods_thumb}" title="{$goods.name}" border="0">
                 </a>
               </div>
               <div class="desc new-tbl-cell">
-                <a style="color:#333" href="goods.php?id={$goods.goods_id}" target="_blank" class="fragment">
-                  <h4>{$goods.goods_name}</h4>
-                </a>
+                <h4>{$goods.goods_name}</h4>
                 <div style="clear:both"></div>
                 <div class="b">
                   <em class="price">{$goods.goods_price}</em>
@@ -141,7 +65,7 @@
                   <span class="txt">
                     <input class="inputBg" min="1" name="goods_number[{$goods.rec_id}]" id="goods_number_{$goods.rec_id}" value="{$goods.goods_number}" type="number">
                   </span>
-                  <a href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; " class="ico_08 cha"></a>
+                  <a href="javascript:if (confirm('{$lang.confirm_drop_goods}')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; " class="ico_08 cha"></a>
                 </div>
               </div>
             </li>
@@ -155,49 +79,17 @@
 {if count($goods_list)}
 <style>
   .toolbar { position: relative; }
+  .toolbar a { width: 40%; }
 </style>
 <div class="blank3"></div>
 <footer class="toolbar">
-  <p>合计:<em class="price" id="goods_subtotal">{$total.goods_price}</em></p>
-  <a href="javascript:cartsubmit_click();">结算(<em class="num" id="total_number">{$cart_count}</em>)</a> </footer>
+  <p>{$lang.total_price}: <em class="price" id="goods_subtotal">{$total.goods_price}</em></p>
+  <a href="flow.php?step=checkout">{$lang.checkout} (<em class="num" id="total_number">{$cart_count}</em>)</a>
+</footer>
 {/if}
 
 {include file='foot.html'}
 
-
-<script>
-    var process_request = "正在处理您的请求...";
-    var username_empty = "用户名不能为空。";
-    var username_shorter = "用户名长度不能少于 3 个字符。";
-    var username_invalid = "用户名只能是由字母数字以及下划线组成。";
-    var password_empty = "登录密码不能为空。";
-    var password_shorter = "登录密码不能少于 6 个字符。";
-    var confirm_password_invalid = "两次输入密码不一致";
-    var email_empty = "Email 为空";
-    var email_invalid = "Email 不是合法的地址";
-    var agreement = "您没有接受协议";
-    var msn_invalid = "msn地址不是一个有效的邮件地址";
-    var qq_invalid = "QQ号码不是一个有效的号码";
-    var home_phone_invalid = "家庭电话不是一个有效号码";
-    var office_phone_invalid = "办公电话不是一个有效号码";
-    var mobile_phone_invalid = "手机号码不是一个有效号码";
-    var msg_un_blank = "* 用户名不能为空";
-    var msg_un_length = "* 用户名最长不得超过7个汉字";
-    var msg_un_format = "* 用户名含有非法字符";
-    var msg_un_registered = "* 用户名已经存在,请重新输入";
-    var msg_can_rg = "* 可以注册";
-    var msg_email_blank = "* 邮件地址不能为空";
-    var msg_email_registered = "* 邮箱已存在,请重新输入";
-    var msg_email_format = "* 邮件地址不合法";
-    var msg_blank = "不能为空";
-    var no_select_question = "您没有完成密码提示问题的操作";
-    var passwd_balnk = "密码中不能包含空格";
-    var username_exist = "用户名 %s 已经存在";
-    var compare_no_goods = "您没有选定任何需要比较的商品或者比较的商品数少于 2 个。";
-    var btn_buy = "购买";
-    var is_cancel = "取消";
-    var select_spe = "请选择商品属性";
-</script>
 
 <script>
     /*
@@ -245,7 +137,8 @@
                 document.getElementById('ECS_CARTINFO').innerHTML = result.cart_info;
             }
         }
-        else if (result.message != '')
+
+        if (result.message)
         {
             alert(result.message);
         }

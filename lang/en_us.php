@@ -34,7 +34,16 @@ $_mLANG = array(
   'number' => 'Stock Number',
   'quantity' => 'Quantity',
   'buy_now' => 'Buy Now',
-  'add_to_cart' => 'Add to Cart'
+  'add_to_cart' => 'Add to Cart',
+
+  'cart' => 'Cart',
+  'checkout' => 'Checkout',
+  'confirm_order' => 'Confirm',
+  'buy_success' => 'Success',
+  'total_price' => 'Total Price',
+  'confirm_drop_goods' => 'You want to drop the goods from cart?',
+  'empty_cart_msg' => 'There is no goods in cart',
+
 );
 
 ?>

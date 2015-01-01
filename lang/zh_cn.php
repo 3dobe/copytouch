@@ -41,7 +41,17 @@ $_mLANG = array(
   'number' => '库存',
   'quantity' => '数量',
   'buy_now' => '立即购买',
-  'add_to_cart' => '加入购物车'
+  'add_to_cart' => '加入购物车',
+
+  // flow_cart.html
+  'cart' => '购物车',
+  'checkout' => '结算',
+  'confirm_order' => '确认订单',
+  'buy_success' => '购买成功',
+  'total_price' => '合计',
+  'confirm_drop_goods' => '您确实要把该商品移出购物车吗？',
+  'empty_cart_msg' => '没有宝贝哦，不如去添加宝贝',
+
 );
 
 ?>
