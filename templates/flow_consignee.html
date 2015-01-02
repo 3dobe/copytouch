@@ -9,7 +9,7 @@
   <div class="header_l">
     <a class="ico_10" href="javascript:history.back()"></a>
   </div>
-  <h1>收货人信息</h1>
+  <h1>{$lang.consignee_info}</h1>
   <div class="header_r">
     <a class="ico_01" href="flow.php"></a>
   </div>
@@ -17,33 +17,34 @@
 
 <div class="cart-step" id="J_cartTab">
     <ul>
-        <li>1.购物车列表</li>
-        <li class="cur">2.确认订单</li>
-        <li>3.购买成功</li>
+        <li class="cur">1. {$lang.submit_order}</li>
+        <li>2. {$lang.confirm_order}</li>
+        <li>3. {$lang.order_success}</li>
     </ul>
 </div>
+
+
 <div class="blank3"></div>
 <div class="wrap">
-
     {foreach from=$consignee_list item=consignee key=sn}
     {if $consignee.address_id}
     <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
         <div class="table_box2 table_box">
             <form style="padding:8px;" action="flow.php?step=consignee" method="post" name="theForm" id="theForm" onsubmit="return checkConsignee(this)">
                 <dl>
-                    <dd class="dd1">收货人</dd>
+                    <dd class="dd1">{$lang.consignee_name}</dd>
                     <dd class="dd2">
                         <input name="consignee" class="inputBg" id="consignee_0" value="{$consignee.consignee}" type="text">
                         <span>*</span></dd>
                 </dl>
                 <dl>
-                    <dd class="dd1">联系电话</dd>
+                    <dd class="dd1">{$lang.phone}</dd>
                     <dd class="dd2">
                         <input name="tel" class="inputBg" id="tel_0" value="{$consignee.tel}" type="text">
                         <span>*</span></dd>
                 </dl>
                 <dl>
-                    <dd class="dd1">电子邮箱</dd>
+                    <dd class="dd1">{$lang.email}</dd>
                     <dd class="dd2">
                         <input name="email" class="inputBg" id="email_0" value="{$consignee.email}" type="text">
                         <span>*</span></dd>
@@ -52,28 +53,28 @@
 
 
                 <dl>
-                    <dd class="dd1">配送区域</dd>
+                    <dd class="dd1">{$lang.region}</dd>
                     <dd class="dd2">
                         <select name="country" id="selCountries_{$sn}" onchange="region.changed(this, 1, 'selProvinces_{$sn}')" style="border:1px solid #ccc;">
-                            <option value="0" {if $consignee.country eq 0}selected{/if}>请选择国家</option>
-                            <option value="3409" {if $consignee.country eq 3409}selected{/if}>United States</option>
+                            <option value="0" {if $consignee.country eq 0}selected{/if}>{$lang.choose_country}</option>
+                            <option value="3409" {if $consignee.country eq 3409}selected{/if}>US</option>
                             <option value="1" {if $consignee.country eq 1}selected{/if}>中国</option>
                         </select>
 
                         <select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')" style="border:1px solid #ccc;">
-                            <option value="0" {if $consignee.province eq 0}selected{/if}>请选择省份</option>
+                            <option value="0" {if $consignee.province eq 0}selected{/if}>{$lang.choose_province}</option>
                             {foreach from=$province_list.$sn item=province}
                             <option value="{$province.region_id}" {if $province.region_id eq $consignee.province}selected{/if}>{$province.region_name}</option>
                             {/foreach}
                         </select>
                         <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')" style="border: 1px solid rgb(204, 204, 204); padding: 2px;">
-                            <option value="0" {if $consignee.city eq 0}selected{/if}>请选择市</option>
+                            <option value="0" {if $consignee.city eq 0}selected{/if}>{$lang.choose_city}</option>
                             {foreach from=$city_list.$sn item=city}
                             <option value="{$city.region_id}" {if $city.region_id eq $consignee.city}selected{/if}>{$city.region_name}</option>
                             {/foreach}
                         </select>
-                        <select name="district" id="selDistricts_{$sn}" style="display:none">
-                            <option value="0" {if $consignee.district eq 0}selected{/if}>请选择区</option>
+                        <select name="district" id="selDistricts_{$sn}" style="border: 1px solid rgb(204, 204, 204); padding: 2px;">
+                            <option value="0" {if $consignee.district eq 0}selected{/if}>{$lang.choose_district}</option>
                             {foreach from=$district_list.$sn item=district}
                             <option value="{$district.region_id}" {if $district.region_id eq $consignee.district}selected{/if}>{$district.region_name}</option>
                             {/foreach}
@@ -85,13 +86,13 @@
 
 
                 <dl>
-                    <dd class="dd1">详细地址</dd>
+                    <dd class="dd1">{$lang.address}</dd>
                     <dd class="dd2">
                         <input name="address" class="inputBg" id="address_0" value="{$consignee.address}" type="text">
                         <span>*</span></dd>
                 </dl>
                 <dl>
-                    <dd class="dd1">邮政编码</dd>
+                    <dd class="dd1">{$lang.zipcode}</dd>
                     <dd class="dd2">
                         <input name="zipcode" class="inputBg" id="zipcode_0" value="{$consignee.zipcode}" type="text">
                     </dd>
@@ -102,11 +103,11 @@
 
 
                     <dd class="w40">
-                        <button name="Submit" class="c-btn3" type="submit">配送至这个地址</button>
+                        <button name="Submit" class="c-btn3" type="submit">{$lang.ship_here}</button>
                     </dd>
                     <dd class="w10"></dd>
                     <dd class="w40">
-                        <button onclick="if (confirm('您确定要删除该收货人信息吗？')) location.href='flow.php?step=drop_consignee&amp;id={$consignee.address_id}'" name="button" class="c-btn3" type="button">删除</button>
+                        <button onclick="if (confirm('{$lang.msg_confirm_drop_consignee}')) location.href='flow.php?step=drop_consignee&amp;id={$consignee.address_id}'" name="button" class="c-btn3" type="button">{$lang.delete}</button>
                     </dd>
                 </dl>
                 <input name="act" value="checkout" type="hidden">
@@ -122,76 +123,43 @@
         <div class="table_box2 table_box">
             <form onsubmit="return checkConsignee(this)" id="theForm" name="theForm" method="post" action="flow.php?step=consignee" style="padding:8px;">
                 <dl>
-                    <dd class="dd1">收货人</dd>
+                    <dd class="dd1">{$lang.consignee_name}</dd>
                     <dd class="dd2">
                         <input type="text" value="" id="consignee_2" class="inputBg" name="consignee">
                         <span>*</span></dd>
                 </dl>
                 <dl>
-                    <dd class="dd1">联系电话</dd>
+                    <dd class="dd1">{$lang.phone}</dd>
                     <dd class="dd2">
                         <input type="text" value="" id="tel_2" class="inputBg" name="tel">
                         <span>*</span></dd>
                 </dl>
                 <dl>
-                    <dd class="dd1">电子邮箱</dd>
+                    <dd class="dd1">{$lang.email}</dd>
                     <dd class="dd2">
-                        <input type="text" value="0" id="email_2" class="inputBg" name="email">
+                        <input type="text" value="" id="email_2" class="inputBg" name="email">
                         <span>*</span></dd>
                 </dl>
 
 
 
                 <dl>
-                    <dd class="dd1">配送区域</dd>
+                    <dd class="dd1">{$lang.region}</dd>
                     <dd class="dd2">
-                        <select style="border:1px solid #ccc; padding:2px; display:None" onchange="region.changed(this, 1, 'selProvinces_2')" id="selCountries_2" name="country">
-                            <option value="0">请选择国家</option>
-                            <option selected="" value="1">中国</option>
+                        <select style="border:1px solid #ccc; padding:2px" onchange="region.changed(this, 1, 'selProvinces_{$new_sn}')" id="selCountries_{$new_sn}" name="country">
+                            <option value="0">{$lang.choose_country}</option>
+                            <option value="3409">US</option>
+                            <option value="1">中国</option>
                         </select>
 
-                        <select style="border:1px solid #ccc; padding:2px" onchange="region.changed(this, 2, 'selCities_2')" id="selProvinces_2" name="province">
-                            <option value="0">请选择省</option>
-                            <option value="2">北京</option>
-                            <option value="3">安徽</option>
-                            <option value="4">福建</option>
-                            <option value="5">甘肃</option>
-                            <option value="6">广东</option>
-                            <option value="7">广西</option>
-                            <option value="8">贵州</option>
-                            <option value="9">海南</option>
-                            <option value="10">河北</option>
-                            <option value="11">河南</option>
-                            <option value="12">黑龙江</option>
-                            <option value="13">湖北</option>
-                            <option value="14">湖南</option>
-                            <option value="15">吉林</option>
-                            <option value="16">江苏</option>
-                            <option value="17">江西</option>
-                            <option value="18">辽宁</option>
-                            <option value="19">内蒙古</option>
-                            <option value="20">宁夏</option>
-                            <option value="21">青海</option>
-                            <option value="22">山东</option>
-                            <option value="23">山西</option>
-                            <option value="24">陕西</option>
-                            <option value="25">上海</option>
-                            <option value="26">四川</option>
-                            <option value="27">天津</option>
-                            <option value="28">西藏</option>
-                            <option value="29">新疆</option>
-                            <option value="30">云南</option>
-                            <option value="31">浙江</option>
-                            <option value="32">重庆</option>
-                            <option value="33">香港</option>
-                            <option value="34">澳门</option>
-                            <option value="35">台湾</option>
+                        <select style="border:1px solid #ccc; padding:2px" onchange="region.changed(this, 2, 'selCities_{$new_sn}')" id="selProvinces_{$new_sn}" name="province">
+                            <option value="0" selected>{$lang.choose_province}</option>
                         </select>
-                        <select style="border: 1px solid rgb(204, 204, 204); padding: 2px;" onchange="region.changed(this, 3, 'selDistricts_2')" id="selCities_2" name="city">
-                            <option value="0">请选择市</option>
-                            <option value="36">安庆</option><option value="37">蚌埠</option><option value="38">巢湖</option><option value="39">池州</option><option value="40">滁州</option><option value="41">阜阳</option><option value="42">淮北</option><option value="43">淮南</option><option value="44">黄山</option><option value="45">六安</option><option value="46">马鞍山</option><option value="47">宿州</option><option value="48">铜陵</option><option value="49">芜湖</option><option value="50">宣城</option><option value="51">亳州</option><option value="3401">合肥</option></select>
-                        <select style="display:none" id="selDistricts_2" name="district">
-                            <option value="0">请选择区</option>
+                        <select style="border: 1px solid rgb(204, 204, 204); padding: 2px;" onchange="region.changed(this, 3, 'selDistricts_{$new_sn}')" id="selCities_{$new_sn}" name="city">
+                            <option value="0" selected>{$lang.choose_city}</option>
+                        </select>
+                        <select style="border: 1px solid rgb(204, 204, 204); padding: 2px; display:none" id="selDistricts_{$new_sn}" name="district">
+                            <option value="0" selected>{$lang.choose_district}</option>
                         </select>
                         <span>*</span> </dd>
                 </dl>
@@ -200,13 +168,13 @@
 
 
                 <dl>
-                    <dd class="dd1">详细地址</dd>
+                    <dd class="dd1">{$lang.address}</dd>
                     <dd class="dd2">
                         <input type="text" value="" id="address_2" class="inputBg" name="address">
                         <span>*</span></dd>
                 </dl>
                 <dl>
-                    <dd class="dd1">邮政编码</dd>
+                    <dd class="dd1">{$lang.zipcode}</dd>
                     <dd class="dd2">
                         <input type="text" value="" id="zipcode_2" class="inputBg" name="zipcode">
                     </dd>
@@ -215,7 +183,7 @@
 
                 <dl style="border:none; padding-bottom:0">
                     <dd>
-                        <button name="Submit" class="c-btn3" type="submit">配送至这个地址</button>
+                        <button name="Submit" class="c-btn3" type="submit">{$lang.ship_here}</button>
                     </dd>
                 </dl>
                 <input type="hidden" value="checkout" name="act">

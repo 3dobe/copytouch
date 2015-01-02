@@ -312,8 +312,16 @@ elseif ($_REQUEST['step'] == 'login')
         }
     }
 }
+
 elseif ($_REQUEST['step'] == 'consignee')
 {
+    if ($_SESSION['user_id'] <= 0)
+    {
+        ecs_header('Location: user.php');
+        exit();
+    }
+
+
     /*------------------------------------------------------ */
     //-- 收货人信息
     /*------------------------------------------------------ */
@@ -361,7 +369,7 @@ elseif ($_REQUEST['step'] == 'consignee')
         }
         $smarty->assign('name_of_region',   array($_CFG['name_of_region_1'], $_CFG['name_of_region_2'], $_CFG['name_of_region_3'], $_CFG['name_of_region_4']));
         $smarty->assign('consignee_list', $consignee_list);
-
+        
         /* 取得每个收货地址的省市区列表 */
         $province_list = array();
         $city_list = array();
@@ -382,6 +390,8 @@ elseif ($_REQUEST['step'] == 'consignee')
 
         /* 返回收货人页面代码 */
         $smarty->assign('real_goods_count', exist_real_goods(0, $flow_type) ? 1 : 0);
+        $smarty->assign('new_sn', count($consignee_list) + 1);
+        $smarty->display('flow_consignee.html');
     }
     else
     {
@@ -406,8 +416,6 @@ elseif ($_REQUEST['step'] == 'consignee')
 
         if ($_SESSION['user_id'] > 0)
         {
-            include_once(ROOT_PATH . 'includes/lib_transaction.php');
-
             /* 如果用户已经登录，则保存收货人信息 */
             $consignee['user_id'] = $_SESSION['user_id'];
 
@@ -440,6 +448,7 @@ elseif ($_REQUEST['step'] == 'drop_consignee')
         show_message($_LANG['not_fount_consignee']);
     }
 }
+
 elseif ($_REQUEST['step'] == 'checkout')
 {
     /*------------------------------------------------------ */
@@ -2176,17 +2185,18 @@ else
     $parent_list = $GLOBALS['db']->getCol($sql);
 
     $fittings_list = get_goods_fittings($parent_list);
-
     $smarty->assign('fittings_list', $fittings_list);
+
+
+    $smarty->assign('currency_format', $_CFG['currency_format']);
+    $smarty->assign('integral_scale',  $_CFG['integral_scale']);
+    $smarty->assign('step',            $_REQUEST['step']);
+    assign_dynamic('shopping_flow');
+    //$smarty->display('flow.dwt');
+    $smarty->display('flow_cart.html');
 }
 
-$smarty->assign('currency_format', $_CFG['currency_format']);
-$smarty->assign('integral_scale',  $_CFG['integral_scale']);
-$smarty->assign('step',            $_REQUEST['step']);
-assign_dynamic('shopping_flow');
 
-//$smarty->display('flow.dwt');
-$smarty->display('flow_cart.html');
 
 /*------------------------------------------------------ */
 //-- PRIVATE FUNCTION

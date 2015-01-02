@@ -3,6 +3,7 @@
 $_mLANG = array(
   'kilogram' => 'kg',
   'gram' => 'g',
+  'delete' => 'Delete',
 
   'login_error' => 'Incorrect username or password',
 
@@ -44,8 +45,22 @@ $_mLANG = array(
   'order_success' => 'Success',
   'total_price' => 'Total Price',
   'checkout' => 'Checkout',
-  'confirm_drop_goods' => 'You want to drop the goods from cart?',
-  'empty_cart_msg' => 'There is no goods in cart',
+  'msg_confirm_drop_goods' => 'You want to drop the goods from cart?',
+  'msg_empty_cart' => 'There is no goods in cart',
+
+  'consignee_info' => 'Consignee Info',
+  'consignee_name' => 'Name',
+  'phone' => 'Phone',
+  'email' => 'Email',
+  'region:' => 'Region',
+  'address' => 'Address',
+  'zipcode' => 'ZipCode',
+  'ship_here' => 'Ship Here',
+  'choose_country' => 'Country',
+  'choose_province' => 'Province',
+  'choose_city' => 'City',
+  'choose_district' => 'District',
+  'msg_confirm_drop_consignee' => 'You want to drop the consignee info?',
 
 );
 

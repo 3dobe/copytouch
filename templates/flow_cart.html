@@ -36,7 +36,7 @@
   {if !count($goods_list)}
   <div class="empty-cart">
     <div class="ico_13 cart-logo"></div>
-    <p class="message">{$lang.empty_cart_msg}</p>
+    <p class="message">{$lang.msg_empty_cart}</p>
   </div>
   <div class="blank3"></div>
   {else}
@@ -65,7 +65,7 @@
                   <span class="txt">
                     <input class="inputBg" min="1" name="goods_number[{$goods.rec_id}]" id="goods_number_{$goods.rec_id}" value="{$goods.goods_number}" type="number">
                   </span>
-                  <a href="javascript:if (confirm('{$lang.confirm_drop_goods}')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; " class="ico_08 cha"></a>
+                  <a href="javascript:if (confirm('{$lang.msg_confirm_drop_goods}')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; " class="ico_08 cha"></a>
                 </div>
               </div>
             </li>
