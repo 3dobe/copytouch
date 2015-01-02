@@ -17,9 +17,9 @@
 
 <div class="cart-step" id="J_cartTab">
     <ul>
-        <li class="cur">1. {$lang.checkout}</li>
+        <li class="cur">1. {$lang.submit_order}</li>
         <li>2. {$lang.confirm_order}</li>
-        <li>3. {$lang.buy_success}</li>
+        <li>3. {$lang.order_success}</li>
     </ul>
 </div>
 
@@ -117,7 +117,7 @@
 
     function change_goods_number_response(result)
     {
-        if (result.error == 0)
+        if (!result.error)
         {
 
           $('[class$=-cart-num]').text(result.total_number);

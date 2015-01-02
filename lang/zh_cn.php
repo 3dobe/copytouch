@@ -5,6 +5,9 @@ $_mLANG = array(
   'kilogram' => '千克',
   'gram' => '克',
 
+  // user.php
+  'login_error' => '用户名或密码错误',
+
   // foot.html
   'menu' => '菜单',
   'home' => '首页',
@@ -45,10 +48,11 @@ $_mLANG = array(
 
   // flow_cart.html
   'cart' => '购物车',
-  'checkout' => '结算',
+  'submit_order' => '提交订单',
   'confirm_order' => '确认订单',
-  'buy_success' => '购买成功',
+  'order_success' => '下单成功',
   'total_price' => '合计',
+  'checkout' => '结算',
   'confirm_drop_goods' => '您确实要把该商品移出购物车吗？',
   'empty_cart_msg' => '没有宝贝哦，不如去添加宝贝',
 

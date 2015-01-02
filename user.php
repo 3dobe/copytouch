@@ -21,38 +21,8 @@ require_once(ROOT_PATH . 'languages/' .$_CFG['lang']. '/user.php');
 
 $act = isset($_GET['act']) ? $_GET['act'] : '';
 
-/* 用户登陆 */
-if ($act == 'do_login')
-{
-    $user_name = !empty($_POST['username']) ? $_POST['username'] : '';
-    $pwd = !empty($_POST['pwd']) ? $_POST['pwd'] : '';
-    if (empty($user_name) || empty($pwd))
-    {
-        $login_faild = 1;
-    }
-    else
-    {
-        if ($user->check_user($user_name, $pwd) > 0)
-        {
-            $user->set_session($user_name);
-            $user->set_cookie($user_name);
-            update_user_info();
-            show_user_center();
-        }
-        else
-        {
-            $login_faild = 1;
-        }
-    }
 
-    if ($login_faild)
-    {
-        ecs_header("Location: user.php\n");
-        exit();
-    }
-}
-
-elseif ($act == 'order_list')
+if ($act == 'order_list')
 {
     if (empty($_SESSION['user_id']))
     {
@@ -248,8 +218,40 @@ elseif ($act == 'logout')
 
 }
 
+/* 用户登陆 */
+elseif ($act == 'ajax_login')
+{
+    $user_name = !empty($_POST['username']) ? $_POST['username'] : '';
+    $pwd = !empty($_POST['pwd']) ? $_POST['pwd'] : '';
+    if (empty($user_name) || empty($pwd))
+    {
+        $login_faild = 1;
+    }
+    else
+    {
+        if ($user->check_user($user_name, $pwd) > 0)
+        {
+            $user->set_session($user_name);
+            $user->set_cookie($user_name);
+            update_user_info();
+            //show_user_center();
+            ajax_show_message('', 'index.php');
+        }
+        else
+        {
+            $login_faild = 1;
+        }
+    }
+
+    if ($login_faild)
+    {
+        //ecs_header("Location: user.php\n");
+        ajax_show_message($_mLANG['login_error']);
+    }
+}
+
 /* 注册会员的处理 */
-elseif ($act == 'act_register')
+elseif ($act == 'ajax_register')
 {
         include_once(ROOT_PATH . 'includes/lib_passport.php');
 
@@ -263,10 +265,10 @@ elseif ($act == 'act_register')
         //$other['mobile_phone'] = isset($_POST['extend_field5']) ? $_POST['extend_field5'] : '';
         //$sel_question = empty($_POST['sel_question']) ? '' : compile_str($_POST['sel_question']);
         //$passwd_answer = isset($_POST['passwd_answer']) ? compile_str(trim($_POST['passwd_answer'])) : '';
-
         $back_act = isset($_POST['back_act']) ? trim($_POST['back_act']) : '';
 
-        if (m_register($username, $password, $email, $other) !== false)
+        $err_msg = m_register($username, $password, $email);
+        if (!$err_msg)
         {
             /*把新注册用户的扩展信息插入数据库*/
             $sql = 'SELECT id FROM ' . $ecs->table('reg_fields') . ' WHERE type = 0 AND display = 1 ORDER BY dis_order, id';   //读出所有自定义扩展字段的id
@@ -298,12 +300,14 @@ elseif ($act == 'act_register')
             }
 
             $ucdata = empty($user->ucdata)? "" : $user->ucdata;
-            $Loaction = 'index.php';
-            ecs_header("Location: $Loaction\n");
+            //$Loaction = 'index.php';
+            //ecs_header("Location: $Loaction\n");
+            ajax_show_message('', 'index.php');
         }
         else {
             $Loaction = 'user.php?act=register';
-            ecs_header("Location: $Loaction\n");
+            //ecs_header("Location: $Loaction\n");
+            ajax_show_message($err_msg);
         }
 }
 
@@ -318,7 +322,8 @@ else
 {
     if ($_SESSION['user_id'] > 0)
     {
-        show_user_center();
+        //show_user_center();
+        ecs_header("Location: index.php");
     }
     else
     {
@@ -331,9 +336,6 @@ else
  */
 function show_user_center()
 {
-    ecs_header("Location: index.php");
-    exit();
-
     $best_goods = get_recommend_goods('best');
     if (count($best_goods) > 0)
     {
@@ -356,39 +358,33 @@ function m_register($username, $password, $email, $other = array())
     /* 检查username */
     if (empty($username))
     {
-        echo '用户名不能为空';
-        return false;
+        return '用户名不能为空';
     }
     if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', $username))
     {
-        echo '用户名错误';
-        return false;
+        return '用户名错误';
     }
 
     /* 检查email */
     if (empty($email))
     {
-        echo 'email不能为空';
-        return false;
+        return 'email不能为空';
     }
     if(!is_email($email))
     {
-        echo 'email错误';
-        return false;
+        return 'email错误';
     }
 
     /* 检查是否和管理员重名 */
     if (admin_registered($username))
     {
-        echo '此用户已存在！';
-        return false;
+        return '此用户已存在！';
     }
 
     if (!$GLOBALS['user']->add_user($username, $password, $email))
     {
-        echo '注册失败！';
+        return '注册失败！';
         //注册失败
-        return false;
     }
     else
     {
@@ -422,8 +418,6 @@ function m_register($username, $password, $email, $other = array())
         $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('users'), $update_data, 'UPDATE', 'user_id = ' . $_SESSION['user_id']);
 
         update_user_info();      // 更新用户信息
-
-        return true;
 
 }
 

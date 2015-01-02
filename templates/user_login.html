@@ -26,7 +26,7 @@
     </div>
     <div class="bd">
       <div class="table_box">
-        <form action="user.php?act=do_login" method="post">
+        <form id="login_form">
           <dl>
             <dd>
               <input placeholder="用户名/手机/电子邮件地址" name="username" type="text"  class="inputBg" id="username" />
@@ -47,6 +47,25 @@
     </div>
   </div>
 </section>
+
+<script>
+  $(function(){
+    var $form = $('#login_form')
+    $form.on('submit', function(e){
+      e.preventDefault()
+      $.ajax({
+        type: 'post',
+        url: 'user.php?act=ajax_login',
+        dataType: 'json',
+        data: $form.serialize(),
+        success: function(ret){
+          if (ret.message) alert(ret.message)
+          if (ret.redirect) location = ret.redirect
+        }
+      })
+    })
+  })
+</script>
 
 {include file='foot.html'}
 </body>

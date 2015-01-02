@@ -4,6 +4,8 @@ $_mLANG = array(
   'kilogram' => 'kg',
   'gram' => 'g',
 
+  'login_error' => 'Incorrect username or password',
+
   'menu' => 'Menu',
   'home' => 'Home',
   'cat_all' => 'Categories',
@@ -37,10 +39,11 @@ $_mLANG = array(
   'add_to_cart' => 'Add to Cart',
 
   'cart' => 'Cart',
-  'checkout' => 'Checkout',
+  'submit_order' => 'Submit',
   'confirm_order' => 'Confirm',
-  'buy_success' => 'Success',
+  'order_success' => 'Success',
   'total_price' => 'Total Price',
+  'checkout' => 'Checkout',
   'confirm_drop_goods' => 'You want to drop the goods from cart?',
   'empty_cart_msg' => 'There is no goods in cart',
 

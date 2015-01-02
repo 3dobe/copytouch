@@ -194,6 +194,9 @@ elseif ($_REQUEST['step'] == 'link_buy')
 }
 elseif ($_REQUEST['step'] == 'login')
 {
+    ecs_header("Location: ./user.php\n");
+    exit;
+
     include_once('languages/'. $_CFG['lang']. '/user.php');
 
     /*

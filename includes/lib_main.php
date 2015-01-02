@@ -134,18 +134,15 @@ function cart_stats()
  * ajax显示一个提示信息
  *
  * @access  public
- * @param   string  $content
- * @param   string  $link
- * @param   string  $href
- * @param   string  $type               信息类型：warning, error, info
- * @param   string  $auto_redirect      是否自动跳转
+ * @param   string  $message
+ * @param   string  $redirect
  * @return  void
  */
-function ajax_show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_redirect = true)
+function ajax_show_message($message = '', $redirect = '')
 {
   $res = array(
-    'error' => 0,
-    'message' => $content
+    'message' => $message,
+    'redirect' => $redirect
   );
   die(json_encode($res));
 }
