@@ -108,6 +108,47 @@ function get_footer()
 
 
 
+function extend_region_str($consignee)
+{
+  $country_list = get_regions();
+  foreach ($country_list as $key => $item)
+  {
+    if ($item['region_id'] === $consignee['country'])
+    {
+      $consignee['country_str'] = $item['region_name'];
+      break;
+    }
+  }
+  $province_list = get_regions(1, $consignee['country']);
+  foreach ($province_list as $key => $item)
+  {
+    if ($item['region_id'] === $consignee['province'])
+    {
+      $consignee['province_str'] = $item['region_name'];
+      break;
+    }
+  }
+  $city_list = get_regions(2, $consignee['province']);
+  foreach ($city_list as $key => $item)
+  {
+    if ($item['region_id'] === $consignee['city'])
+    {
+      $consignee['city_str'] = $item['region_name'];
+      break;
+    }
+  }
+  $district_list = get_regions(3, $consignee['city']);
+  foreach ($district_list as $key => $item)
+  {
+    if ($item['region_id'] === $consignee['district'])
+    {
+      $consignee['district_str'] = $item['region_name'];
+      break;
+    }
+  }
+  return $consignee;
+}
+
 
 // 更新购物车统计
 function update_cart_stats()

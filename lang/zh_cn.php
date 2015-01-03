@@ -5,6 +5,8 @@ $_mLANG = array(
   'kilogram' => '千克',
   'gram' => '克',
   'delete' => '删除',
+  'modify' => '修改',
+  'required' => '必填',
 
   // user.php
   'login_error' => '用户名或密码错误',
@@ -48,10 +50,10 @@ $_mLANG = array(
   'add_to_cart' => '加入购物车',
 
   // flow_cart.html
+  'step_submit_order' => '提交订单',
+  'step_confirm_order' => '确认订单',
+  'step_order_success' => '下单成功',
   'cart' => '购物车',
-  'submit_order' => '提交订单',
-  'confirm_order' => '确认订单',
-  'order_success' => '下单成功',
   'total_price' => '合计',
   'checkout' => '结算',
   'msg_confirm_drop_goods' => '您确实要把该商品移出购物车吗？',
@@ -71,6 +73,11 @@ $_mLANG = array(
   'choose_city' => '城市',
   'choose_district' => '区',
   'msg_confirm_drop_consignee' => '您确定要删除该收货人信息吗？',
+
+  // flow_checkout.html
+  'confirm_order' => '确认订单',
+  'shipping_method' => '配送方式',
+  'payment_method' => '支付方式',
 
 );
 

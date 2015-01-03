@@ -1,70 +1,27 @@
+<!DOCTYPE html>
+<html>
 <head>
-    {include file='head.html'}
+{include file='head.html'}
 </head>
-
 <body>
-<script type="text/javascript">
-    var selAll = document.getElementById("selAll");
-    function selectAll_guan()
-    {
-        var obj = document.getElementsByName("checkAll[]");
-        if(document.getElementById("selAll").checked == false)
-        {
-            for(var i=0; i<obj.length; i++)
-            {
-                obj[i].checked=false;
-            }
-        }else
-        {
-            for(var i=0; i<obj.length; i++)
-            {
-                obj[i].checked=true;
-            }
-        }
 
-    }
+<header id="header" >
+  <div class="header_l">
+    <a class="ico_10" href="javascript:history.back()"></a>
+  </div>
+  <h1>{$lang.confirm_order}</h1>
+  <div class="header_r">
+    <a class="ico_01" href="flow.php"></a>
+  </div>
+</header>
 
-    //当选中所有的时候，全选按钮会勾上
-    function setSelectAll_guan()
-    {
-        var obj=document.getElementsByName("checkAll[]");
-        var count = obj.length;
-        var selectCount = 0;
-
-        for(var i = 0; i < count; i++)
-        {
-            if(obj[i].checked == true)
-            {
-                selectCount++;
-            }
-        }
-        if(count == selectCount)
-        {
-            document.all.selAll.checked = true;
-        }
-        else
-        {
-            document.all.selAll.checked = false;
-        }
-    }
-
-    //反选按钮
-    function inverse_guan() {
-        var checkboxs=document.getElementsByName("checkAll[]");
-        for (var i=0;i<checkboxs.length;i++) {
-            var e=checkboxs[i];
-            e.checked=!e.checked;
-            setSelectAll_guan();
-        }
-    }
-
-    function cartsubmit_click()
-    {
-        document.getElementById('formCart').submit();
-    }
-
-</script>
-
+<div class="cart-step" id="J_cartTab">
+    <ul>
+        <li>1. {$lang.step_submit_order}</li>
+        <li class="cur">2. {$lang.step_confirm_order}</li>
+        <li>3. {$lang.step_order_success}</li>
+    </ul>
+</div>
 
 
 <script>
@@ -113,52 +70,58 @@
 
     }
 </script>
-<div id="page">
-    <header id="header">
-        <div class="header_l"> <a class="ico_10" href="flow.php?step=cart"> 返回 </a> </div>
-        <h1> 确认订单 </h1>
-    </header>
-</div>
-<div class="cart-step" id="J_cartTab">
-    <ul>
-        <li>1.购物车列表</li>
-        <li class="cur">2.确认订单</li>
-        <li>3.购买成功</li>
-    </ul>
-</div>
-<div class="blank3"></div>
-<section class="wrap">
-<form action="flow.php" method="post" name="theForm" id="theForm" onsubmit="return checkOrderForm(this)">
 <script type="text/javascript">
-    var flow_no_payment = "您必须选定一个支付方式。";
-    var flow_no_shipping = "您必须选定一个配送方式。";
+            function select_bonus_click(obj, house_id)
+            {
+                if(obj == 'obj_one')
+                {
+                    document.getElementById('ECS_BONUS' + house_id).disabled = false;
+                    document.getElementById('obj_tow_text' + house_id).disabled = true;
+                    document.getElementById('obj_tow_btn' + house_id).disabled = true;
+                    document.getElementById('obj_tow_btn' + house_id).className = 'bnt_blue_1_gray';
+                }
+                else
+                {
+                    document.getElementById('obj_tow_text' + house_id).disabled = false;
+                    document.getElementById('obj_tow_btn' + house_id).disabled = false;
+                    document.getElementById('obj_tow_btn' + house_id).className = 'bnt_blue_1';
+                    document.getElementById('ECS_BONUS' + house_id).disabled = true;
+                }
+            }
 </script>
 
 
+<div class="blank3"></div>
+<section class="wrap">
+<form action="flow.php" method="post" name="theForm" id="theForm" onsubmit="return checkOrderForm(this)">
 <section class="order_box padd1 radius10" style="padding-top:0">
     <div class="in">
         <div class="table_box table_box1">
             <dl>
-                <dd class="w50">收货人姓名: <span class="f1">haha</span></dd>
+                <dd class="w50">{$lang.consignee_name}{$lang.colon}<span class="f1">{$consignee.consignee}</span></dd>
                 <dd class="w50 c999">
                     <div class="ico_14"></div>
-                    12328323894 <a href="flow.php?step=consignee" class="modify radius5">修改</a></dd>
+                    {$consignee.tel} <a href="flow.php?step=consignee" class="modify radius5">{$lang.modify}</a></dd>
             </dl>
             <dl>
-                <dd class="w50 b_no">详细地址:福建 龙岩 漳平市 haha </dd>
+                <dd class="w50 b_no">{$lang.address}{$lang.colon} {$consignee.country_str} {$consignee.province_str} {$consignee.city_str} {$consignee.district_str} {$consignee.address}</dd>
             </dl>
         </div>
     </div>
 </section>
+
+<style>
+  .table_box2 .dd1 { width: 100%; }
+  .table_box2 .span1 { margin-left: 10px; }
+</style>
 <div class="blank3"></div>
 <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem;">
     <div class="table_box table_box2">
         <dl>
-            <dd class="dd1">配送方式 <span class="span1 radius5">必填</span></dd>
-            <dd class="dd2" id="selected1">请选择配送方式</dd>
-            <i></i>
+            <dd class="dd1">{$lang.shipping_method}<span class="span1 radius5">{$lang.required}</span></dd>
+            <dd class="dd2"></dd>
         </dl>
-        <div class="dl_box" id="shipping" style="display:none">
+        <div class="dl_box" id="shipping">
             <p>
                 {foreach from=$shipping_list item=shipping}
                 <input name="shipping" class="radio" id="shipping_2" value="2" supportcod="1" insure="0" onclick="selectShipping(this)" style="vertical-align:middle" type="radio"><label for="shipping_2"> {$shipping.shipping_name}</label><br>
@@ -170,27 +133,16 @@
 
 
         <dl>
-            <dd class="dd1">支付方式 <span class="span1 radius5">必填</span></dd>
-            <dd class="dd2 selectPayment" id="selected2">请选择支付方式</dd>
-            <i></i>
+            <dd class="dd1">{$lang.payment_method}<span class="span1 radius5">{$lang.required}</span></dd>
+            <dd class="dd2"></dd>
         </dl>
-        <div class="dl_box" id="payment" style="display:none">
+        <div class="dl_box" id="payment">
             {foreach from=$payment_list item=payment}
             <p>
-                <input class="radio" name="payment" id="payment_4" value="4" iscod="1" onclick="selectPayment(this)" style="vertical-align:middle" type="radio"><label for="payment_4">{$payment.pay_name}</label>
+                <input class="radio" name="payment" id="payment_4" value="4" iscod="1" onclick="selectPayment(this)" style="vertical-align:middle" type="radio"><label for="payment_4"> {$payment.pay_name}</label>
             </p>
             {/foreach}
         </div>
-
-        <div class="dl_box" id="cod_payment_type" style="display:none">
-            <p>
-                <span>付款方式：</span>
-                <input class="radio" name="cod_payment" value="1" checked="" type="radio">现金
-                <input class="radio" name="cod_payment" value="2" type="radio">pos机
-            </p>
-        </div>
-
-
     </div>
 </section>
 
@@ -254,25 +206,7 @@
 
 
 
-        <script type="text/javascript">
-            function select_bonus_click(obj, house_id)
-            {
-                if(obj == 'obj_one')
-                {
-                    document.getElementById('ECS_BONUS' + house_id).disabled = false;
-                    document.getElementById('obj_tow_text' + house_id).disabled = true;
-                    document.getElementById('obj_tow_btn' + house_id).disabled = true;
-                    document.getElementById('obj_tow_btn' + house_id).className = 'bnt_blue_1_gray';
-                }
-                else
-                {
-                    document.getElementById('obj_tow_text' + house_id).disabled = false;
-                    document.getElementById('obj_tow_btn' + house_id).disabled = false;
-                    document.getElementById('obj_tow_btn' + house_id).className = 'bnt_blue_1';
-                    document.getElementById('ECS_BONUS' + house_id).disabled = true;
-                }
-            }
-        </script>
+        
 
 
 
@@ -302,50 +236,11 @@
 <div class="blank3"></div>
 
 <input name="submit" value="提交订单" class="c-btn3" type="submit">
-
 <input name="step" value="done" type="hidden">
 </form>
 </section>
 
+{include file='foot.html'}
 
-
-
-
-<div class="blank3"></div>
-<div style="width:1px; height:1px; overflow:hidden"><a href="http://www.chihuoyizu.cn" target="_blank" style=" font-family:Verdana; font-size:11px;">Powered&nbsp;by&nbsp;<strong><span style="color: #3366FF">ECShop</span>&nbsp;<span style="color: #FF9966">v2.7.3</span></strong></a>&nbsp;</div>
-
-<script type="text/javascript">
-    var process_request = "正在处理您的请求...";
-    var username_empty = "用户名不能为空。";
-    var username_shorter = "用户名长度不能少于 3 个字符。";
-    var username_invalid = "用户名只能是由字母数字以及下划线组成。";
-    var password_empty = "登录密码不能为空。";
-    var password_shorter = "登录密码不能少于 6 个字符。";
-    var confirm_password_invalid = "两次输入密码不一致";
-    var email_empty = "Email 为空";
-    var email_invalid = "Email 不是合法的地址";
-    var agreement = "您没有接受协议";
-    var msn_invalid = "msn地址不是一个有效的邮件地址";
-    var qq_invalid = "QQ号码不是一个有效的号码";
-    var home_phone_invalid = "家庭电话不是一个有效号码";
-    var office_phone_invalid = "办公电话不是一个有效号码";
-    var mobile_phone_invalid = "手机号码不是一个有效号码";
-    var msg_un_blank = "* 用户名不能为空";
-    var msg_un_length = "* 用户名最长不得超过7个汉字";
-    var msg_un_format = "* 用户名含有非法字符";
-    var msg_un_registered = "* 用户名已经存在,请重新输入";
-    var msg_can_rg = "* 可以注册";
-    var msg_email_blank = "* 邮件地址不能为空";
-    var msg_email_registered = "* 邮箱已存在,请重新输入";
-    var msg_email_format = "* 邮件地址不合法";
-    var msg_blank = "不能为空";
-    var no_select_question = "您没有完成密码提示问题的操作";
-    var passwd_balnk = "密码中不能包含空格";
-    var username_exist = "用户名 %s 已经存在";
-    var compare_no_goods = "您没有选定任何需要比较的商品或者比较的商品数少于 2 个。";
-    var btn_buy = "购买";
-    var is_cancel = "取消";
-    var select_spe = "请选择商品属性";
-</script>
-
-<div id="xunlei_com_thunder_helper_plugin_d462f475-c18e-46be-bd10-327458d045bd"></div></body>
+</body>
+</html>

@@ -497,6 +497,7 @@ elseif ($_REQUEST['step'] == 'checkout')
     }
 
     $consignee = get_consignee($_SESSION['user_id']);
+    $consignee = extend_region_str($consignee);
 
     /* 检查收货人信息是否完整 */
     if (!check_consignee_info($consignee, $flow_type))
@@ -760,6 +761,8 @@ elseif ($_REQUEST['step'] == 'checkout')
 
     /* 保存 session */
     $_SESSION['flow_order'] = $order;
+
+    $smarty->display('flow_checkout.html');
 }
 elseif ($_REQUEST['step'] == 'select_shipping')
 {
@@ -2186,15 +2189,14 @@ else
 
     $fittings_list = get_goods_fittings($parent_list);
     $smarty->assign('fittings_list', $fittings_list);
-
-
-    $smarty->assign('currency_format', $_CFG['currency_format']);
-    $smarty->assign('integral_scale',  $_CFG['integral_scale']);
-    $smarty->assign('step',            $_REQUEST['step']);
-    assign_dynamic('shopping_flow');
-    //$smarty->display('flow.dwt');
     $smarty->display('flow_cart.html');
 }
+
+//$smarty->assign('currency_format', $_CFG['currency_format']);
+//$smarty->assign('integral_scale',  $_CFG['integral_scale']);
+//$smarty->assign('step',            $_REQUEST['step']);
+//assign_dynamic('shopping_flow');
+//$smarty->display('flow.dwt');
 
 
 
