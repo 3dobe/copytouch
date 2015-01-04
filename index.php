@@ -25,18 +25,22 @@ $smarty->assign('index_ads' , $index_ads);
 
 /* 精品 */
 $best_goods = get_recommend_goods('best');
+$best_goods =array_slice($best_goods, 0, 3);
 $smarty->assign('best_goods' , $best_goods);
 
 /* 热门 */
 $hot_goods = get_recommend_goods('hot');
+$hot_goods =array_slice($hot_goods, 0, 3);
 $smarty->assign('hot_goods' , $hot_goods);
 
 /* 促销 */
 $promote_goods = get_promote_goods();
+$hot_goods =array_slice($hot_goods, 0, 3);
 $smarty->assign('promote_goods' , $promote_goods);
 
 /* 最新 */
 $new_goods = get_recommend_goods('new');
+$new_goods =array_slice($new_goods, 0, 3);
 $smarty->assign('new_goods' , $new_goods);
 
 
