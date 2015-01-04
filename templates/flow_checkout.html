@@ -93,7 +93,7 @@
 
 <div class="blank3"></div>
 <section class="wrap">
-<form action="flow.php" method="post" name="theForm" id="theForm" onsubmit="return checkOrderForm(this)">
+<form action="flow.php?step=done" method="post" name="theForm" id="theForm" onsubmit="return checkOrderForm(this)">
 <section class="order_box padd1 radius10" style="padding-top:0">
     <div class="in">
         <div class="table_box table_box1">
@@ -123,8 +123,8 @@
         </dl>
         <div class="dl_box" id="shipping">
             <p>
-                {foreach from=$shipping_list item=shipping}
-                <input name="shipping" class="radio" id="shipping_2" value="2" supportcod="1" insure="0" onclick="selectShipping(this)" style="vertical-align:middle" type="radio"><label for="shipping_2"> {$shipping.shipping_name}</label><br>
+                {foreach from=$shipping_list item=shipping key=sn}
+                <input{if $sn eq 0} checked{/if} name="shipping" class="radio" id="shipping_{$shipping.shipping_id}" value="{$shipping.shipping_id}" supportcod="{$shipping.support_cod}" insure="{$shipping.insure}" onclick="selectShipping(this)" style="vertical-align:middle" type="radio"><label for="shipping_{$shipping.shipping_id}"> {$shipping.shipping_name}</label><br>
                 {/foreach}
             </p>
             <!--  <input name="need_insure" id="ECS_NEEDINSURE" type="checkbox"  onclick="selectInsure(this.checked)" value="1"  disabled="true"  />
@@ -137,9 +137,9 @@
             <dd class="dd2"></dd>
         </dl>
         <div class="dl_box" id="payment">
-            {foreach from=$payment_list item=payment}
+            {foreach from=$payment_list item=payment key=sn}
             <p>
-                <input class="radio" name="payment" id="payment_4" value="4" iscod="1" onclick="selectPayment(this)" style="vertical-align:middle" type="radio"><label for="payment_4"> {$payment.pay_name}</label>
+                <input{if $sn eq 0} checked{/if} class="radio" name="payment" id="payment_{$payment.pay_id}" value="{$payment.pay_id}" iscod="{$payment.is_cod}" onclick="selectPayment(this)" style="vertical-align:middle" type="radio"><label for="payment_{$payment.pay_id}"> {$payment.pay_name}</label>
             </p>
             {/foreach}
         </div>
@@ -148,24 +148,11 @@
 
 <div class="blank3"> </div>
 <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem;">
-    <div class="table_box table_box2" style=" margin-bottom:0.5rem">
-
+    <div class="table_box table_box2">
         <div class="dl_box">
             <dl>
-                <dd class="c333">
-                    留言备注
-                </dd>
                 <dd>
-                    <input placeholder="请输入订单备注" name="postscript" size="20" type="text">
-                </dd>
-            </dl>
-            <dl>
-                <dd class="c333">
-
-                </dd>
-                <dd>
-
-
+                    <input placeholder="{$lang.order_postscript}" name="postscript" value="{$order.postscript|escape}" size="20" type="text">
                 </dd>
             </dl>
         </div>
@@ -177,66 +164,47 @@
 <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
     <div class="table_box table_box3">
         <dl>
-            <dd>商品列表<a href="flow.php" class="modify radius5">修改</a></dd>
+            <dd>{$lang.goods_list}<a href="flow.php?step=cart" class="modify radius5">{$lang.modify}</a></dd>
         </dl>
-
-
-
         <div style="border:1px solid red; padding:0px 10px 0px 10px;">
             {foreach from=$goods_list item=goods}
             <dl>
                 <dd class="dd1 w60">
-                    <a href="goods.php?id=2113" target="_blank">{$goods.name}</a>
+                    <a href="goods.php?id={$goods.goods_id}">{$goods.goods_name}</a>
                 </dd>
-                    <dd class="dd2 w10 c999"> x {$goods.number} </dd>
-                    <dd class="dd3 w30"> {$goods.price} </dd>
-
+                    <dd class="dd2 w10 c999"> x {$goods.goods_number} </dd>
+                    <dd class="dd3 w30"> {$goods.formated_subtotal} </dd>
             </dl>
             {/foreach}
-
-
             <br>
-
 		</span>
-
-
-
-
         </div>
 
-
-
-        
-
-
-
-
-
-
         <div id="ECS_ORDERTOTAL">
-
-
             <dl>
                 <dd class="dd3 c999">
+                    <!--
                     该订单完成后，您将获得
                     <font class="f4_b">0</font> 积分       <br>
+                    -->
 
-                    商品总价: <font class="f4_b">￥7.90</font>
+                    {$lang.total_products_price}{$lang.colon}<font class="f4_b">{$total.goods_price_formated}</font>
 
                     <br>
+                    {$lang.shipping_fee}{$lang.colon}<font class="f4_b">{$total.shipping_fee_formated}</font>
 
-                    重量总计: <font class="f4_b">0.52</font>kg&nbsp;&nbsp;&nbsp; 应付款金额: <font class="f4_b">￥7.90</font>
+                    <br>
+                    <!--
+                    重量总计: <font class="f4_b">0.52</font>kg&nbsp;&nbsp;&nbsp;
+                    -->
+                    {$lang.total_payable_money}{$lang.colon}<font class="f4_b">{$total.amount_formated}</font>
                 </dd>
             </dl>
-
-
-
         </div> </div>
 </section>
 <div class="blank3"></div>
 
-<input name="submit" value="提交订单" class="c-btn3" type="submit">
-<input name="step" value="done" type="hidden">
+<input name="submit" value="{$lang.confirm_order}" class="c-btn3" type="submit">
 </form>
 </section>
 

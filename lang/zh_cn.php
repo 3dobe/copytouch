@@ -78,6 +78,11 @@ $_mLANG = array(
   'confirm_order' => '确认订单',
   'shipping_method' => '配送方式',
   'payment_method' => '支付方式',
+  'order_postscript' => '留言备注',
+  'goods_list' => '商品列表',
+  'total_products_price' => '商品总价',
+  'shipping_fee' => '配送费用',
+  'total_payable_money' => '应付款金额',
 
 );
 

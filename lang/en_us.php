@@ -67,6 +67,11 @@ $_mLANG = array(
   'confirm_order' => 'Confirm Order',
   'shipping_method' => 'Shipping Method',
   'payment_method' => 'Payment Method',
+  'order_postscript' => 'Order Postscript',
+  'goods_list' => 'Goods List',
+  'total_products_price' => 'Total Products Price',
+  'shipping_fee' => 'Shipping Fee',
+  'total_payable_money' => 'Total Payable Money',
 
 );
 

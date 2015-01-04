@@ -481,7 +481,9 @@ elseif ($_REQUEST['step'] == 'checkout')
 
     if ($db->getOne($sql) == 0)
     {
-        show_message($_LANG['no_goods_in_cart'], '', '', 'warning');
+        //show_message($_LANG['no_goods_in_cart'], '', '', 'warning');
+        ecs_header('Location: flow.php?step=cart');
+        exit;
     }
 
     /*
@@ -1354,7 +1356,9 @@ elseif ($_REQUEST['step'] == 'done')
         "AND parent_id = 0 AND is_gift = 0 AND rec_type = '$flow_type'";
     if ($db->getOne($sql) == 0)
     {
-        show_message($_LANG['no_goods_in_cart'], '', '', 'warning');
+        //show_message($_LANG['no_goods_in_cart'], '', '', 'warning');
+        ecs_header('Location: flow.php?step=cart');
+        exit;
     }
 
     /* 检查商品库存 */
@@ -1499,13 +1503,17 @@ elseif ($_REQUEST['step'] == 'done')
 
     if (empty($cart_goods))
     {
-        show_message($_LANG['no_goods_in_cart'], $_LANG['back_home'], './', 'warning');
+        //show_message($_LANG['no_goods_in_cart'], $_LANG['back_home'], './', 'warning');
+        ecs_header('Location: flow.php?step=cart');
+        exit;
     }
 
     /* 检查商品总额是否达到最低限购金额 */
     if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS) < $_CFG['min_goods_amount'])
     {
-        show_message(sprintf($_LANG['goods_amount_not_enough'], price_format($_CFG['min_goods_amount'], false)));
+        //show_message(sprintf($_LANG['goods_amount_not_enough'], price_format($_CFG['min_goods_amount'], false)));
+        ecs_header('Location: flow.php?step=checkout');
+        exit;
     }
 
     /* 收货人信息 */
@@ -1528,7 +1536,9 @@ elseif ($_REQUEST['step'] == 'done')
         $sql="SELECT shipping_id FROM " . $ecs->table('shipping') . " WHERE shipping_id=".$order['shipping_id'] ." AND enabled =1"; 
         if(!$db->getOne($sql))
         {
-           show_message($_LANG['flow_no_shipping']);
+           //show_message($_LANG['flow_no_shipping']);
+            ecs_header('Location: flow.php?step=checkout');
+            exit;
         }
     }
     /* 订单中的总额 */
@@ -1594,7 +1604,9 @@ elseif ($_REQUEST['step'] == 'done')
         }
         if ($order['order_amount'] > ($user_info['user_money'] + $user_info['credit_line']))
         {
-            show_message($_LANG['balance_not_enough']);
+            //show_message($_LANG['balance_not_enough']);
+            ecs_header('Location: flow.php?step=checkout');
+            exit;
         }
         else
         {
@@ -1822,6 +1834,8 @@ elseif ($_REQUEST['step'] == 'done')
     unset($_SESSION['flow_consignee']); // 清除session中保存的收货人信息
     unset($_SESSION['flow_order']);
     unset($_SESSION['direct_shopping']);
+
+    $smarty->display('flow_done.html');
 }
 
 /*------------------------------------------------------ */
