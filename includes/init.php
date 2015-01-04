@@ -27,8 +27,8 @@ if (__FILE__ == '')
 }
 
 /* 取得当前ecshop所在的根目录 */
-//define('ROOT_PATH', str_replace('mobile/includes/init.php', '', str_replace('\\', '/', __FILE__)));
-define('ROOT_PATH', str_replace('m/includes/init.php', '', str_replace('\\', '/', __FILE__)));
+define('ROOT_PATH', str_replace('mobile/includes/init.php', '', str_replace('\\', '/', __FILE__)));
+//define('ROOT_PATH', str_replace('m/includes/init.php', '', str_replace('\\', '/', __FILE__)));
 
 /* 初始化设置 */
 @ini_set('memory_limit',          '64M');
@@ -81,7 +81,8 @@ require(ROOT_PATH . 'includes/lib_time.php');
 require(ROOT_PATH . 'includes/lib_order.php');
 
 require(ROOT_PATH . 'includes/lib_main.php');
-require(ROOT_PATH . 'm/includes/lib_main.php');
+require(ROOT_PATH . 'mobile/includes/lib_main.php');
+//require(ROOT_PATH . 'm/includes/lib_main.php');
 require(ROOT_PATH . 'includes/inc_constant.php');
 require(ROOT_PATH . 'includes/cls_error.php');
 
@@ -124,7 +125,8 @@ if (!isset($GLOBALS['_LANG']))
     $GLOBALS['_LANG'] = array();
 }
 //$_CFG['lang'] = 'en_us';
-require(ROOT_PATH. 'm/lang/'. $_CFG['lang'] .'.php');
+require(ROOT_PATH. 'mobile/lang/'. $_CFG['lang'] .'.php');
+//require(ROOT_PATH. 'm/lang/'. $_CFG['lang'] .'.php');
 foreach ($GLOBALS['_mLANG'] as $key => $val)
 {
     if (!isset($GLOBALS['_LANG'][$key]))
@@ -177,7 +179,8 @@ if (!defined('INIT_NO_SMARTY'))
     $smarty = new cls_template;
 
     $smarty->cache_lifetime = $_CFG['cache_time'];
-    $smarty->template_dir   = ROOT_PATH . 'm/templates';
+    $smarty->template_dir   = ROOT_PATH . 'mobile/templates';
+    //$smarty->template_dir   = ROOT_PATH . 'm/templates';
     $smarty->cache_dir      = ROOT_PATH . 'temp/caches';
     $smarty->compile_dir    = ROOT_PATH . 'temp/compiled/mobile';
 
