@@ -69,10 +69,17 @@ $_mLANG = array(
   'payment_method' => 'Payment Method',
   'order_postscript' => 'Order Postscript',
   'goods_list' => 'Goods List',
-  'total_products_price' => 'Total Products Price',
+  'total_goods_price' => 'Total Goods Price',
   'shipping_fee' => 'Shipping Fee',
-  'total_payable_money' => 'Total Payable Money',
+  'total_payment_money' => 'Total Payable Money',
 
+  'order_detail' => 'Order Detail',
+  'order_sn' => 'Order SN',
+  'order_time' => 'Order Time',
+  'order_fee' => 'Order Fee',
+  'payment_status' => 'Payment Status',
+  'order_status' => 'Order Status',
+  'shipping_status' => 'Shipping Status'
 );
 
 ?>

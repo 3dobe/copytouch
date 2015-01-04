@@ -47,3 +47,7 @@ var select_spe = "请选择商品属性";
 
 var flow_no_payment = "您必须选定一个支付方式。";
 var flow_no_shipping = "您必须选定一个配送方式。";
+
+var msg_title_empty = "留言标题为空";
+var msg_content_empty = "留言内容为空";
+var msg_title_limit = "留言标题不能超过200个字";

@@ -1835,7 +1835,9 @@ elseif ($_REQUEST['step'] == 'done')
     unset($_SESSION['flow_order']);
     unset($_SESSION['direct_shopping']);
 
-    $smarty->display('flow_done.html');
+    //$smarty->display('flow_done.html');
+    ecs_header("user.php?act=order_detail&order_id={$order[order_id]}");
+    exit;
 }
 
 /*------------------------------------------------------ */

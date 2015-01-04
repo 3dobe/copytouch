@@ -80,10 +80,18 @@ $_mLANG = array(
   'payment_method' => '支付方式',
   'order_postscript' => '留言备注',
   'goods_list' => '商品列表',
-  'total_products_price' => '商品总价',
+  'total_goods_price' => '商品总价',
   'shipping_fee' => '配送费用',
-  'total_payable_money' => '应付款金额',
+  'total_payment_money' => '应付款金额',
 
+  // order_detail.html
+  'order_detail' => '订单详情',
+  'order_sn' => '订单编号',
+  'order_time' => '下单时间',
+  'order_fee' => '订单金额',
+  'payment_status' => '支付状态',
+  'order_status' => '订单状态',
+  'shipping_status' => '运送状态'
 );
 
 ?>

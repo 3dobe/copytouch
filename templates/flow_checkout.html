@@ -172,11 +172,9 @@
                 <dd class="dd1 w60">
                     <a href="goods.php?id={$goods.goods_id}">{$goods.goods_name}</a>
                 </dd>
-                    <dd class="dd2 w10 c999"> x {$goods.goods_number} </dd>
-                    <dd class="dd3 w30"> {$goods.formated_subtotal} </dd>
+                    <dd class="dd3 w30">{$goods.goods_number} x {$goods.formated_subtotal} </dd>
             </dl>
             {/foreach}
-            <br>
 		</span>
         </div>
 
@@ -188,7 +186,7 @@
                     <font class="f4_b">0</font> 积分       <br>
                     -->
 
-                    {$lang.total_products_price}{$lang.colon}<font class="f4_b">{$total.goods_price_formated}</font>
+                    {$lang.total_goods_price}{$lang.colon}<font class="f4_b">{$total.goods_price_formated}</font>
 
                     <br>
                     {$lang.shipping_fee}{$lang.colon}<font class="f4_b">{$total.shipping_fee_formated}</font>
@@ -197,7 +195,7 @@
                     <!--
                     重量总计: <font class="f4_b">0.52</font>kg&nbsp;&nbsp;&nbsp;
                     -->
-                    {$lang.total_payable_money}{$lang.colon}<font class="f4_b">{$total.amount_formated}</font>
+                    {$lang.total_payment_money}{$lang.colon}<font class="f4_b">{$total.amount_formated}</font>
                 </dd>
             </dl>
         </div> </div>
