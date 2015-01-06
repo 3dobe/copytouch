@@ -20,8 +20,8 @@ $_mLANG = array(
   'copytail' => '版权所有，并保留所有权利。',
 
   // cat_menu.html
-  'login' => '用户登录',
-  'logout' => '退出登录',
+  'user_login' => '用户登录',
+  'user_logout' => '退出登录',
 
   // search_box.html
   'search' => '搜索本站商品',
@@ -91,7 +91,21 @@ $_mLANG = array(
   'order_fee' => '订单金额',
   'payment_status' => '支付状态',
   'order_status' => '订单状态',
-  'shipping_status' => '运送状态'
+  'shipping_status' => '运送状态',
+
+  // order_list.html
+  'emtpy_orders' => '暂时没有订单',
+
+  // user_login.html
+  'user_register' => '用户注册',
+  'password' => '密码',
+  'username' => '用户名',
+  'login' => '登录',
+  'register' => '注册',
+  'msg_welcome' => '欢迎光临，登录后体验更多服务',
+
+  // user_register.html
+  'confirm_password' => '确认密码'
 );
 
 ?>

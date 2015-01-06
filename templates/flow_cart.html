@@ -26,7 +26,10 @@
 
 <style>
   .itemlist { overflow-x: hidden; }
-  .itemlist li h4 { padding: 0 3rem 0 0.6rem; }
+  .itemlist li h4 {
+    padding: 0 3rem 0 0.6rem;
+    height: auto;
+  }
   .itemlist li .b { padding: 0 3rem 0 0.6rem; }
   .itemlist li .b .cha { right: 2.2rem; }
   .itemlist li .inputBg { width: 30%; }
@@ -61,6 +64,7 @@
               </div>
               <div class="desc new-tbl-cell">
                 <h4>{$goods.goods_name}</h4>
+                <h4>{$goods.goods_attr}</h4>
                 <div style="clear:both"></div>
                 <div class="b">
                   <em class="price">{$goods.goods_price}</em>

@@ -1677,7 +1677,9 @@ elseif ($_REQUEST['step'] == 'done')
 
         if ($error_no > 0 && $error_no != 1062)
         {
-            die($GLOBALS['db']->errorMsg());
+            //die($GLOBALS['db']->errorMsg());
+            ecs_header("Location: flow.php?step=checkout");
+            exit;
         }
     }
     while ($error_no == 1062); //如果是订单号重复则重新提交数据
@@ -1836,7 +1838,7 @@ elseif ($_REQUEST['step'] == 'done')
     unset($_SESSION['direct_shopping']);
 
     //$smarty->display('flow_done.html');
-    ecs_header("user.php?act=order_detail&order_id={$order[order_id]}");
+    ecs_header("Location: user.php?act=order_detail&order_id={$order['order_id']}");
     exit;
 }
 

@@ -9,7 +9,7 @@
   <div class="header_l">
     <a class="ico_10" href="javascript:history.back()"></a>
   </div>
-  <h1>用户登录</h1>
+  <h1>{$lang.user_login}</h1>
   <div class="header_r">
     <a class="ico_01" href="flow.php"></a>
   </div>
@@ -18,10 +18,10 @@
 <section class="wrap">
   <div id="leftTabBox" class="loginBox">
     <div class="hd">
-      <span>欢迎光临，登录后体验更多服务</span>
+      <span>{$lang.welcome}</span>
       <ul>
-        <li class="on"><a href="javascript:void(0)">登录</a></li>
-        <li><a href="user.php?act=register">注册</a></li>
+        <li class="on"><a href="javascript:void(0)">{$lang.login}</a></li>
+        <li><a href="user.php?act=register">{$lang.register}</a></li>
       </ul>
     </div>
     <div class="bd">
@@ -29,17 +29,17 @@
         <form id="login_form">
           <dl>
             <dd>
-              <input placeholder="用户名/手机/电子邮件地址" name="username" type="text"  class="inputBg" id="username" />
+              <input placeholder={$lang.username} name="username" type="text"  class="inputBg" id="username" />
             </dd>
           </dl>
           <dl>
             <dd>
-              <input placeholder="密码"  name="pwd" type="password" class="inputBg" />
+              <input placeholder={$lang.password}  name="pwd" type="password" class="inputBg" />
             </dd>
           </dl>
           <dl>
             <dd>
-              <input type="submit" name="submit"  value="立即登录" class="c-btn3" />
+              <input type="submit" name="submit"  value="{$lang.login}" class="c-btn3" />
             </dd>
           </dl>
         </form>

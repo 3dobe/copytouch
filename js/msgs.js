@@ -51,3 +51,8 @@ var flow_no_shipping = "您必须选定一个配送方式。";
 var msg_title_empty = "留言标题为空";
 var msg_content_empty = "留言内容为空";
 var msg_title_limit = "留言标题不能超过200个字";
+
+var from_order_empty = "请选择要合并的从订单";
+var to_order_empty = "请选择要合并的主订单";
+var order_same = "主订单和从订单相同，请重新选择";
+var confirm_merge = "您确实要合并这两个订单吗？";

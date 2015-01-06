@@ -16,8 +16,8 @@ $_mLANG = array(
   'my_orders' => 'Orders',
   'copytail' => 'Copyright, All Rights Reserved.',
 
-  'login' => 'User Login',
-  'logout' => 'User Logout',
+  'user_login' => 'User Login',
+  'user_logout' => 'User Logout',
 
   'search' => 'Search goods in site',
 
@@ -79,7 +79,18 @@ $_mLANG = array(
   'order_fee' => 'Order Fee',
   'payment_status' => 'Payment Status',
   'order_status' => 'Order Status',
-  'shipping_status' => 'Shipping Status'
+  'shipping_status' => 'Shipping Status',
+
+  'emtpy_orders' => 'Empty Orders',
+
+  'user_register' => 'User Register',
+  'password' => 'Password',
+  'username' => 'Username',
+  'login' => 'Login',
+  'register' => 'Register',
+  'msg_welcome' => 'Welcome, login for more service',
+
+  'confirm_password' => 'Confrim Password',
 );
 
 ?>

@@ -170,7 +170,7 @@
             {foreach from=$goods_list item=goods}
             <dl>
                 <dd class="dd1 w60">
-                    <a href="goods.php?id={$goods.goods_id}">{$goods.goods_name}</a>
+                    <a href="goods.php?id={$goods.goods_id}">{$goods.goods_name}</a> {$goods.goods_attr}
                 </dd>
                     <dd class="dd3 w30">{$goods.goods_number} x {$goods.formated_subtotal} </dd>
             </dl>

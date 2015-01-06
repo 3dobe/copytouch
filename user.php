@@ -52,32 +52,6 @@ if ($act == 'order_list')
         }
         $pagebar = get_wap_pager($record_count, $page_num, $page, 'user.php?act=order_list', 'page');
         $smarty->assign('pagebar' , $pagebar);
-        /* 订单状态 */
-        $_LANG['os'][OS_UNCONFIRMED] = '未确认';
-        $_LANG['os'][OS_CONFIRMED] = '已确认';
-        $_LANG['os'][OS_SPLITED] = '已确认';
-        $_LANG['os'][OS_SPLITING_PART] = '已确认';
-        $_LANG['os'][OS_CANCELED] = '已取消';
-        $_LANG['os'][OS_INVALID] = '无效';
-        $_LANG['os'][OS_RETURNED] = '退货';
-
-        $_LANG['ss'][SS_UNSHIPPED] = '未发货';
-        $_LANG['ss'][SS_PREPARING] = '配货中';
-        $_LANG['ss'][SS_SHIPPED] = '已发货';
-        $_LANG['ss'][SS_RECEIVED] = '收货确认';
-        $_LANG['ss'][SS_SHIPPED_PART] = '已发货(部分商品)';
-        $_LANG['ss'][SS_SHIPPED_ING] = '配货中'; // 已分单
-
-        $_LANG['ps'][PS_UNPAYED] = '未付款';
-        $_LANG['ps'][PS_PAYING] = '付款中';
-        $_LANG['ps'][PS_PAYED] = '已付款';
-        $_LANG['cancel'] = '取消订单';
-        $_LANG['pay_money'] = '付款';
-        $_LANG['view_order'] = '查看订单';
-        $_LANG['received'] = '确认收货';
-        $_LANG['ss_received'] = '已完成';
-        $_LANG['confirm_received'] = '你确认已经收到货物了吗？';
-        $_LANG['confirm_cancel'] = '您确认要取消该订单吗？取消后此订单将视为无效订单';
 
         $orders = get_user_orders($_SESSION['user_id'], $page_num, $page_num * ($page - 1));
         if (!empty($orders))

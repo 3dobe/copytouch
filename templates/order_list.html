@@ -9,7 +9,7 @@
   <div class="header_l">
     <a class="ico_10" href="javascript:history.back()"></a>
   </div>
-  <h1>我的订单</h1>
+  <h1>{$lang.my_orders}</h1>
   <div class="header_r">
     <a class="ico_01" href="flow.php"></a>
   </div>
@@ -25,7 +25,7 @@
   <section class="order_box padd1 radius10 single_item" id="more_element_1">
     <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
       <tbody><tr>
-        <td class="order_status" style="border-bottom:1px #CCCCCC dashed">订单状态：{$order.order_status}</td>
+        <td class="order_status" style="border-bottom:1px #CCCCCC dashed">{$lang.order_status}：{$order.order_status}</td>
       </tr>
       <tr>
         <td class="order_content">
@@ -35,11 +35,11 @@
 
               <!-- <td><img src="http://img.chihuoyizu.cn/images/201411/13/1415814056211628918.jpg@1e_175w_175h_1c_0i_1o_90Q_1x.jpg" width="50" height="50"></td> -->
 
-              <td>订单编号：{$order.order_sn}<br>
+              <td>{$lang.order_sn}：{$order.order_sn}<br>
 
-              订单金额：{$order.total_fee}<br>
+              {$lang.order_fee}：{$order.total_fee}<br>
 
-              下单时间：{$order.order_time}</td>
+              {$lang.order_time}：{$order.order_time}</td>
 
               <td style="position:relative"><span class="new-arr"></span></td>
 
@@ -60,25 +60,11 @@
     .no_order { padding: 4px; text-align: center; }
   </style>
   <section class="order_box padd1 radius10 single_item" id="more_element_1">
-    <div class="no_order">暂时还没有订单</div>
+    <div class="no_order">{$lang.empty_orders}</div>
   </section>
   {/foreach}
 </section>
 
 {include file='foot.html'}
-
-<script type="text/javascript">
-      var from_order_empty = "请选择要合并的从订单";
-      var to_order_empty = "请选择要合并的主订单";
-      var order_same = "主订单和从订单相同，请重新选择";
-      var confirm_merge = "您确实要合并这两个订单吗？";
-   
-});
-</script>
-<script type="text/javascript">
-var msg_title_empty = "留言标题为空";
-var msg_content_empty = "留言内容为空";
-var msg_title_limit = "留言标题不能超过200个字";
-</script>
 </body>
 </html>
